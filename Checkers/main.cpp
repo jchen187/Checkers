@@ -11,11 +11,13 @@
 int main(int argc, const char * argv[]) {
 
     //Ask if want to start from regular, some file or input own coordinates
-    std::cout << "Choose a number from 1 - 3\n."
-                << "1. Start with the original board."
-                << "2. Input your own file."
-                << "3. Input your own coordinates.";
-    
+    std::cout << "Choose a number from 1 - 3.\n"
+                << "1. Start with the original board.\n"
+                << "2. Input your own file.\n"
+                << "3. Input your own coordinates.\n";
+    //Get the user input. Must be a number
     
     return 0;
 }
+
+//draw board
