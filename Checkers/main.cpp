@@ -77,7 +77,12 @@ int main(int argc, const char * argv[]) {
                 string line;
                 for (int i = 0; i < 8; i++){
                     getline(myFile,line);
+                    
+                    
                     cout << line << "\n";
+                    
+                    
+                    //remove space and update board
                 }
                 myFile.close();
             }
