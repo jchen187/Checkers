@@ -10,6 +10,9 @@
 
 using namespace std;
 
+const unsigned int height = 8;
+const unsigned int width = 4;
+
 void drawBoard(int x[][4]);
 
 
@@ -32,18 +35,16 @@ int main(int argc, const char * argv[]) {
         2.2.2.2.    2222
      */
     
-    const unsigned int height = 8;
-    const unsigned int width = 4;
     int standardBoard[height][width];
     for (int i = 0; i < height; i++){
         for (int j = 0; j < width; j++){
             if (i < 3){
-                standardBoard[i][j] = 2;
+                standardBoard[i][j] = 1;
             }
             else if (i < 5)
                 standardBoard[i][j] = 0;
             else {
-                standardBoard[i][j] = 1;
+                standardBoard[i][j] = 2;
             }
         }
     }
@@ -74,12 +75,12 @@ int main(int argc, const char * argv[]) {
 }
 
 //draw board
-void drawBoard(int x[8][4]){
-    for (int i = 0; i < 8; i++){
+void drawBoard(int x[][width]){
+    for (int i = 0; i < height; i++){
         if (i % 2 == 0){
             cout << ".";
         }
-        for (int j = 0; j < 4; j++){
+        for (int j = 0; j < width; j++){
             cout << x[i][j];
             if (j != 3){
                 cout << ".";
@@ -104,4 +105,10 @@ void readBoardFromFile(){
 void play(){
     //1 goes up. 2 goes down
     //check to see whose turn it is
+}
+
+void legalMoves(int board[][width], bool yourTurn){
+    //if your turn, look for a 2 or 4 in array
+    
+    //else look for 1 or 3
 }
