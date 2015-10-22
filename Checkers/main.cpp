@@ -70,26 +70,30 @@ int main(int argc, const char * argv[]) {
 }
 
 //draw board
-void drawBoard(int x[][4]){
+void drawBoard(int x[8][4]){
     for (int i = 0; i < 8; i++){
         if (i % 2 == 0){
             cout << ".";
         }
-        if (i < 3){
-            for (int j = 0; j < 4; j++){
-                cout << "1." ;
+        for (int j = 0; j < 4; j++){
+            cout << x[i][j];
+            if (j != 3){
+                cout << ".";
+            }
+            if (j == 3 && i % 2 != 0){
+                cout << ".";
             }
         }
-        else if (i < 5){
-            for (int j = 0; j < 4; j++){
-                cout << "0.";
-            }
-        }
-        else {
-            for (int j = 0; j < 4; j++){
-                cout << "2.";
-            }
-        }
+
+//        if (i % 2 == 0){
+//            cout << '\b ';  //Cursor moves 1 position backwards
+//            cout << " ";
+//        }
         cout << "\n";
     }
 }
+
+void readBoardFromFile(){
+    
+}
+
