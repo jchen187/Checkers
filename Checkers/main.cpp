@@ -56,8 +56,10 @@ int main(int argc, const char * argv[]) {
             //show them the real board
             drawBoard(standardBoard);
             cout << "Would you like to go first? (y/n)\n";
-            int choice2;
+            char choice2;
             cin >> choice2;
+            //take only one letter
+            //cout << choice2;
         }
         else if (choice1 == 2){
             //ask to put file
