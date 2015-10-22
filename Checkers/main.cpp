@@ -13,7 +13,6 @@ using namespace std;
 void drawBoard(int x[][4]);
 
 
-
 int main(int argc, const char * argv[]) {
 
     //Ask if want to start from regular, some file or input own coordinates
@@ -36,28 +35,31 @@ int main(int argc, const char * argv[]) {
     const unsigned int height = 8;
     const unsigned int width = 4;
     int standardBoard[height][width];
-    for (int i = 0; i < 8; i++){
-        for (int j = 0; j < 4; j++){
+    for (int i = 0; i < height; i++){
+        for (int j = 0; j < width; j++){
             if (i < 3){
-                standardBoard[i][j] = 1;
+                standardBoard[i][j] = 2;
             }
             else if (i < 5)
                 standardBoard[i][j] = 0;
             else {
-                standardBoard[i][j] = 2;
+                standardBoard[i][j] = 1;
             }
         }
     }
     
     //Get the user input. Must be a number
-    int choice;
-    cin >> choice;
-    if (choice > 0 && choice < 4){
-        if (choice == 1){
+    int choice1;
+    cin >> choice1;
+    if (choice1 > 0 && choice1 < 4){
+        if (choice1 == 1){
             //show them the real board
             drawBoard(standardBoard);
+            cout << "Would you like to go first? (y/n)\n";
+            int choice2;
+            cin >> choice2;
         }
-        else if (choice == 2){
+        else if (choice1 == 2){
             //ask to put file
             //read the file
         }
@@ -94,6 +96,10 @@ void drawBoard(int x[8][4]){
 }
 
 void readBoardFromFile(){
-    
+    //go throught first 8 lines of code. remove the spaces and
 }
 
+void play(){
+    //1 goes up. 2 goes down
+    //check to see whose turn it is
+}
