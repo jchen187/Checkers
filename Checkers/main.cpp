@@ -9,7 +9,13 @@
 #include <iostream>
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+
+    //Ask if want to start from regular, some file or input own coordinates
+    std::cout << "Choose a number from 1 - 3\n."
+                << "1. Start with the original board."
+                << "2. Input your own file."
+                << "3. Input your own coordinates.";
+    
+    
     return 0;
 }

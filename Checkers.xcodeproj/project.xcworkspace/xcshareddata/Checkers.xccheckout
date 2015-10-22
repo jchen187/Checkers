@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C75FA5F7-344F-4C2E-991D-2FB10942CA88</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Checkers</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>CFCD18323BFB25DEBF3E07A2CD070C8E0C22D6C3</key>
+		<string>https://github.com/jchen187/Checkers.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Checkers.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>CFCD18323BFB25DEBF3E07A2CD070C8E0C22D6C3</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/jchen187/Checkers.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>CFCD18323BFB25DEBF3E07A2CD070C8E0C22D6C3</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>CFCD18323BFB25DEBF3E07A2CD070C8E0C22D6C3</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Checkers</string>
+		</dict>
+	</array>
+</dict>
+</plist>
