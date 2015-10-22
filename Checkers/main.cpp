@@ -7,6 +7,7 @@
 //
 
 #include <iostream>
+#include <fstream> //reading from file
 
 using namespace std;
 
@@ -65,6 +66,24 @@ int main(int argc, const char * argv[]) {
         else if (choice1 == 2){
             //ask to put file
             //read the file
+//            cout << "Please enter the name of your file.\n";
+//            string fileName;
+//            cin >> fileName;
+            
+            ifstream myFile;
+//            myFile.open(fileName);
+            myFile.open("sampleCheckers1.txt");
+            if (myFile.is_open()){
+                string line;
+                for (int i = 0; i < 8; i++){
+                    getline(myFile,line);
+                    cout << line << "\n";
+                }
+                myFile.close();
+            }
+            else
+                cout << "Unable to open file.\n";
+            
         }
         else {
             //ask for inputs
@@ -108,7 +127,17 @@ void play(){
 }
 
 void legalMoves(int board[][width], bool yourTurn){
-    //if your turn, look for a 2 or 4 in array
     
+    for (int i = 0; i < height; i++){
+        for (int j = 0; j < width; i++){
+            //if your turn, look for a 2 or 4 in array
+            if (yourTurn){
+                if (board[i][j] == 2 || board[i][j] == 4){
+                    
+                }
+            }
+            //look for 1 or 3
+        }
+    }
     //else look for 1 or 3
 }
