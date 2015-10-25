@@ -209,3 +209,23 @@ void legalMovesForPiece(int board[][width], int y, int x){
     }
     
 }
+
+//change the x coordinate depending on whether you want 8*4 or 8*8 FOUR to EIGHT
+int fToE(int y, int x){
+    if (y % 2 == 0){
+        x = x*2 + 1;
+    }
+    else {
+        x *= 2;
+    }
+    return x;
+}
+int eToF(int y, int x) {
+    if (y % 2 == 0){
+        x = (x-1)/2;
+    }
+    else {
+        x /= 2;
+    }
+    return x;
+}
