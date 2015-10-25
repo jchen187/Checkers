@@ -54,12 +54,13 @@ int main(int argc, const char * argv[]) {
     //Get the user input. Must be a number
     int choice1;
     cin >> choice1;
+    //By default you are going first
+    char choice2 = '1';
     if (choice1 > 0 && choice1 < 4){
         if (choice1 == 1){
             //show them the real board
             drawBoard(standardBoard);
             cout << "Would you like to go first? (y/n)\n";
-            char choice2;
             cin >> choice2;
             //take only one letter
             //cout << choice2;
@@ -76,24 +77,26 @@ int main(int argc, const char * argv[]) {
             myFile.open("sampleCheckers1.txt");
             if (myFile.is_open()){
                 //Put contents of file into array
-                for (int i = 0; i < height; i++){
-                    for (int j = 0; j < width; j++){
-                        myFile >> standardBoard[i][j];
+                for (int i = 0; i <= height; i++){
+                    if (i == height){
+                        myFile >> choice2;
+                    }
+                    else {
+                        for (int j = 0; j < width; j++){
+                            myFile >> standardBoard[i][j];
+                        }
                     }
                 }
                 drawBoard(standardBoard);
-                
+                cout << choice2 << '\n';
                 /*
                 string line;
-                 
                 for (int i = 0; i < 8; i++){
                     //read entire line
                     getline(myFile,line);
                     string lineNoSpaces = removeSpaces(line);
                     
                     cout << lineNoSpaces << "\n";
-                    
-                    
                     //remove space and update board
                 }
                  */
