@@ -75,7 +75,17 @@ int main(int argc, const char * argv[]) {
 //            myFile.open(fileName);
             myFile.open("sampleCheckers1.txt");
             if (myFile.is_open()){
+                //Put contents of file into array
+                for (int i = 0; i < height; i++){
+                    for (int j = 0; j < width; j++){
+                        myFile >> standardBoard[i][j];
+                    }
+                }
+                drawBoard(standardBoard);
+                
+                /*
                 string line;
+                 
                 for (int i = 0; i < 8; i++){
                     //read entire line
                     getline(myFile,line);
@@ -86,6 +96,7 @@ int main(int argc, const char * argv[]) {
                     
                     //remove space and update board
                 }
+                 */
                 myFile.close();
             }
             else
@@ -103,6 +114,7 @@ int main(int argc, const char * argv[]) {
 //removeSpaces from sample file
 string removeSpaces(string input){
     input.erase(remove(input.begin(),input.end(),' '),input.end());
+    //input.erase(remove_if(input.begin(), input.end(), isspace),input.end());
     return input;
 }
 
