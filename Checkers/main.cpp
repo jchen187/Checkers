@@ -16,6 +16,8 @@ const unsigned int width = 4;
 
 void drawBoard(int x[][4]);
 string removeSpaces(string input);
+void allLegalMoves(int board[][width], bool yourTurn);
+void legalMovesForPiece(int board[][width], int y, int x);
 
 int main(int argc, const char * argv[]) {
 
@@ -26,46 +28,55 @@ int main(int argc, const char * argv[]) {
                 << "3. Input your own coordinates.\n"
                 << "Please choose a number from 1 - 3." << endl;
     /*
-        .1.1.1.1    1111
-        1.1.1.1.    1111
-        .1.1.1.1    1111
-        0.0.0.0.    0000
-        .0.0.0.0    0000
-        2.2.2.2.    2222
         .2.2.2.2    2222
         2.2.2.2.    2222
+        .2.2.2.2    2222
+        0.0.0.0.    0000
+        .0.0.0.0    0000
+        1.1.1.1.    1111
+        .1.1.1.1    1111
+        1.1.1.1.    1111
      */
+    
+    /*
+     Player 1 = 1, 3
+     Player 2 = 2, 4
+     */
+    int p1[2] = {1,3};
+    int p2[2] = {2,4};
     
     //Create Standard Board
     int standardBoard[height][width];
     for (int i = 0; i < height; i++){
         for (int j = 0; j < width; j++){
             if (i < 3){
-                standardBoard[i][j] = 1;
+                standardBoard[i][j] = 2;
             }
             else if (i < 5)
                 standardBoard[i][j] = 0;
             else {
-                standardBoard[i][j] = 2;
+                standardBoard[i][j] = 1;
             }
         }
     }
     
     //Get the user input. Must be a number
-    int choice1;
+    char choice1;
     cin >> choice1;
     //By default you are going first
     char choice2 = '1';
-    if (choice1 > 0 && choice1 < 4){
-        if (choice1 == 1){
+    if (choice1 > '0' && choice1 < '4'){
+        if (choice1 == '1'){
             //show them the real board
             drawBoard(standardBoard);
             cout << "Would you like to go first? (y/n)\n";
             cin >> choice2;
             //take only one letter
             //cout << choice2;
+            allLegalMoves(standardBoard, true);
+            
         }
-        else if (choice1 == 2){
+        else if (choice1 == '2'){
             //ask to put file
             //read the file
 //            cout << "Please enter the name of your file.\n";
@@ -88,7 +99,12 @@ int main(int argc, const char * argv[]) {
                     }
                 }
                 drawBoard(standardBoard);
-                cout << choice2 << '\n';
+                if (choice2 == '1'){
+                    cout << "You are going first." << '\n';
+                } else{
+                    cout << "You are going second." << '\n';
+                }
+                
                 /*
                 string line;
                 for (int i = 0; i < 8; i++){
@@ -145,7 +161,7 @@ void drawBoard(int x[][width]){
     }
 }
 
-void readBoardFromFile(){
+void readBoardFromFile(string name, ifstream file){
     //go throught first 8 lines of code. remove the spaces and
 }
 
@@ -154,18 +170,42 @@ void play(){
     //check to see whose turn it is
 }
 
-void legalMoves(int board[][width], bool yourTurn){
+void allLegalMoves(int board[][width], bool yourTurn){
     
     for (int i = 0; i < height; i++){
-        for (int j = 0; j < width; i++){
-            //if your turn, look for a 2 or 4 in array
+        for (int j = 0; j < width; j++){
+            
+            //if your turn, look for a 1 or 3 in array
             if (yourTurn){
-                if (board[i][j] == 2 || board[i][j] == 4){
-                    
+                if (board[i][j] == 1 || board[i][j] == 3){
+                    legalMovesForPiece(board, i, j);
                 }
             }
-            //look for 1 or 3
+            //look for 2 or 4
         }
     }
-    //else look for 1 or 3
+}
+
+//y and x gives you the position. y is how much you go down and x is how much you go right
+void legalMovesForPiece(int board[][width], int y, int x){
+    if (y % 2 == 0){
+        //replace 1 with a constant depending on whose turn it is
+        //if there is a blank space
+        if (board[y-1][x]==0){
+            cout << y << x << " -> " <<  y-1 << x << '\n';
+        }
+        if (x != 3 && board[y-1][x+1]==0){
+            cout << y << x << " -> " <<  y-1 << x+1 << '\n';
+        }
+    }
+    else {
+        //if there is a blank space
+        if (x != 0 && board[y-1][x-1]==0){
+            cout << y << x << " -> " <<  y-1 << x-1 << '\n';
+        }
+        if (board[y-1][x]==0){
+            cout << y << x << " -> " <<  y-1 << x << '\n';
+        }
+    }
+    
 }
