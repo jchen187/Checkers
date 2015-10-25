@@ -15,7 +15,7 @@ const unsigned int height = 8;
 const unsigned int width = 4;
 
 void drawBoard(int x[][4]);
-
+string removeSpaces(string input);
 
 int main(int argc, const char * argv[]) {
 
@@ -36,6 +36,7 @@ int main(int argc, const char * argv[]) {
         2.2.2.2.    2222
      */
     
+    //Create Standard Board
     int standardBoard[height][width];
     for (int i = 0; i < height; i++){
         for (int j = 0; j < width; j++){
@@ -76,10 +77,11 @@ int main(int argc, const char * argv[]) {
             if (myFile.is_open()){
                 string line;
                 for (int i = 0; i < 8; i++){
+                    //read entire line
                     getline(myFile,line);
+                    string lineNoSpaces = removeSpaces(line);
                     
-                    
-                    cout << line << "\n";
+                    cout << lineNoSpaces << "\n";
                     
                     
                     //remove space and update board
@@ -96,6 +98,12 @@ int main(int argc, const char * argv[]) {
     }
 
     return 0;
+}
+
+//removeSpaces from sample file
+string removeSpaces(string input){
+    input.erase(remove(input.begin(),input.end(),' '),input.end());
+    return input;
 }
 
 //draw board
