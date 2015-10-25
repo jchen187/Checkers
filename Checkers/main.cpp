@@ -14,10 +14,13 @@ using namespace std;
 const unsigned int height = 8;
 const unsigned int width = 4;
 
+void createStandardBoard(int board[][width]);
 void drawBoard(int x[][4]);
-string removeSpaces(string input);
+string removeSpaces(string input); //didnt use this
 void allLegalMoves(int board[][width], bool yourTurn);
 void legalMovesForPiece(int board[][width], int y, int x);
+int fToE(int y, int x);
+int eToF(int y, int x);
 
 int main(int argc, const char * argv[]) {
 
@@ -46,21 +49,9 @@ int main(int argc, const char * argv[]) {
     int p2[2] = {2,4};
     
     //Create Standard Board
-    int standardBoard[height][width];
-    for (int i = 0; i < height; i++){
-        for (int j = 0; j < width; j++){
-            if (i < 3){
-                standardBoard[i][j] = 2;
-            }
-            else if (i < 5)
-                standardBoard[i][j] = 0;
-            else {
-                standardBoard[i][j] = 1;
-            }
-        }
-    }
+    int myBoard[height][width];
     
-    //Get the user input. Must be a number
+    //Get the user input. Using char so that only the first letter matters
     char choice1;
     cin >> choice1;
     //By default you are going first
@@ -68,12 +59,11 @@ int main(int argc, const char * argv[]) {
     if (choice1 > '0' && choice1 < '4'){
         if (choice1 == '1'){
             //show them the real board
-            drawBoard(standardBoard);
+            createStandardBoard(myBoard);
+            drawBoard(myBoard);
             cout << "Would you like to go first? (y/n)\n";
             cin >> choice2;
-            //take only one letter
-            //cout << choice2;
-            allLegalMoves(standardBoard, true);
+            allLegalMoves(myBoard, true);
             
         }
         else if (choice1 == '2'){
@@ -94,11 +84,11 @@ int main(int argc, const char * argv[]) {
                     }
                     else {
                         for (int j = 0; j < width; j++){
-                            myFile >> standardBoard[i][j];
+                            myFile >> myBoard[i][j];
                         }
                     }
                 }
-                drawBoard(standardBoard);
+                drawBoard(myBoard);
                 if (choice2 == '1'){
                     cout << "You are going first." << '\n';
                 } else{
@@ -128,6 +118,21 @@ int main(int argc, const char * argv[]) {
     }
 
     return 0;
+}
+
+void createStandardBoard(int board[][width]){
+    for (int i = 0; i < height; i++){
+        for (int j = 0; j < width; j++){
+            if (i < 3){
+                board[i][j] = 2;
+            }
+            else if (i < 5)
+                board[i][j] = 0;
+            else {
+                board[i][j] = 1;
+            }
+        }
+    }
 }
 
 //removeSpaces from sample file
