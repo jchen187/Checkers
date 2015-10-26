@@ -181,25 +181,28 @@ void play(){
 
 void allLegalMoves(int board[][width], char yourTurn){
     
+    //create a list to store moves to open spots
+    //create a list to store moves where you eat opponent
+    //visited spots for kings
     for (int i = 0; i < height; i++){
         for (int j = 0; j < width; j++){
             int whatsAtPos = board[i][j];
             //if your turn which is 1, look for a 1 or 3 in array
             if (yourTurn == '1'){
                 if (whatsAtPos == p1Man || whatsAtPos == p1King){
-//                    cout << i << j;
                     legalMovesForPiece(board, i, j, p1, false);
                 }
             }
             //look for a 2 or 4
             else {
                 if (whatsAtPos == p2Man || whatsAtPos == p2King){
-//                    cout << i << j;
                     legalMovesForPiece(board, i, j, p2, false);
                 }
             }
         }
     }
+    
+    //if you have list with moves where you eat opponent, print the move
 }
 
 //y and x gives you the position. y is how much you go down and x is how much you go right
@@ -215,9 +218,9 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
     
     //if you can eat, you must eat
     bool canEatOpponent = false;
-    
-    //you
-    int canMove = 0;
+    bool moved = false;
+    int newY = y;
+    int newX = x;
     
     if (y+2*dir >= 0 && y+2*dir < 8){
         //On Even Row
@@ -227,11 +230,14 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
                 //see if blank space
                 if (board[y+2*dir][x-1]==neither){
                     canEatOpponent = true;
-                    if (!jumpedOnceAlready){
-                        cout << y << x;
-                    }
-                    cout << " -> " <<  y+2*dir << x-1;
-                    legalMovesForPiece(board, y+2*dir, x-1, player, true);
+//                    if (!jumpedOnceAlready){
+//                        cout << y << x;
+//                    }
+                    cout << y << x << " -> " <<  y+2*dir << x-1 << '\n';
+                    moved = true;
+                    newY = y+2*dir;
+                    newX = x-1;
+                    legalMovesForPiece(board, newY, newX, player, true);
                 }
             }
             //if opponent to right
@@ -239,14 +245,13 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
                 //see if blank space
                 if (board[y+2*dir][x+1]==neither){
                     canEatOpponent = true;
-                    if (!jumpedOnceAlready){
-                        cout << y << x;
-                    }
-                    cout << " -> " <<  y+2*dir << x+1;
-                    legalMovesForPiece(board, y+2*dir, x+1, player, true);
+                    cout << y << x << " -> " <<  y+2*dir << x+1 << '\n';
+                    moved = true;
+                    newY = y+2*dir;
+                    newX = x+1;
+                    legalMovesForPiece(board, newY, newX, player, true);
                 }
             }
-
         }
         //On Odd Row
         else {
@@ -254,52 +259,69 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
             if (x != 0 && (board[y+dir][x-1]==opp1 || board[y+dir][x-1]==opp2)){
                 if (board[y+2*dir][x-1]==neither){
                     canEatOpponent = true;
-                    if (!jumpedOnceAlready){
-                        cout << y << x;
-                    }
-                    cout << " -> " <<  y+2*dir << x-1 << '\n';
-                    legalMovesForPiece(board, y+2*dir, x-1, player, true);
+                    cout << y << x << " -> " <<  y+2*dir << x-1 << '\n';
+                    moved = true;
+                    newY = y+2*dir;
+                    newX = x-1;
+                    legalMovesForPiece(board, newY, newX, player, true);
                 }
             }
             //if opponent to right
             if (x != 3 && (board[y+dir][x]==opp1 || board[y+dir][x]==opp2)){
                 if (board[y+2*dir][x+1]==neither){
                     canEatOpponent = true;
-                    if (!jumpedOnceAlready){
-                        cout << y << x;
-                    }
-                    cout << " -> " <<  y+2*dir << x+1 << '\n';
-                    legalMovesForPiece(board, y+2*dir, x+1, player, true);
+                    cout << y << x << " -> " <<  y+2*dir << x+1 << '\n';
+                    moved = true;
+                    newY = y+2*dir;
+                    newX = x+1;
+                    legalMovesForPiece(board, newY, newX, player, true);
                 }
             }
         }
-        
     }
     
     //You cannot eat an opponent but you might be still able to move one space ahead
     if (!jumpedOnceAlready && !canEatOpponent){
         if (y+dir >= 0 && y+dir < 8){
+            //on even row
             if (y % 2 == 0){
                 //if there is a blank space. MAKE SURE DONT GO OUT OF BOUND
                 if (board[y+dir][x]==neither){
+                    moved = true;
+                    newY = y+dir;
                     cout << y << x << " -> " <<  y+dir << x << '\n';
                 }
                 if (x != 3 && board[y+dir][x+1]==neither){
+                    moved = true;
+                    newY = y+dir;
+                    newX = x+1;
                     cout << y << x << " -> " <<  y+dir << x+1 << '\n';
                 }
             }
+            //on odd row
             else {
                 //if there is a blank space
                 if (x != 0 && board[y+dir][x-1]==neither){
+                    moved = true;
+                    newY = y+dir;
+                    newX = x-1;
                     cout << y << x << " -> " <<  y+dir << x-1 << '\n';
                 }
                 if (board[y+dir][x]==neither){
+                    moved = true;
+                    newY = y+dir;
                     cout << y << x << " -> " <<  y+dir << x << '\n';
                 }
             }
         }
     }
     
+    //Become a king
+    if (newY==0 && moved == true){
+        //You now have a king
+        //board[y][x]=0;
+        //board[newY][newX] = (player = p1) ? p1King: p2King;
+    }
 }
 
 //change the x coordinate depending on whether you want 8*4 or 8*8 FOUR to EIGHT
