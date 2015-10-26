@@ -127,12 +127,12 @@ void createStandardBoard(int board[][width]){
     for (int i = 0; i < height; i++){
         for (int j = 0; j < width; j++){
             if (i < 3){
-                board[i][j] = 2;
+                board[i][j] = 1;
             }
             else if (i < 5)
                 board[i][j] = 0;
             else {
-                board[i][j] = 2;
+                board[i][j] = 1;
             }
         }
     }
@@ -201,12 +201,46 @@ void allLegalMoves(int board[][width], char yourTurn){
 
 //y and x gives you the position. y is how much you go down and x is how much you go right
 void legalMovesForPiece(int board[][width], int y, int x){
+    //going up or down
     int dir = (board[y][x] == 1) ? p1yDir: p2yDir;
+    if (y+2*dir >= 0 && y+2*dir < 8){
+        if (y % 2 == 0){
+            //if opponent to left
+            if ((board[y+dir][x]== 2 || board[y+dir][x] == 4)&& x != 0){
+                //see if blank space
+                if (board[y+2*dir][x-1]==0){
+                    cout << y << x << " -> " <<  y+2*dir << x-1 << '\n';
+                }
+            }
+            //if opponent to right
+            if ((board[y+dir][x+1]== 2 || board[y+dir][x+1] == 4)&& x != 3){
+                //see if blank space
+                if (board[y+2*dir][x+1]==0){
+                    cout << y << x << " -> " <<  y+2*dir << x+1 << '\n';
+                }
+            }
+
+        }
+        else {
+            //if opponent to left
+            if (x != 0 && (board[y+dir][x-1]==2 || board[y+dir][x-1]==4)){
+                if (board[y+2*dir][x-1]==0){
+                    cout << y << x << " -> " <<  y+2*dir << x-1 << '\n';
+                }
+            }
+            //if opponent to right
+            if (x != 3 && (board[y+dir][x+1]==2 || board[y+dir][x+1]==4)){
+                if (board[y+2*dir][x+1]==0){
+                    cout << y << x << " -> " <<  y+2*dir << x+1 << '\n';
+                }
+            }
+        }
+    }
+    
+    
     if (y+dir >= 0 && y+dir < 8){
         if (y % 2 == 0){
-            
             //replace 1 with a constant depending on whose turn it is
-            
             //if there is a blank space. MAKE SURE DONT GO OUT OF BOUND
             if (board[y+dir][x]==0){
                 cout << y << x << " -> " <<  y+dir << x << '\n';
