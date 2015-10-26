@@ -16,6 +16,8 @@ const unsigned int width = 4;
 const unsigned int p1yDir = -1; //going up
 const unsigned int p2yDir = 1;
 
+enum Piece {none, p1Man, p2Man, p1King, p2King};
+
 void createStandardBoard(int board[][width]);
 void drawBoard(int x[][4]);
 string removeSpaces(string input); //didnt use this
