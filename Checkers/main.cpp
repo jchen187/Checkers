@@ -27,7 +27,7 @@ void createStandardBoard(int board[][width]);
 void drawBoard(int x[][4]);
 string removeSpaces(string input); //didnt use this
 void allLegalMoves(int board[][width], char yourTurn);
-void legalMovesForPiece(int board[][width], int y, int x, int player);
+void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpedOnceAlready);
 int fToE(int y, int x);
 int eToF(int y, int x);
 
@@ -187,13 +187,13 @@ void allLegalMoves(int board[][width], char yourTurn){
             //if your turn which is 1, look for a 1 or 3 in array
             if (yourTurn == '1'){
                 if (whatsAtPos == p1Man || whatsAtPos == p1King){
-                    legalMovesForPiece(board, i, j, p1);
+                    legalMovesForPiece(board, i, j, p1, false);
                 }
             }
             //look for a 2 or 4
             else {
                 if (whatsAtPos == p2Man || whatsAtPos == p2King){
-                    legalMovesForPiece(board, i, j, p2);
+                    legalMovesForPiece(board, i, j, p2, false);
                 }
             }
         }
@@ -202,7 +202,8 @@ void allLegalMoves(int board[][width], char yourTurn){
 
 //y and x gives you the position. y is how much you go down and x is how much you go right
 //player tells you whose turn it is
-void legalMovesForPiece(int board[][width], int y, int x, int player){
+//the first time you call this function, jumpedOnceAlready should be false. need this because after you jump once, it's either you jump again. you cannot move just one square
+void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpedOnceAlready){
     //going up or down
     int dir = (player == p1) ? p1yDir: p2yDir;
     
@@ -214,6 +215,7 @@ void legalMovesForPiece(int board[][width], int y, int x, int player){
     bool canEatOpponent = false;
     
     if (y+2*dir >= 0 && y+2*dir < 8){
+        //On Even Row
         if (y % 2 == 0){
             //if opponent to left
             if ((board[y+dir][x]== opp1 || board[y+dir][x] == opp2)&& x != 0){
@@ -233,6 +235,7 @@ void legalMovesForPiece(int board[][width], int y, int x, int player){
             }
 
         }
+        //On Odd Row
         else {
             //if opponent to left
             if (x != 0 && (board[y+dir][x-1]==opp1 || board[y+dir][x-1]==opp2)){
@@ -242,7 +245,7 @@ void legalMovesForPiece(int board[][width], int y, int x, int player){
                 }
             }
             //if opponent to right
-            if (x != 3 && (board[y+dir][x+1]==opp1 || board[y+dir][x+1]==opp2)){
+            if (x != 3 && (board[y+dir][x]==opp1 || board[y+dir][x]==opp2)){
                 if (board[y+2*dir][x+1]==neither){
                     canEatOpponent = true;
                     cout << y << x << " -> " <<  y+2*dir << x+1 << '\n';
@@ -252,7 +255,7 @@ void legalMovesForPiece(int board[][width], int y, int x, int player){
     }
     
     //You cannot eat an opponent but you might be still able to move one space ahead
-    if (!canEatOpponent){
+    if (!jumpedOnceAlready && !canEatOpponent){
         if (y+dir >= 0 && y+dir < 8){
             if (y % 2 == 0){
                 //if there is a blank space. MAKE SURE DONT GO OUT OF BOUND
