@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <fstream> //reading from file
+#include <vector>
 
 using namespace std;
 
@@ -30,6 +31,11 @@ void allLegalMoves(int board[][width], char yourTurn);
 void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpedOnceAlready);
 int fToE(int y, int x);
 int eToF(int y, int x);
+
+//when you create a vector, you put number of elements and initial value
+//if all your pieces become kings 9*4 + 3*2 max
+vector<vector<int>> nonCapturingMoves(42, vector<int>(2));
+vector<vector<int>> CapturingMoves;
 
 int main(int argc, const char * argv[]) {
 
