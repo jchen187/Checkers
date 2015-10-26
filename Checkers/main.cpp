@@ -16,13 +16,18 @@ const unsigned int width = 4;
 const unsigned int p1yDir = -1; //going up
 const unsigned int p2yDir = 1;
 
-enum Piece {none, p1Man, p2Man, p1King, p2King};
+/*
+ Player 1 = 1, 3
+ Player 2 = 2, 4
+ */
+enum Player {p1=1, p2=2};
+enum Piece {neither, p1Man, p2Man, p1King, p2King};
 
 void createStandardBoard(int board[][width]);
 void drawBoard(int x[][4]);
 string removeSpaces(string input); //didnt use this
 void allLegalMoves(int board[][width], char yourTurn);
-void legalMovesForPiece(int board[][width], int y, int x);
+void legalMovesForPiece(int board[][width], int y, int x, int player);
 int fToE(int y, int x);
 int eToF(int y, int x);
 
@@ -44,13 +49,6 @@ int main(int argc, const char * argv[]) {
         .1.1.1.1    1111
         1.1.1.1.    1111
      */
-    
-    /*
-     Player 1 = 1, 3
-     Player 2 = 2, 4
-     */
-    int p1[2] = {1,3};
-    int p2[2] = {2,4};
     
     //Create Standard Board
     int myBoard[height][width];
@@ -80,7 +78,7 @@ int main(int argc, const char * argv[]) {
             
             ifstream myFile;
 //            myFile.open(fileName);
-            myFile.open("sampleCheckers1.txt");
+            myFile.open("mysample.txt");
             if (myFile.is_open()){
                 //Put contents of file into array
                 for (int i = 0; i <= height; i++){
@@ -99,6 +97,7 @@ int main(int argc, const char * argv[]) {
                 } else{
                     cout << "You are going second." << '\n';
                 }
+                allLegalMoves(myBoard, choice2);
                 
                 /*
                 string line;
@@ -129,12 +128,12 @@ void createStandardBoard(int board[][width]){
     for (int i = 0; i < height; i++){
         for (int j = 0; j < width; j++){
             if (i < 3){
-                board[i][j] = 1;
+                board[i][j] = p2Man;
             }
             else if (i < 5)
                 board[i][j] = 0;
             else {
-                board[i][j] = 1;
+                board[i][j] = p1Man;
             }
         }
     }
@@ -187,14 +186,14 @@ void allLegalMoves(int board[][width], char yourTurn){
             int whatsAtPos = board[i][j];
             //if your turn which is 1, look for a 1 or 3 in array
             if (yourTurn == '1'){
-                if (whatsAtPos == 1 || whatsAtPos == 3){
-                    legalMovesForPiece(board, i, j);
+                if (whatsAtPos == p1Man || whatsAtPos == p1King){
+                    legalMovesForPiece(board, i, j, p1);
                 }
             }
             //look for a 2 or 4
             else {
-                if (whatsAtPos == 2 || whatsAtPos == 4){
-                    legalMovesForPiece(board, i, j);
+                if (whatsAtPos == p2Man || whatsAtPos == p2King){
+                    legalMovesForPiece(board, i, j, p2);
                 }
             }
         }
@@ -202,22 +201,33 @@ void allLegalMoves(int board[][width], char yourTurn){
 }
 
 //y and x gives you the position. y is how much you go down and x is how much you go right
-void legalMovesForPiece(int board[][width], int y, int x){
+//player tells you whose turn it is
+void legalMovesForPiece(int board[][width], int y, int x, int player){
     //going up or down
-    int dir = (board[y][x] == 1) ? p1yDir: p2yDir;
+    int dir = (player == p1) ? p1yDir: p2yDir;
+    
+    //set your opponents depending on what player you are
+    int opp1 = (player == p1) ? p2Man: p1Man;
+    int opp2 = (player == p1) ? p2King: p1King;
+    
+    //if you can eat, you must eat
+    bool canEatOpponent = false;
+    
     if (y+2*dir >= 0 && y+2*dir < 8){
         if (y % 2 == 0){
             //if opponent to left
-            if ((board[y+dir][x]== 2 || board[y+dir][x] == 4)&& x != 0){
+            if ((board[y+dir][x]== opp1 || board[y+dir][x] == opp2)&& x != 0){
                 //see if blank space
-                if (board[y+2*dir][x-1]==0){
+                if (board[y+2*dir][x-1]==neither){
+                    canEatOpponent = true;
                     cout << y << x << " -> " <<  y+2*dir << x-1 << '\n';
                 }
             }
             //if opponent to right
-            if ((board[y+dir][x+1]== 2 || board[y+dir][x+1] == 4)&& x != 3){
+            if ((board[y+dir][x+1]== opp1 || board[y+dir][x+1] == opp2)&& x != 3){
                 //see if blank space
-                if (board[y+2*dir][x+1]==0){
+                if (board[y+2*dir][x+1]==neither){
+                    canEatOpponent = true;
                     cout << y << x << " -> " <<  y+2*dir << x+1 << '\n';
                 }
             }
@@ -225,39 +235,42 @@ void legalMovesForPiece(int board[][width], int y, int x){
         }
         else {
             //if opponent to left
-            if (x != 0 && (board[y+dir][x-1]==2 || board[y+dir][x-1]==4)){
-                if (board[y+2*dir][x-1]==0){
+            if (x != 0 && (board[y+dir][x-1]==opp1 || board[y+dir][x-1]==opp2)){
+                if (board[y+2*dir][x-1]==neither){
+                    canEatOpponent = true;
                     cout << y << x << " -> " <<  y+2*dir << x-1 << '\n';
                 }
             }
             //if opponent to right
-            if (x != 3 && (board[y+dir][x+1]==2 || board[y+dir][x+1]==4)){
-                if (board[y+2*dir][x+1]==0){
+            if (x != 3 && (board[y+dir][x+1]==opp1 || board[y+dir][x+1]==opp2)){
+                if (board[y+2*dir][x+1]==neither){
+                    canEatOpponent = true;
                     cout << y << x << " -> " <<  y+2*dir << x+1 << '\n';
                 }
             }
         }
     }
     
-    
-    if (y+dir >= 0 && y+dir < 8){
-        if (y % 2 == 0){
-            //replace 1 with a constant depending on whose turn it is
-            //if there is a blank space. MAKE SURE DONT GO OUT OF BOUND
-            if (board[y+dir][x]==0){
-                cout << y << x << " -> " <<  y+dir << x << '\n';
+    //You cannot eat an opponent but you might be still able to move one space ahead
+    if (!canEatOpponent){
+        if (y+dir >= 0 && y+dir < 8){
+            if (y % 2 == 0){
+                //if there is a blank space. MAKE SURE DONT GO OUT OF BOUND
+                if (board[y+dir][x]==neither){
+                    cout << y << x << " -> " <<  y+dir << x << '\n';
+                }
+                if (x != 3 && board[y+dir][x+1]==neither){
+                    cout << y << x << " -> " <<  y+dir << x+1 << '\n';
+                }
             }
-            if (x != 3 && board[y+dir][x+1]==0){
-                cout << y << x << " -> " <<  y+dir << x+1 << '\n';
-            }
-        }
-        else {
-            //if there is a blank space
-            if (x != 0 && board[y+dir][x-1]==0){
-                cout << y << x << " -> " <<  y+dir << x-1 << '\n';
-            }
-            if (board[y+dir][x]==0){
-                cout << y << x << " -> " <<  y+dir << x << '\n';
+            else {
+                //if there is a blank space
+                if (x != 0 && board[y+dir][x-1]==neither){
+                    cout << y << x << " -> " <<  y+dir << x-1 << '\n';
+                }
+                if (board[y+dir][x]==neither){
+                    cout << y << x << " -> " <<  y+dir << x << '\n';
+                }
             }
         }
     }
