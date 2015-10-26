@@ -187,12 +187,14 @@ void allLegalMoves(int board[][width], char yourTurn){
             //if your turn which is 1, look for a 1 or 3 in array
             if (yourTurn == '1'){
                 if (whatsAtPos == p1Man || whatsAtPos == p1King){
+//                    cout << i << j;
                     legalMovesForPiece(board, i, j, p1, false);
                 }
             }
             //look for a 2 or 4
             else {
                 if (whatsAtPos == p2Man || whatsAtPos == p2King){
+//                    cout << i << j;
                     legalMovesForPiece(board, i, j, p2, false);
                 }
             }
@@ -214,6 +216,9 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
     //if you can eat, you must eat
     bool canEatOpponent = false;
     
+    //you
+    int canMove = 0;
+    
     if (y+2*dir >= 0 && y+2*dir < 8){
         //On Even Row
         if (y % 2 == 0){
@@ -222,7 +227,11 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
                 //see if blank space
                 if (board[y+2*dir][x-1]==neither){
                     canEatOpponent = true;
-                    cout << y << x << " -> " <<  y+2*dir << x-1 << '\n';
+                    if (!jumpedOnceAlready){
+                        cout << y << x;
+                    }
+                    cout << " -> " <<  y+2*dir << x-1;
+                    legalMovesForPiece(board, y+2*dir, x-1, player, true);
                 }
             }
             //if opponent to right
@@ -230,7 +239,11 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
                 //see if blank space
                 if (board[y+2*dir][x+1]==neither){
                     canEatOpponent = true;
-                    cout << y << x << " -> " <<  y+2*dir << x+1 << '\n';
+                    if (!jumpedOnceAlready){
+                        cout << y << x;
+                    }
+                    cout << " -> " <<  y+2*dir << x+1;
+                    legalMovesForPiece(board, y+2*dir, x+1, player, true);
                 }
             }
 
@@ -241,17 +254,26 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
             if (x != 0 && (board[y+dir][x-1]==opp1 || board[y+dir][x-1]==opp2)){
                 if (board[y+2*dir][x-1]==neither){
                     canEatOpponent = true;
-                    cout << y << x << " -> " <<  y+2*dir << x-1 << '\n';
+                    if (!jumpedOnceAlready){
+                        cout << y << x;
+                    }
+                    cout << " -> " <<  y+2*dir << x-1 << '\n';
+                    legalMovesForPiece(board, y+2*dir, x-1, player, true);
                 }
             }
             //if opponent to right
             if (x != 3 && (board[y+dir][x]==opp1 || board[y+dir][x]==opp2)){
                 if (board[y+2*dir][x+1]==neither){
                     canEatOpponent = true;
-                    cout << y << x << " -> " <<  y+2*dir << x+1 << '\n';
+                    if (!jumpedOnceAlready){
+                        cout << y << x;
+                    }
+                    cout << " -> " <<  y+2*dir << x+1 << '\n';
+                    legalMovesForPiece(board, y+2*dir, x+1, player, true);
                 }
             }
         }
+        
     }
     
     //You cannot eat an opponent but you might be still able to move one space ahead
