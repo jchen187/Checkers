@@ -13,11 +13,13 @@ using namespace std;
 
 const unsigned int height = 8;
 const unsigned int width = 4;
+const unsigned int p1yDir = -1; //going up
+const unsigned int p2yDir = 1;
 
 void createStandardBoard(int board[][width]);
 void drawBoard(int x[][4]);
 string removeSpaces(string input); //didnt use this
-void allLegalMoves(int board[][width], bool yourTurn);
+void allLegalMoves(int board[][width], char yourTurn);
 void legalMovesForPiece(int board[][width], int y, int x);
 int fToE(int y, int x);
 int eToF(int y, int x);
@@ -63,7 +65,8 @@ int main(int argc, const char * argv[]) {
             drawBoard(myBoard);
             cout << "Would you like to go first? (y/n)\n";
             cin >> choice2;
-            allLegalMoves(myBoard, true);
+            choice2 = (choice2 == 'y') ? 1: 2;
+            allLegalMoves(myBoard, choice2);
             
         }
         else if (choice1 == '2'){
@@ -175,41 +178,49 @@ void play(){
     //check to see whose turn it is
 }
 
-void allLegalMoves(int board[][width], bool yourTurn){
+void allLegalMoves(int board[][width], char yourTurn){
     
     for (int i = 0; i < height; i++){
         for (int j = 0; j < width; j++){
-            
-            //if your turn, look for a 1 or 3 in array
-            if (yourTurn){
-                if (board[i][j] == 1 || board[i][j] == 3){
+            int whatsAtPos = board[i][j];
+            //if your turn which is 1, look for a 1 or 3 in array
+            if (yourTurn == '1'){
+                if (whatsAtPos == 1 || whatsAtPos == 3){
                     legalMovesForPiece(board, i, j);
                 }
             }
-            //look for 2 or 4
+            //look for a 2 or 4
+            else {
+                if (whatsAtPos == 2 || whatsAtPos == 4){
+                    legalMovesForPiece(board, i, j);
+                }
+            }
         }
     }
 }
 
 //y and x gives you the position. y is how much you go down and x is how much you go right
 void legalMovesForPiece(int board[][width], int y, int x){
+    int dir = (board[y][x] == 1) ? p1yDir: p2yDir;
     if (y % 2 == 0){
+        
         //replace 1 with a constant depending on whose turn it is
-        //if there is a blank space
-        if (board[y-1][x]==0){
-            cout << y << x << " -> " <<  y-1 << x << '\n';
+        
+        //if there is a blank space. MAKE SURE DONT GO OUT OF BOUND
+        if (board[y+dir][x]==0){
+            cout << y << x << " -> " <<  y+dir << x << '\n';
         }
-        if (x != 3 && board[y-1][x+1]==0){
-            cout << y << x << " -> " <<  y-1 << x+1 << '\n';
+        if (x != 3 && board[y+dir][x+1]==0){
+            cout << y << x << " -> " <<  y+dir << x+1 << '\n';
         }
     }
     else {
         //if there is a blank space
-        if (x != 0 && board[y-1][x-1]==0){
-            cout << y << x << " -> " <<  y-1 << x-1 << '\n';
+        if (x != 0 && board[y+dir][x-1]==0){
+            cout << y << x << " -> " <<  y+dir << x-1 << '\n';
         }
-        if (board[y-1][x]==0){
-            cout << y << x << " -> " <<  y-1 << x << '\n';
+        if (board[y+dir][x]==0){
+            cout << y << x << " -> " <<  y+dir << x << '\n';
         }
     }
     
