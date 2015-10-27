@@ -238,7 +238,19 @@ void addToNonCapturingList(pos original, int newY, int newX){
 
 void printList(vector<vector<pos>> list){
     for (int i = 0;i < list.size();i++){
-        cout << list[i][0].y << list[i][0].x << " -> " << list[i][1].y << list[i][1].x << "\n";
+        cout << i+1 << ". ";
+        for (int j = 0; j < list[i].size();j++){
+            
+            
+            cout << list[i][j].y << list[i][j].x;
+            
+            if (j < list[i].size() - 1 ){
+                cout << " -> ";
+            }
+            else {
+                cout << "\n";
+            }
+        }
     }
     //after print everything. need to clear it
     for (int i = 0;i < list.size();i++){
