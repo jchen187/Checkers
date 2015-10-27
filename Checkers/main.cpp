@@ -24,6 +24,15 @@ const unsigned int p2yDir = 1;
 enum Player {p1=1, p2=2};
 enum Piece {neither, p1Man, p2Man, p1King, p2King};
 
+struct pos{
+    int y;
+    int x;
+};
+//when you create a vector, you put number of elements and initial value
+//if all your pieces become kings 9*4 + 3*2 max
+vector<vector<pos>> nonCapturingMoves(42, vector<pos>(2));
+vector<vector<pos>> CapturingMoves;
+
 void createStandardBoard(int board[][width]);
 void drawBoard(int x[][4]);
 string removeSpaces(string input); //didnt use this
@@ -31,11 +40,6 @@ void allLegalMoves(int board[][width], char yourTurn);
 void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpedOnceAlready);
 int fToE(int y, int x);
 int eToF(int y, int x);
-
-//when you create a vector, you put number of elements and initial value
-//if all your pieces become kings 9*4 + 3*2 max
-vector<vector<int>> nonCapturingMoves(42, vector<int>(2));
-vector<vector<int>> CapturingMoves;
 
 int main(int argc, const char * argv[]) {
 
@@ -218,10 +222,28 @@ void allLegalMoves(int board[][width], char yourTurn){
 }
 
 
+void addToNonCapturingList(pos original, int newY, int newX){
+    pos newPos;
+    newPos.y = newY;
+    newPos.x = newX;
+    cout << original.y << original.x << "->" << newPos.y << newPos.x << '\n';
+    //nonCapturingMoves
+}
+
+void printList(vector<vector<pos>> list){
+    
+    //after print everything. need to clear it
+}
+
 //y and x gives you the position. y is how much you go down and x is how much you go right
 //player tells you whose turn it is
 //the first time you call this function, jumpedOnceAlready should be false. need this because after you jump once, it's either you jump again. you cannot move just one square
 void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpedOnceAlready){
+    
+    pos currentPos;
+    currentPos.y = y;
+    currentPos.x = x;
+    
     //going up or down
     int dir = (player == p1) ? p1yDir: p2yDir;
     
@@ -304,13 +326,14 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
                 if (board[y+dir][x]==neither){
                     moved = true;
                     newY = y+dir;
-                    cout << y << x << " -> " <<  y+dir << x << '\n';
+                    newX = x;
+                    addToNonCapturingList(currentPos,newY,newX);
                 }
                 if (x != 3 && board[y+dir][x+1]==neither){
                     moved = true;
                     newY = y+dir;
                     newX = x+1;
-                    cout << y << x << " -> " <<  y+dir << x+1 << '\n';
+                    addToNonCapturingList(currentPos,newY,newX);
                 }
                 //if you are king check the opposite direction
                 if (board[y][x]==ownKing){
@@ -318,13 +341,14 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
                         if (board[y-dir][x]==neither){
                             moved = true;
                             newY = y-dir;
-                            cout << y << x << " -> " <<  y-dir << x << '\n';
+                            newX = x;
+                            addToNonCapturingList(currentPos,newY,newX);
                         }
                         if (x != 3 && board[y-dir][x+1]==neither){
                             moved = true;
                             newY = y-dir;
                             newX = x+1;
-                            cout << y << x << " -> " <<  y-dir << x+1 << '\n';
+                            addToNonCapturingList(currentPos,newY,newX);
                         }
                     }
                 }
@@ -337,12 +361,13 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
                     moved = true;
                     newY = y+dir;
                     newX = x-1;
-                    cout << y << x << " -> " <<  y+dir << x-1 << '\n';
+                    addToNonCapturingList(currentPos,newY,newX);
                 }
                 if (board[y+dir][x]==neither){
                     moved = true;
                     newY = y+dir;
-                    cout << y << x << " -> " <<  y+dir << x << '\n';
+                    newX = x;
+                    addToNonCapturingList(currentPos,newY,newX);
                 }
                 //if you are king check the opposite direction
                 if (board[y][x]==ownKing){
@@ -351,17 +376,18 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
                             moved = true;
                             newY = y-dir;
                             newX = x-1;
-                            cout << y << x << " -> " <<  y-dir << x-1 << '\n';
+                            addToNonCapturingList(currentPos,newY,newX);
                         }
                         if (board[y-dir][x]==neither){
                             moved = true;
                             newY = y-dir;
-                            cout << y << x << " -> " <<  y-dir << x << '\n';
+                            newX = x;
+                            addToNonCapturingList(currentPos,newY,newX);
                         }
                     }
                 }
-
             }
+            
         }
     }
     
