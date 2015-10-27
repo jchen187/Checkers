@@ -30,13 +30,19 @@ struct pos{
 };
 //when you create a vector, you put number of elements and initial value
 //if all your pieces become kings 9*4 + 3*2 max
-vector<vector<pos>> nonCapturingMoves(42, vector<pos>(2));
+//vector<vector<pos>> nonCapturingMoves(42, vector<pos>(2));
+vector<vector<pos>> nonCapturingMoves;
 vector<vector<pos>> CapturingMoves;
 
 void createStandardBoard(int board[][width]);
 void drawBoard(int x[][4]);
 string removeSpaces(string input); //didnt use this
+
+void addToNonCapturingList(pos original, int newY, int newX);
+void printList(vector<vector<pos>> list);
 void allLegalMoves(int board[][width], char yourTurn);
+
+
 void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpedOnceAlready);
 int fToE(int y, int x);
 int eToF(int y, int x);
@@ -202,22 +208,17 @@ void allLegalMoves(int board[][width], char yourTurn){
                 if (whatsAtPos == p1Man || whatsAtPos ==p1King){
                     legalMovesForPiece(board, i, j, p1, false);
                 }
-//                if (whatsAtPos == p1King){
-//                    legalMovesForKing(board, i, j, p1, false);
-//                }
             }
             //look for a 2 or 4
             else {
                 if (whatsAtPos == p2Man || whatsAtPos == p2King){
                     legalMovesForPiece(board, i, j, p2, false);
                 }
-//                if (whatsAtPos == p2King){
-//                    legalMovesForKing(board, i, j, p2, false);
-//                }
             }
         }
     }
     
+    printList(nonCapturingMoves);
     //if you have list with moves where you eat opponent, print the move
 }
 
@@ -226,13 +227,23 @@ void addToNonCapturingList(pos original, int newY, int newX){
     pos newPos;
     newPos.y = newY;
     newPos.x = newX;
-    cout << original.y << original.x << "->" << newPos.y << newPos.x << '\n';
-    //nonCapturingMoves
+    //cout << original.y << original.x << "->" << newPos.y << newPos.x << '\n';
+    vector<pos> v;
+    v.push_back(original);
+    v.push_back(newPos);
+//    cout << v[0].y << v[0].x << " ";
+//    cout << v[1].y << v[1].x << "\n";
+    nonCapturingMoves.push_back(v);
 }
 
 void printList(vector<vector<pos>> list){
-    
+    for (int i = 0;i < list.size();i++){
+        cout << list[i][0].y << list[i][0].x << " -> " << list[i][1].y << list[i][1].x << "\n";
+    }
     //after print everything. need to clear it
+    for (int i = 0;i < list.size();i++){
+        list.pop_back();
+    }
 }
 
 //y and x gives you the position. y is how much you go down and x is how much you go right
