@@ -40,6 +40,7 @@ string removeSpaces(string input); //didnt use this
 
 void addToNonCapturingList(pos original, int newY, int newX);
 void printList(vector<vector<pos>> list);
+void clearList(vector<vector<pos>> list);
 void allLegalMoves(int board[][width], char yourTurn);
 
 
@@ -218,8 +219,13 @@ void allLegalMoves(int board[][width], char yourTurn){
         }
     }
     
+    //do this only if you cant make any captures
     printList(nonCapturingMoves);
     //if you have list with moves where you eat opponent, print the move
+    
+    //get the user response
+    //clear list
+    clearList(nonCapturingMoves);
 }
 
 
@@ -238,12 +244,10 @@ void addToNonCapturingList(pos original, int newY, int newX){
 
 void printList(vector<vector<pos>> list){
     for (int i = 0;i < list.size();i++){
+        //Give the number
         cout << i+1 << ". ";
         for (int j = 0; j < list[i].size();j++){
-            
-            
             cout << list[i][j].y << list[i][j].x;
-            
             if (j < list[i].size() - 1 ){
                 cout << " -> ";
             }
@@ -252,7 +256,9 @@ void printList(vector<vector<pos>> list){
             }
         }
     }
-    //after print everything. need to clear it
+}
+
+void clearList(vector<vector<pos>> list){
     for (int i = 0;i < list.size();i++){
         list.pop_back();
     }
