@@ -104,11 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "467750422.893649"
+            timestampString = "467750564.479002"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "392"
-            endingLineNumber = "392"
+            startingLineNumber = "394"
+            endingLineNumber = "394"
             landmarkName = "legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector)"
             landmarkType = "7">
          </BreakpointContent>
@@ -120,11 +120,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "467750422.893649"
+            timestampString = "467750564.479002"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "391"
-            endingLineNumber = "391"
+            startingLineNumber = "393"
+            endingLineNumber = "393"
             landmarkName = "legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector)"
             landmarkType = "7">
          </BreakpointContent>

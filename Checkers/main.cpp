@@ -344,8 +344,8 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
                     newY = y+2*dir;
                     newX = x+1;
                     
-                    //newVector = addToCaptureVector(currentPos, newY, newX, captureVector);
-                    //legalMovesForPiece(board, newY, newX, player, true, newVector);
+                    newVector = addToCaptureVector(currentPos, newY, newX, oldVector);
+                    legalMovesForPiece(board, newY, newX, player, true, newVector);
                 }
             }
             //if you are king check the opposite direction
