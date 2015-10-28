@@ -57,9 +57,9 @@ int main(int argc, const char * argv[]) {
                 << "3. Input your own coordinates.\n"
                 << "Please choose a number from 1 - 3." << endl;
     /*
-        .2.2.2.2    2222
-        2.2.2.2.    2222
-        .2.2.2.2    2222
+        .2.2.2.2    2222        +===+   +---+
+        2.2.2.2.    2222        | @ |   | C |
+        .2.2.2.2    2222        +===+   +---+
         0.0.0.0.    0000
         .0.0.0.0    0000
         1.1.1.1.    1111
@@ -222,13 +222,14 @@ void allLegalMoves(int board[][width], char yourTurn){
         }
     }
     
-    cout << "Moves to Eat " <<  CapturingMoves.size() <<"\n";
-    printList(CapturingMoves);
-    cout <<"\n";
     
     //do this only if you cant make any captures
-    if (CapturingMoves.empty()){
-        cout << "Moves that Dont Eat " << nonCapturingMoves.size() << "\n";
+    if (!CapturingMoves.empty()){
+        cout << "Choose one of the following moves to Eat " <<  CapturingMoves.size() <<"\n";
+        printList(CapturingMoves);
+    }
+    else {
+        cout << "Choose one of the following. You cannot that Dont Eat " << nonCapturingMoves.size() << "\n";
         printList(nonCapturingMoves);
     }
     //get the user response
@@ -263,9 +264,8 @@ vector<pos> addToCaptureVector(pos original, int newY, int newX, vector<pos> v){
     return v;
 }
 
-//once capture vector is fully updated, add it to the list
+//once capture vector is fully updated(when you cant jump anymore), add it to the list
 void addToCapturingList(vector<pos> v){
-    //only push back when can't jump anymore
     CapturingMoves.push_back(v);
 }
 
@@ -294,6 +294,7 @@ void clearList(vector<vector<pos>> list){
 //y and x gives you the position. y is how much you go down and x is how much you go right
 //player tells you whose turn it is
 //the first time you call this function, jumpedOnceAlready should be false. need this because after you jump once, it's either you jump again. you cannot move just one square
+//we have a capturevector to keep track of all the positions that we have been on.
 void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpedOnceAlready, vector<pos> captureVector){
     
     pos currentPos;
@@ -315,8 +316,12 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
     int newY = y;
     int newX = x;
     
+    //newVector will include all the pos that you have been on
     vector<pos> newVector;
+    //I can keep captureVector and remove oldvector
     vector<pos> oldVector = captureVector;
+    
+    //kings have to keep track of the positions of the enemies they eat because they
     
     if (y+2*dir >= 0 && y+2*dir < 8){
         //On Even Row
@@ -472,11 +477,15 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
     }
     
     //Become a king
-    if (newY==0 && moved == true){
-        cout << "You now have a king. \n";
+    if (board[newY][newX]==p1Man && newY==0 && moved == true){
+        cout << "P1 now has a king. \n";
         //You now have a king
         //board[y][x]=0;
         //board[newY][newX] = (player = p1) ? p1King: p2King;
+    }
+    
+    if (board[newY][newX]==p2Man && newY==7 && moved == true){
+        cout << "P2 now has a king. \n";
     }
 }
 

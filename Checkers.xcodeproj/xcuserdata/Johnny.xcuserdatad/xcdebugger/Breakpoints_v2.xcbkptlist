@@ -104,11 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "467753533.702672"
+            timestampString = "467765557.183569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
             landmarkName = "allLegalMoves(int board[][width], char yourTurn)"
             landmarkType = "7">
          </BreakpointContent>
@@ -120,7 +120,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "467751253.321327"
+            timestampString = "467765557.183569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "269"
@@ -136,27 +136,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "467751524.021078"
+            timestampString = "467765557.183569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "304"
-            endingLineNumber = "304"
-            landmarkName = "legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Checkers/main.cpp"
-            timestampString = "467753035.099382"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "392"
-            endingLineNumber = "392"
+            startingLineNumber = "397"
+            endingLineNumber = "397"
             landmarkName = "legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector)"
             landmarkType = "7">
          </BreakpointContent>
