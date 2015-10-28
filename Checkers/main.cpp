@@ -222,15 +222,15 @@ void allLegalMoves(int board[][width], char yourTurn){
         }
     }
     
+    cout << "Moves to Eat " <<  CapturingMoves.size() <<"\n";
     printList(CapturingMoves);
-    cout << "cm" <<  CapturingMoves.size() <<"\n\n";
-    
+    cout <<"\n";
     
     //do this only if you cant make any captures
-    printList(nonCapturingMoves);
-    cout << "mcm" << nonCapturingMoves.size() << "\n";
-    //if you have list with moves where you eat opponent, print the move
-    
+    if (CapturingMoves.empty()){
+        cout << "Moves that Dont Eat " << nonCapturingMoves.size() << "\n";
+        printList(nonCapturingMoves);
+    }
     //get the user response
     //clear list
     clearList(nonCapturingMoves);
