@@ -223,7 +223,7 @@ void allLegalMoves(int board[][width], char yourTurn){
     }
     
     printList(CapturingMoves);
-    cout << "cm" <<  CapturingMoves.size() <<"\n";
+    cout << "cm" <<  CapturingMoves.size() <<"\n\n";
     
     
     //do this only if you cant make any captures
@@ -390,11 +390,12 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
             }
         }
         
-        //you jumped once already but you cannot eat anymore
-        if (jumpedOnceAlready && !moved){
-            addToCapturingList(oldVector);
-        }
     }
+    //you jumped once already but you cannot eat anymore
+    if (jumpedOnceAlready && !moved){
+        addToCapturingList(oldVector);
+    }
+    
     
     //You cannot eat an opponent but you might be still able to move one space ahead
     if (!jumpedOnceAlready && !ateOpponent){
