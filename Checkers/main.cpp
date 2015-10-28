@@ -223,8 +223,12 @@ void allLegalMoves(int board[][width], char yourTurn){
     }
     
     printList(CapturingMoves);
+    cout << "cm" <<  CapturingMoves.size() <<"\n";
+    
+    
     //do this only if you cant make any captures
     printList(nonCapturingMoves);
+    cout << "mcm" << nonCapturingMoves.size() << "\n";
     //if you have list with moves where you eat opponent, print the move
     
     //get the user response
@@ -364,8 +368,8 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
                     moved = true;
                     newY = y+2*dir;
                     newX = x-1;
-                    addToCaptureVector(currentPos, newY, newX, captureVector);
-                    legalMovesForPiece(board, newY, newX, player, true, captureVector);
+                    newVector = addToCaptureVector(currentPos, newY, newX, oldVector);
+                    legalMovesForPiece(board, newY, newX, player, true, newVector);
                 }
             }
             //if opponent to right
@@ -377,8 +381,8 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
                     moved = true;
                     newY = y+2*dir;
                     newX = x+1;
-                    addToCaptureVector(currentPos, newY, newX, captureVector);
-                    legalMovesForPiece(board, newY, newX, player, true, captureVector);
+                    newVector = addToCaptureVector(currentPos, newY, newX, oldVector);
+                    legalMovesForPiece(board, newY, newX, player, true, newVector);
                 }
             }
             if (board[y][x]==ownKing){
