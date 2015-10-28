@@ -44,7 +44,7 @@ void clearList(vector<vector<pos>> list);
 void allLegalMoves(int board[][width], char yourTurn);
 
 
-void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpedOnceAlready);
+void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpedOnceAlready, vector<pos> captureVector);
 int fToE(int y, int x);
 int eToF(int y, int x);
 
@@ -207,18 +207,22 @@ void allLegalMoves(int board[][width], char yourTurn){
             //if your turn which is 1, look for a 1 or 3 in array
             if (yourTurn == '1'){
                 if (whatsAtPos == p1Man || whatsAtPos ==p1King){
-                    legalMovesForPiece(board, i, j, p1, false);
+                    //it is set to false because havent jump at all yet
+                    vector<pos> a;
+                    legalMovesForPiece(board, i, j, p1, false, a);
                 }
             }
             //look for a 2 or 4
             else {
                 if (whatsAtPos == p2Man || whatsAtPos == p2King){
-                    legalMovesForPiece(board, i, j, p2, false);
+                    vector<pos> a;
+                    legalMovesForPiece(board, i, j, p2, false, a);
                 }
             }
         }
     }
     
+    printList(CapturingMoves);
     //do this only if you cant make any captures
     printList(nonCapturingMoves);
     //if you have list with moves where you eat opponent, print the move
@@ -240,6 +244,25 @@ void addToNonCapturingList(pos original, int newY, int newX){
 //    cout << v[0].y << v[0].x << " ";
 //    cout << v[1].y << v[1].x << "\n";
     nonCapturingMoves.push_back(v);
+}
+
+vector<pos> addToCaptureVector(pos original, int newY, int newX, vector<pos> v){
+    //can also have done v.empty()
+    if (v.size() == 0){
+        cout << "This is going to be your first jump.\n";
+        v.push_back(original);
+    }
+    pos newPos;
+    newPos.y = newY;
+    newPos.x = newX;
+    v.push_back(newPos);
+    return v;
+}
+
+//once capture vector is fully updated, add it to the list
+void addToCapturingList(vector<pos> v){
+    //only push back when can't jump anymore
+    CapturingMoves.push_back(v);
 }
 
 void printList(vector<vector<pos>> list){
@@ -267,7 +290,7 @@ void clearList(vector<vector<pos>> list){
 //y and x gives you the position. y is how much you go down and x is how much you go right
 //player tells you whose turn it is
 //the first time you call this function, jumpedOnceAlready should be false. need this because after you jump once, it's either you jump again. you cannot move just one square
-void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpedOnceAlready){
+void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpedOnceAlready, vector<pos> captureVector){
     
     pos currentPos;
     currentPos.y = y;
@@ -282,10 +305,14 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
     int ownKing = (player == p1) ? p1King: p2King;
     
     //if you can eat, you must eat
-    bool ateOpponent = false;
+    bool ateOpponent = false;   //might remove this later and change to numOpponentsEaten
+//    int numOpponentsEaten = 0;  //number of opponents you can eat this turn
     bool moved = false;
     int newY = y;
     int newX = x;
+    
+    vector<pos> newVector;
+    vector<pos> oldVector = captureVector;
     
     if (y+2*dir >= 0 && y+2*dir < 8){
         //On Even Row
@@ -295,11 +322,15 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
                 //see if blank space
                 if (board[y+2*dir][x-1]==neither){
                     ateOpponent = true;
-                    cout << y << x << " -> " <<  y+2*dir << x-1 << '\n';
+//                    numOpponentsEaten++;
+                    
+                    //cout << y << x << " -> " <<  y+2*dir << x-1 << '\n';
                     moved = true;
                     newY = y+2*dir;
                     newX = x-1;
-                    legalMovesForPiece(board, newY, newX, player, true);
+                    
+                    newVector = addToCaptureVector(currentPos, newY, newX, oldVector);
+                    legalMovesForPiece(board, newY, newX, player, true, newVector);
                 }
             }
             //if opponent to right
@@ -307,11 +338,14 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
                 //see if blank space
                 if (board[y+2*dir][x+1]==neither){
                     ateOpponent = true;
-                    cout << y << x << " -> " <<  y+2*dir << x+1 << '\n';
+//                    numOpponentsEaten++;
+                    //cout << y << x << " -> " <<  y+2*dir << x+1 << '\n';
                     moved = true;
                     newY = y+2*dir;
                     newX = x+1;
-                    legalMovesForPiece(board, newY, newX, player, true);
+                    
+                    //newVector = addToCaptureVector(currentPos, newY, newX, captureVector);
+                    //legalMovesForPiece(board, newY, newX, player, true, newVector);
                 }
             }
             //if you are king check the opposite direction
@@ -325,24 +359,36 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool jumpe
             if (x != 0 && (board[y+dir][x-1]==opp1 || board[y+dir][x-1]==opp2)){
                 if (board[y+2*dir][x-1]==neither){
                     ateOpponent = true;
-                    cout << y << x << " -> " <<  y+2*dir << x-1 << '\n';
+//                    numOpponentsEaten++;
+                    //cout << y << x << " -> " <<  y+2*dir << x-1 << '\n';
                     moved = true;
                     newY = y+2*dir;
                     newX = x-1;
-                    legalMovesForPiece(board, newY, newX, player, true);
+                    addToCaptureVector(currentPos, newY, newX, captureVector);
+                    legalMovesForPiece(board, newY, newX, player, true, captureVector);
                 }
             }
             //if opponent to right
             if (x != 3 && (board[y+dir][x]==opp1 || board[y+dir][x]==opp2)){
                 if (board[y+2*dir][x+1]==neither){
                     ateOpponent = true;
-                    cout << y << x << " -> " <<  y+2*dir << x+1 << '\n';
+//                    numOpponentsEaten++;
+                    //cout << y << x << " -> " <<  y+2*dir << x+1 << '\n';
                     moved = true;
                     newY = y+2*dir;
                     newX = x+1;
-                    legalMovesForPiece(board, newY, newX, player, true);
+                    addToCaptureVector(currentPos, newY, newX, captureVector);
+                    legalMovesForPiece(board, newY, newX, player, true, captureVector);
                 }
             }
+            if (board[y][x]==ownKing){
+                
+            }
+        }
+        
+        //you jumped once already but you cannot eat anymore
+        if (jumpedOnceAlready && !moved){
+            addToCapturingList(oldVector);
         }
     }
     
