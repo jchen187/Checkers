@@ -253,7 +253,7 @@ void addToNonCapturingList(pos original, int newY, int newX){
 vector<pos> addToCaptureVector(pos original, int newY, int newX, vector<pos> v){
     //can also have done v.empty()
     if (v.size() == 0){
-        cout << "This is going to be your first jump.\n";
+        //cout << "This is going to be your first jump.\n";
         v.push_back(original);
     }
     pos newPos;
