@@ -368,8 +368,8 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
             //are you not on the left border?
             //did you eat this already?
             if ( (board[y+dir][x]== opp1 || board[y+dir][x] == opp2) && x != 0 && !isPosInVector(y+dir, x, whatYouAte)){
-                //see if blank space
-                if (board[y+2*dir][x-1]==neither){
+                //see if blank space or where your king was originally
+                if (board[y+2*dir][x-1]==neither || (y+2*dir == captureVector[0].y && x-1 == captureVector[0].x)){
                     ateOpponent = true;
                     
                     /*
@@ -394,8 +394,8 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
             //are you not on the right border?
             //did you eat this already?
             if ((board[y+dir][x+1]== opp1 || board[y+dir][x+1] == opp2)&& x != 3 && !isPosInVector(y+dir, x+1, whatYouAte)){
-                //see if blank space
-                if (board[y+2*dir][x+1]==neither){
+                //see if blank space or where king was originally
+                if (board[y+2*dir][x+1]==neither || (y+2*dir == captureVector[0].y && x+1==captureVector[0].x)){
                     ateOpponent = true;
                     //cout << y << x << " -> " <<  y+2*dir << x+1 << '\n';
                     moved = true;
@@ -418,8 +418,8 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
                     //if opponent is to the left
 
                     if ((board[y-dir][x] == opp1 || board[y-dir][x] == opp2) && x != 0 && !isPosInVector(y-dir, x, whatYouAte)){
-
-                        if (board[y-2*dir][x-1]==neither){
+                        //check for blank space or if original place of king
+                        if (board[y-2*dir][x-1]==neither || (y-2*dir == captureVector[0].y && x-1 == captureVector[0].x)){
                             ateOpponent = true;
                             //cout << y << x << " -> " <<  y+2*dir << x-1 << '\n';
                             moved = true;
@@ -435,7 +435,7 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
                     //if opponent to right
                     if ((board[y-dir][x+1]== opp1 || board[y-dir][x+1] == opp2)&& x != 3 && !isPosInVector(y-dir, x+1, whatYouAte)){
                         //see if blank space
-                        if (board[y-2*dir][x+1]==neither){
+                        if (board[y-2*dir][x+1]==neither || (y-2*dir == captureVector[0].y && x+1 == captureVector[0].x)){
                             ateOpponent = true;
                             //cout << y << x << " -> " <<  y+2*dir << x+1 << '\n';
                             moved = true;
