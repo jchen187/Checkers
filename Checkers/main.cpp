@@ -318,7 +318,7 @@ vector<pos> addToWhatYouAte(int y, int x, vector<pos> v){
 bool isPosInVector(int y, int x, vector<pos> v){
     bool found = false;
     for (int i = 0; i < v.size(); i++){
-        if (v[i].y == y || v[i].x == x){
+        if (v[i].y == y && v[i].x == x){
             found = true;
         }
     }
@@ -358,6 +358,7 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
     
     //kings have to keep track of the positions of the enemies they eat because they
     vector<pos> newWhatYouAte;
+    vector<pos> oldWhatYouAte = whatYouAte;
     
     if (y+2*dir >= 0 && y+2*dir < 8){
         //On Even Row
@@ -432,7 +433,6 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
                     //if opponent is to the left
 
                     if ((board[y-dir][x] == opp1 || board[y-dir][x] == opp2) && x != 0){
-                        cout << "hi\n";
 
                         if (board[y-2*dir][x-1]==neither){
                             ateOpponent = true;
@@ -459,7 +459,7 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
                             newY = y-2*dir;
                             newX = x+1;
                             
-                            if (!isPosInVector(y-dir, x, whatYouAte)){
+                            if (!isPosInVector(y-dir, x+1, whatYouAte)){
                                 cout << "right up";
                                 newWhatYouAte = addToWhatYouAte(y-dir, x, whatYouAte);
                                 newVector = addToCaptureVector(currentPos, newY, newX, oldVector);
