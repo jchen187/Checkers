@@ -93,45 +93,49 @@ int main(int argc, const char * argv[]) {
 //            string fileName;
 //            cin >> fileName;
             
-            ifstream myFile;
-//            myFile.open(fileName);
-            myFile.open("mysample.txt");
-            if (myFile.is_open()){
-                //Put contents of file into array
-                for (int i = 0; i <= height; i++){
-                    if (i == height){
-                        myFile >> choice2;
-                    }
-                    else {
-                        for (int j = 0; j < width; j++){
-                            myFile >> myBoard[i][j];
+            
+
+            for (int i = 4; i <= 4; i++){
+                string filename ="sampleCheckers"+to_string(i)+".txt";
+                cout << filename << "\n";
+                
+                ifstream myFile;
+                myFile.open(filename);
+                if (myFile.is_open()){
+                    //Put contents of file into array
+                    for (int i = 0; i <= height; i++){
+                        if (i == height){
+                            myFile >> choice2;
+                        }
+                        else {
+                            for (int j = 0; j < width; j++){
+                                myFile >> myBoard[i][j];
+                            }
                         }
                     }
-                }
-                drawBoard(myBoard);
-                if (choice2 == '1'){
-                    cout << "You are going first." << '\n';
-                } else{
-                    cout << "You are going second." << '\n';
-                }
-                allLegalMoves(myBoard, choice2);
-                
-                /*
-                string line;
-                for (int i = 0; i < 8; i++){
-                    //read entire line
-                    getline(myFile,line);
-                    string lineNoSpaces = removeSpaces(line);
+                    drawBoard(myBoard);
+                    //                if (choice2 == '1'){
+                    //                    cout << "You are going first." << '\n';
+                    //                } else{
+                    //                    cout << "You are going second." << '\n';
+                    //                }
+                    allLegalMoves(myBoard, choice2);
                     
-                    cout << lineNoSpaces << "\n";
-                    //remove space and update board
-                }
-                 */
-                myFile.close();
+                    /*
+                     string line;
+                     for (int i = 0; i < 8; i++){
+                     //read entire line
+                     getline(myFile,line);
+                     string lineNoSpaces = removeSpaces(line);
+                     cout << lineNoSpaces << "\n";
+                     //remove space and update board
+                     }
+                     */
+                    myFile.close();
             }
             else
                 cout << "Unable to open file.\n";
-            
+            }
         }
         else {
             //ask for inputs
