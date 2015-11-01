@@ -20,6 +20,7 @@ const unsigned int p2yDir = 1;
 //number of pieces you start out with
 int numP1Pieces = 0;
 int numP2Pieces = 0;
+int myBoard[height][width];
 
 /*
  Player 1 = 1, 3
@@ -48,7 +49,7 @@ void printList(vector<vector<pos>> list);
 void clearList(vector<vector<pos>> list);
 void allLegalMoves(int board[][width], int yourTurn);
 
-
+void play(int whoGoesFirst);
 void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector<pos> captureVector, vector<pos> whatYouAte);
 int fToE(int y, int x);
 int eToF(int y, int x);
@@ -89,9 +90,6 @@ int main(int argc, const char * argv[]) {
     << "2. Input your own file.\n"
     << "Please choose 1 or 2." << endl;
     
-    //Create Standard Board
-    int myBoard[height][width];
-    
     int choice1;
     cin >> choice1;
     while (!(choice1 == 1 || choice1 == 2)){
@@ -126,38 +124,8 @@ int main(int argc, const char * argv[]) {
 //            whoGoesFirst = 2;
 //        }
         createStandardBoard(myBoard);
+        play(whoGoesFirst);
         
-        //should be in another function
-        drawBoard(myBoard);
-        allLegalMoves(myBoard, whoGoesFirst);
-        int response;
-        cin >> response;
-
-        //i still have to account for if you cant make any move and lose.
-        while (!(response > 0 && response <= displayedMoves->size())){
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid input. Pick another number." << endl;
-            cin >> response;
-        }
-        cout << "\n";
-        
-        //implement move and change board
-        int y1 = (*displayedMoves)[response-1][0].y;
-        int x1 = (*displayedMoves)[response-1][0].x;
-        int y2 = (*displayedMoves)[response-1][1].y;
-        int x2 = (*displayedMoves)[response-1][1].x;
-        
-
-//        int y1 = nonCapturingMoves[response-1][0].y;
-//        int x1 = nonCapturingMoves[response-1][0].x;
-//        
-//        int y2 = nonCapturingMoves[response-1][1].y;
-//        int x2 = nonCapturingMoves[response-1][1].x;
-        //this should be where you actually become king
-        myBoard[y1][x1]=0;
-        myBoard[y2][x2]=2;
-        drawBoard(myBoard);
     }
     else if (choice0 == 1 && choice1 == 2){
         //ask to put file
@@ -235,7 +203,7 @@ void createStandardBoard(int board[][width]){
         }
     }
     numP1Pieces = 12;
-    numP1Pieces = 12;
+    numP2Pieces = 12;
 }
 
 //removeSpaces from sample file
@@ -284,16 +252,52 @@ void readBoardFromFile(string name, ifstream file){
     //go throught first 8 lines of code. remove the spaces and
 }
 
-void play(){
+void play(int whoGoesFirst){
+    cout << numP1Pieces;
+    cout << numP2Pieces;
     //check to see whose turn it is
     
+    //if you can move
     while (numP1Pieces>0 && numP2Pieces>0){
         //show board
+        drawBoard(myBoard);
         //show legal moves
+        allLegalMoves(myBoard, whoGoesFirst);
         //let you pick a move
+        int response;
+        cin >> response;
+        while (!(response > 0 && response <= displayedMoves->size())){
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Pick another move." << endl;
+            cin >> response;
+        }
+        cout << "\n";
+        
+        //implement move and change board
+        int y1 = (*displayedMoves)[response-1][0].y;
+        int x1 = (*displayedMoves)[response-1][0].x;
+        int y2 = (*displayedMoves)[response-1][1].y;
+        int x2 = (*displayedMoves)[response-1][1].x;
+        
+        int piece = myBoard[y1][x1];
+
+        //        int y1 = nonCapturingMoves[response-1][0].y;
+        //        int x1 = nonCapturingMoves[response-1][0].x;
+        //
+        //        int y2 = nonCapturingMoves[response-1][1].y;
+        //        int x2 = nonCapturingMoves[response-1][1].x;
+        //this should be where you actually become king
+        myBoard[y1][x1]=0;
+        myBoard[y2][x2]=piece;
+
         //board changes
-        //clear the lists
-        //switch turns
+        
+        
+        //clear list
+        clearList(CapturingMoves);
+        clearList(nonCapturingMoves);
+        //swtich turns
     }
     if (numP1Pieces==0){
         //if you are playing then you have lost
@@ -303,6 +307,8 @@ void play(){
         //if you are playing then you have defeated it
         cout << "You have defeated the AI. Good job!\n";
     }
+    
+    
 }
 
 //shows all the legal moves that you can make without changing the board
@@ -346,23 +352,24 @@ void allLegalMoves(int board[][width], int yourTurn){
     
     //do this only if you cant make any captures
     if (!CapturingMoves.empty()){
-        cout << "You can eat your opponent. Choose one of the following moves " <<  CapturingMoves.size() <<"\n";
-        displayedMoves = &CapturingMoves;
+        cout << "You can eat your opponent.\n";
         printList(CapturingMoves);
+        cout << "Choose one of the following moves: ";
+        //cout <<  CapturingMoves.size() <<"\n";
+        displayedMoves = &CapturingMoves;
+        
     }
     else if (!nonCapturingMoves.empty()){
-        cout << "You cannot eat your opponent. Choose one of the following moves " << nonCapturingMoves.size() << "\n";
-        displayedMoves = &nonCapturingMoves;
+        cout << "You cannot eat your opponent.\n";
         printList(nonCapturingMoves);
+        cout << "Choose one of the above moves: ";
+        //cout << nonCapturingMoves.size() << "\n";
+        displayedMoves = &nonCapturingMoves;
     }
     else {
         cout << "You have no moves to make. You lose.\n";
     }
-    //get the user response
-    //clear list
-    
-    clearList(CapturingMoves);
-    clearList(nonCapturingMoves);
+
 }
 
 
