@@ -17,6 +17,10 @@ const unsigned int width = 4;
 const unsigned int p1yDir = -1; //going up
 const unsigned int p2yDir = 1;
 
+//number of pieces you start out with
+int numP1Pieces = 0;
+int numP2Pieces = 0;
+
 /*
  Player 1 = 1, 3
  Player 2 = 2, 4
@@ -139,6 +143,12 @@ int main(int argc, const char * argv[]) {
                     else {
                         for (int j = 0; j < width; j++){
                             myFile >> myBoard[i][j];
+                            if (myBoard[i][j]==p1Man || myBoard[i][j]==p1King){
+                                numP1Pieces++;
+                            }
+                            if (myBoard[i][j]==p2Man || myBoard[i][j]==p2King){
+                                numP2Pieces++;
+                            }
                         }
                     }
                 }
@@ -188,6 +198,8 @@ void createStandardBoard(int board[][width]){
             }
         }
     }
+    numP1Pieces = 12;
+    numP1Pieces = 12;
 }
 
 //removeSpaces from sample file
@@ -241,6 +253,7 @@ void play(){
     //check to see whose turn it is
 }
 
+//shows all the legal moves that you can make
 void allLegalMoves(int board[][width], int yourTurn){
     
     //create a list to store moves to open spots
