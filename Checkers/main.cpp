@@ -47,7 +47,7 @@ string removeSpaces(string input); //didnt use this
 void addToNonCapturingList(pos original, int newY, int newX);
 void printList(vector<vector<pos>> list);
 void clearList(vector<vector<pos>> list);
-void allLegalMoves(int board[][width], int yourTurn);
+void allLegalMoves(int board[][width], int whoseTurn, int choice0);
 
 void play(int whoGoesFirst, int choice0);
 void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector<pos> captureVector, vector<pos> whatYouAte);
@@ -163,7 +163,7 @@ int main(int argc, const char * argv[]) {
 //            }
             
             drawBoard(myBoard);
-            allLegalMoves(myBoard, whoGoesFirst);
+            allLegalMoves(myBoard, whoGoesFirst, choice0);
             
             /*
              for (int i = 1; i <= 10; i++){
@@ -245,7 +245,7 @@ void drawBoard(int x[][width]){
         cout << "|\n";
         cout << "   +---+---+---+---+---+---+---+---+\n";
     }
-    cout << "     1   2   3   4   5   6   7   8  \n";
+    cout << "     1   2   3   4   5   6   7   8  \n" << endl;
 }
 
 void readBoardFromFile(string name, ifstream file){
@@ -273,7 +273,7 @@ void play(int whoseTurn, int choice0){
         //show board
         drawBoard(myBoard);
         //show legal moves
-        allLegalMoves(myBoard, whoseTurn);
+        allLegalMoves(myBoard, whoseTurn,choice0);
         
         int response;
         //if you choose human vs ai and it is your turn
@@ -292,7 +292,7 @@ void play(int whoseTurn, int choice0){
             //1 <-> size
             //if it is AI it picks move by itself
             response = rand() % displayedMoves->size() + 1;
-            cout << "AI" << whoseTurn << " chooses move " << response << ".\n";
+            cout << "AI-" << whoseTurn << " chooses move " << response << ".\n" << endl;
         }
     
         //what about removing pieces that are eaten
@@ -331,18 +331,28 @@ void play(int whoseTurn, int choice0){
     }
     if (numP1Pieces==0){
         //if you are playing then you have lost
-        cout << "You have lost. Would you like to redeem yourself?\n";
+        if (choice0 == 1){
+            cout << "You have lost to AI-2. Would you like to redeem yourself?\n";
+        }
+        else {
+            cout << "AI-1 has lost to AI-2\n";
+        }
     }
     if (numP2Pieces==0){
         //if you are playing then you have defeated it
-        cout << "You have defeated the AI. Good job!\n";
+        if (choice0 == 1){
+            cout << "You have defeated the AI-2. Good job!\n";
+        }
+        else {
+            cout << "AI-1 has defeated AI-2\n";
+        }
     }
     
     
 }
 
 //shows all the legal moves that you can make without changing the board
-void allLegalMoves(int board[][width], int yourTurn){
+void allLegalMoves(int board[][width], int whoseTurn, int choice0){
     
     //create a list to store moves to open spots
     //create a list to store moves where you eat opponent
@@ -351,7 +361,7 @@ void allLegalMoves(int board[][width], int yourTurn){
         for (int j = 0; j < width; j++){
             int whatsAtPos = board[i][j];
             //if your turn which is 1, look for a 1 or 3 in array
-            if (yourTurn == 1){
+            if (whoseTurn == 1){
                 if (whatsAtPos == p1Man){
                     //the first bool is to tell you if you are a king or not
                     //it is set to false because havent jump at all yet
@@ -379,25 +389,42 @@ void allLegalMoves(int board[][width], int yourTurn){
         }
     }
     
-    
+    string front;
+    string back;
+    //you vs ai
+    if (choice0 == 1){
+        front = (whoseTurn == p1) ? "You" : "AI-2";
+        back = (whoseTurn == p1) ? "your opponent AI-2":"you";
+    }
+    //ai vs ai
+    else {
+        front = (whoseTurn == p1) ? "AI-1" : "AI-2";
+        back = (whoseTurn == p1) ? "opponent AI-2":"opponent AI-1";
+    }
     //do this only if you cant make any captures
     if (!CapturingMoves.empty()){
-        cout << "You can eat your opponent.\n";
+        cout << front << " can eat "<< back << ".\n";
         printList(CapturingMoves);
-        cout << "Choose one of the following moves: ";
+        //only if you are playing
+        if (choice0 == 1 && whoseTurn==p1){
+            cout << "Choose one of the following moves: ";
+        }
         //cout <<  CapturingMoves.size() <<"\n";
         displayedMoves = &CapturingMoves;
         
     }
     else if (!nonCapturingMoves.empty()){
-        cout << "You cannot eat your opponent.\n";
+        cout << front << " cannot eat " << back << ".\n";
         printList(nonCapturingMoves);
-        cout << "Choose one of the above moves: ";
+        if (choice0 == 1 && whoseTurn==p1){
+            cout << "Choose one of the above moves: ";
+        }
         //cout << nonCapturingMoves.size() << "\n";
         displayedMoves = &nonCapturingMoves;
     }
     else {
-        cout << "You have no moves to make. You lose.\n";
+        //stop play function
+        cout << front << "can make no more moves. Game over.\n";
     }
 }
 
