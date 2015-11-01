@@ -37,6 +37,7 @@ struct pos{
 //vector<vector<pos>> nonCapturingMoves(42, vector<pos>(2));
 vector<vector<pos>> nonCapturingMoves;
 vector<vector<pos>> CapturingMoves;
+vector<vector<pos>> *displayedMoves;
 
 void createStandardBoard(int board[][width]);
 void drawBoard(int x[][4]);
@@ -104,84 +105,97 @@ int main(int argc, const char * argv[]) {
     
     //By default you are going first
     int whoGoesFirst = 1;
-    if (choice1 > 0 && choice1 < 3){
-        if (choice1 == 1){
-            string choice2;
-            cout << "Would you like to go first? (y/n)\n";
+    
+    if (choice0 == 1 && choice1 == 1){
+        string choice2;
+        cout << "Would you like to go first? (y/n)\n";
+        cin >> choice2;
+        while (choice2.length() != 1 || !(choice2[0] == 'y' || choice2[0] == 'n')){
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Choose y or n." << endl;
             cin >> choice2;
-            while (choice2.length() != 1 || !(choice2[0] == 'y' || choice2[0] == 'n')){
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cout << "Invalid input. Choose y or n." << endl;
-                cin >> choice2;
-            }
-            cout << "\n";
-            
-            whoGoesFirst = (choice2[0] == 'y') ? '1': '2';
-            createStandardBoard(myBoard);
-            
-            //should be in another function
-            drawBoard(myBoard);
-            allLegalMoves(myBoard, whoGoesFirst);
-            
         }
-        else if (choice1 == 2){
-            //ask to put file
-            //read the file
-            cout << "Please enter the name of your file.\n";
-            string fileName;
-            cin >> fileName;
-            
-            ifstream myFile;
-            myFile.open(fileName);
-            if (myFile.is_open()){
-                //Put contents of file into array
-                for (int i = 0; i <= height; i++){
-                    if (i == height){
-                        myFile >> whoGoesFirst;
-                    }
-                    else {
-                        for (int j = 0; j < width; j++){
-                            myFile >> myBoard[i][j];
-                            if (myBoard[i][j]==p1Man || myBoard[i][j]==p1King){
-                                numP1Pieces++;
-                            }
-                            if (myBoard[i][j]==p2Man || myBoard[i][j]==p2King){
-                                numP2Pieces++;
-                            }
+        cout << "\n";
+
+        whoGoesFirst = (choice2[0] == 'y') ? '1': '2';
+        createStandardBoard(myBoard);
+        
+        //should be in another function
+        drawBoard(myBoard);
+        allLegalMoves(myBoard, whoGoesFirst);
+        int response;
+        cin >> response;
+
+        //i still have to account for if you cant make any move and lose.
+        while (!(response > 0 && response <= displayedMoves->size())){
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Pick another number." << endl;
+            cin >> choice1;
+        }
+        //implement move
+        
+    }
+    else if (choice0 == 1 && choice1 == 2){
+        //ask to put file
+        //read the file
+        cout << "Please enter the name of your file.\n";
+        string fileName;
+        cin >> fileName;
+        
+        ifstream myFile;
+        myFile.open(fileName);
+        if (myFile.is_open()){
+            //Put contents of file into array
+            for (int i = 0; i <= height; i++){
+                if (i == height){
+                    myFile >> whoGoesFirst;
+                }
+                else {
+                    for (int j = 0; j < width; j++){
+                        myFile >> myBoard[i][j];
+                        if (myBoard[i][j]==p1Man || myBoard[i][j]==p1King){
+                            numP1Pieces++;
+                        }
+                        if (myBoard[i][j]==p2Man || myBoard[i][j]==p2King){
+                            numP2Pieces++;
                         }
                     }
                 }
-                drawBoard(myBoard);
-                //                if (choice2 == '1'){
-                //                    cout << "You are going first." << '\n';
-                //                } else{
-                //                    cout << "You are going second." << '\n';
-                //                }
-                allLegalMoves(myBoard, whoGoesFirst);
-                myFile.close();
-                
-                /*
-                 for (int i = 1; i <= 10; i++){
-                 string filename ="sampleCheckers"+to_string(i)+".txt";
-                 cout << filename << "\n";
-                 }
-                 
-                 string line;
-                 for (int i = 0; i < 8; i++){
-                 //read entire line
-                 getline(myFile,line);
-                 string lineNoSpaces = removeSpaces(line);
-                 cout << lineNoSpaces << "\n";
-                 //remove space and update board
-                 }
-                 */
             }
-            else
-                cout << "Unable to open file.\n";
-            }
-        }
+            myFile.close();
 
+//            if (whoGoesFirst == 1){
+//                cout << "You are going first." << '\n';
+//            } else{
+//                cout << "You are going second." << '\n';
+//            }
+            
+            drawBoard(myBoard);
+            allLegalMoves(myBoard, whoGoesFirst);
+            
+            /*
+             for (int i = 1; i <= 10; i++){
+             string filename ="sampleCheckers"+to_string(i)+".txt";
+             cout << filename << "\n";
+             }
+             
+             string line;
+             for (int i = 0; i < 8; i++){
+             //read entire line
+             getline(myFile,line);
+             string lineNoSpaces = removeSpaces(line);
+             cout << lineNoSpaces << "\n";
+             //remove space and update board
+             }
+             */
+        }
+        else
+            cout << "Unable to open file.\n";
+    }
+    
+    
     return 0;
 }
 
@@ -249,8 +263,24 @@ void readBoardFromFile(string name, ifstream file){
 }
 
 void play(){
-    //1 goes up. 2 goes down
     //check to see whose turn it is
+    
+    while (numP1Pieces>0 && numP2Pieces>0){
+        //show board
+        //show legal moves
+        //let you pick a move
+        //board changes
+        //clear the lists
+        //switch turns
+    }
+    if (numP1Pieces==0){
+        //if you are playing then you have lost
+        cout << "You have lost. Would you like to redeem yourself?\n";
+    }
+    if (numP2Pieces==0){
+        //if you are playing then you have defeated it
+        cout << "You have defeated the AI. Good job!\n";
+    }
 }
 
 //shows all the legal moves that you can make
@@ -295,17 +325,21 @@ void allLegalMoves(int board[][width], int yourTurn){
     //do this only if you cant make any captures
     if (!CapturingMoves.empty()){
         cout << "You can eat your opponent. Choose one of the following moves " <<  CapturingMoves.size() <<"\n";
+        displayedMoves = &CapturingMoves;
         printList(CapturingMoves);
     }
     else if (!nonCapturingMoves.empty()){
         cout << "You cannot eat your opponent. Choose one of the following moves " << nonCapturingMoves.size() << "\n";
+        displayedMoves = &nonCapturingMoves;
         printList(nonCapturingMoves);
     }
     else {
-        cout << "You have no moves to make. Your opponent can move again.\n";
+        cout << "You have no moves to make. You lose.\n";
     }
     //get the user response
     //clear list
+    
+    clearList(CapturingMoves);
     clearList(nonCapturingMoves);
 }
 
