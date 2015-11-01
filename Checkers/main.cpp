@@ -158,11 +158,13 @@ int main(int argc, const char * argv[]) {
             }
             myFile.close();
 
-//            if (whoGoesFirst == 1){
-//                cout << "You are going first." << '\n';
-//            } else{
-//                cout << "You are going second." << '\n';
-//            }
+            cout << endl;
+            if (whoGoesFirst == 1 && choice0 == 1){
+                cout << "You are going first." << '\n';
+            } else{
+                cout << "You are going second." << '\n';
+            }
+            cout << endl;
             
             play(whoGoesFirst, choice0);
 
@@ -471,7 +473,7 @@ void allLegalMoves(int board[][width], int whoseTurn, int choice0){
         printList(CapturingMoves);
         //only if you are playing
         if (choice0 == 1 && whoseTurn==p1){
-            cout << "Choose one of the following moves: ";
+            cout << "Choose one of the above moves: ";
         }
         //cout <<  CapturingMoves.size() <<"\n";
         displayedMoves = &CapturingMoves;
