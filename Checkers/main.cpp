@@ -281,9 +281,11 @@ void play(int whoseTurn, int choice0){
     while (numP1Pieces>0 && numP2Pieces>0 && !stuck ){
         //show board
         
-        
         //show legal moves
         allLegalMoves(myBoard, whoseTurn,choice0);
+        if (stuck){
+            break;
+        }
         
         int response;
         //if you choose human vs ai and it is your turn
@@ -348,20 +350,17 @@ void play(int whoseTurn, int choice0){
             }
         }
         
-        //if a man and reach end it becomes king
-        
         //        int y1 = nonCapturingMoves[response-1][0].y;
         //        int x1 = nonCapturingMoves[response-1][0].x;
         //
         //        int y2 = nonCapturingMoves[response-1][1].y;
         //        int x2 = nonCapturingMoves[response-1][1].x;
-        //this should be where you actually become king
         
         //update board
         myBoard[y1][x1]=0;
         myBoard[y2][x2]=piece;
 
-        //Become a king
+        //If a man reaches an end it becomes a king
         if (myBoard[y2][x2]==p1Man && y2==0){
             myBoard[y2][x2]=p1King;
             cout << "P1 now has a king. \n";
@@ -404,7 +403,13 @@ void play(int whoseTurn, int choice0){
         }
     }
     if (numP1Pieces > 0 && numP2Pieces > 0 && stuck){
-        //
+        if (choice0 == 1 && whoseTurn == 1){
+            cout << "You are stuck and cannot make anymore moves. Game over!\n";
+        }
+        else if (choice0 == 2) {
+            cout << "AI-" << whoseTurn <<" is stuck and cannot make anymore moves.\n";
+        }
+        
     }
     
     
@@ -484,7 +489,6 @@ void allLegalMoves(int board[][width], int whoseTurn, int choice0){
     else {
         //stop play function
         stuck = true;
-        cout << front << " can make no more moves.\n";
     }
 }
 
