@@ -9,6 +9,8 @@
 #include <iostream>
 #include <fstream> //reading from file
 #include <vector>
+#include <stdlib.h>
+#include <time.h>
 
 using namespace std;
 
@@ -104,30 +106,29 @@ int main(int argc, const char * argv[]) {
     //By default you are going first
     int whoGoesFirst = 1;
     
-    if (choice0 == 1 && choice1 == 1){
-        string choice2;
-        cout << "Would you like to go first? (y/n)\n";
-        cin >> choice2;
-        while (choice2.length() != 1 || !(choice2[0] == 'y' || choice2[0] == 'n')){
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid input. Choose y or n." << endl;
+    //starting with own board
+    if (choice1 == 1){
+        //human vs ai
+        if (choice0 == 1){
+            string choice2;
+            cout << "Would you like to go first? (y/n)\n";
             cin >> choice2;
+            while (choice2.length() != 1 || !(choice2[0] == 'y' || choice2[0] == 'n')){
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Choose y or n." << endl;
+                cin >> choice2;
+            }
+            cout << "\n";
+            
+            whoGoesFirst = (choice2.at(0) == 'y') ? 1: 2;
+            
         }
-        cout << "\n";
-
-        whoGoesFirst = (choice2.at(0) == 'y') ? 1: 2;
-//        if (choice2[0] == 'y'){
-//            whoGoesFirst = 1;
-//        }
-//        else {
-//            whoGoesFirst = 2;
-//        }
         createStandardBoard(myBoard);
         play(whoGoesFirst, choice0);
-        
     }
-    else if (choice0 == 1 && choice1 == 2){
+
+    else if (choice1 == 2){
         //ask to put file
         //read the file
         cout << "Please enter the name of your file.\n";
@@ -162,8 +163,8 @@ int main(int argc, const char * argv[]) {
 //                cout << "You are going second." << '\n';
 //            }
             
-            drawBoard(myBoard);
-            allLegalMoves(myBoard, whoGoesFirst, choice0);
+            play(whoGoesFirst, choice0);
+
             
             /*
              for (int i = 1; i <= 10; i++){
@@ -268,6 +269,10 @@ void play(int whoseTurn, int choice0){
     //cout << numP2Pieces;
     //check to see whose turn it is
     
+    srand ((unsigned)time(0));
+    int random = rand();
+    cout << "random number " << random;
+    
     //if you can move
     while (numP1Pieces>0 && numP2Pieces>0){
         //show board
@@ -292,6 +297,7 @@ void play(int whoseTurn, int choice0){
             //1 <-> size
             //if it is AI it picks move by itself
             response = rand() % displayedMoves->size() + 1;
+            //cout << rand() % displayedMoves->size();
             cout << "AI-" << whoseTurn << " chooses move " << response << ".\n" << endl;
         }
     
