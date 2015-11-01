@@ -172,31 +172,27 @@ string removeSpaces(string input){
 void drawBoard(int x[][width]){
     cout << "+---+---+---+---+---+---+---+---+\n";
     for (int i = 0; i < height; i++){
-//        cout << "|";
-//        if (i % 2 == 0){
-//            cout << "|||";
-//        }
         for (int j = 0; j < width; j++){
+            //EVEN ROW
             if (i % 2 == 0){
-                cout << "||||| " << x[i][j] << " ";
+                cout << "||||| ";
+                if (x[i][j] != 0){
+                    cout << x[i][j] << " ";
+                }
+                else {
+                    cout << "  ";
+                }
             }
+            //ODD ROW
             else {
-                cout << "| " << x[i][j] << " ||||";
+                if (x[i][j] != 0){
+                    cout << "| " << x[i][j];
+                }
+                else{
+                    cout << "|  ";
+                }
+                cout << " ||||";
             }
-//            cout << "| " << fToE(i, j) << " ";
-//            cout << "|";
-//            if (x[i][j]==0){
-//                cout << "|||";
-//            }
-//            else {
-//                cout << " " << x[i][j] << " ";
-//            }
-//            if (j != 3){
-//                cout << "|";
-//            }
-//            if (j == 3 && i % 2 != 0){
-//                cout << "|";
-//            }
         }
 
 //        if (i % 2 == 0){
