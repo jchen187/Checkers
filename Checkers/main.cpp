@@ -170,8 +170,9 @@ string removeSpaces(string input){
 
 //draw board
 void drawBoard(int x[][width]){
-    cout << "+---+---+---+---+---+---+---+---+\n";
+    cout << "   +---+---+---+---+---+---+---+---+\n";
     for (int i = 0; i < height; i++){
+        cout << 8 - i << "  ";
         for (int j = 0; j < width; j++){
             //EVEN ROW
             if (i % 2 == 0){
@@ -194,14 +195,12 @@ void drawBoard(int x[][width]){
                 cout << " ||||";
             }
         }
-
-//        if (i % 2 == 0){
 //            cout << '\b ';  //Cursor moves 1 position backwards
 //            cout << " ";
-//        }
         cout << "|\n";
-        cout << "+---+---+---+---+---+---+---+---+\n";
+        cout << "   +---+---+---+---+---+---+---+---+\n";
     }
+    cout << "     1   2   3   4   5   6   7   8  \n";
 }
 
 void readBoardFromFile(string name, ifstream file){
@@ -304,7 +303,16 @@ void printList(vector<vector<pos>> list){
         //Give the number
         cout << i+1 << ". ";
         for (int j = 0; j < list[i].size();j++){
-            cout << list[i][j].y << list[i][j].x;
+            //take coordinates from 8x4 and convert to 8x8
+            int x = 1 + fToE(list[i][j].y, list[i][j].x);
+            int y = 8 - list[i][j].y;
+            
+            cout << "(" << x << "," << y << ")";
+
+            //what i had originally
+//            int y2 = list[i][j].y;
+//            int x2 = list[i][j].x;
+//            cout << x2 << y2;
             if (j < list[i].size() - 1 ){
                 cout << " -> ";
             }
