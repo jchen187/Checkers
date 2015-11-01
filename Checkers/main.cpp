@@ -466,7 +466,7 @@ void allLegalMoves(int board[][width], int whoseTurn, int choice0){
     }
     else {
         //stop play function
-        cout << front << "can make no more moves. Game over.\n";
+        cout << front << " can make no more moves. Game over.\n";
     }
 }
 
@@ -526,7 +526,7 @@ void printList(vector<vector<pos>> list){
     }
 }
 
-//not working right now
+//not working right now so use given clear() function
 //after the user picks a move, we have to clear the list that has all the available moves
 void clearList(vector<vector<pos>> *list){
     for (int i = 0;i < displayedMoves->size();i++){
@@ -591,9 +591,9 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
     //can you even make a jump?
     //if you are on row 0, it automatically assumes you cant jump at all bc 0 -2 is < 0
     
-        //On Even Row
-        if (y % 2 == 0){
-            if (y+2*dir >= 0 && y+2*dir < 8){
+    //On Even Row
+    if (y % 2 == 0){
+        if (y+2*dir >= 0 && y+2*dir < 8){
             //is there an opponent to your left?
             //are you not on the left border?
             //did you eat this already?
@@ -604,9 +604,9 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
                     ateOpponent = true;
                     /*
                      if (!isPosInVector(y+dir, x, whatYouAte)){
-                        newWhatYouAte = addToWhatYouAte(y+dir, x, whatYouAte);
-                        newVector = addToCaptureVector(currentPos, newY, newX, oldVector);
-                        legalMovesForPiece(board, newY, newX, player, true, newVector, newWhatYouAte);
+                     newWhatYouAte = addToWhatYouAte(y+dir, x, whatYouAte);
+                     newVector = addToCaptureVector(currentPos, newY, newX, oldVector);
+                     legalMovesForPiece(board, newY, newX, player, true, newVector, newWhatYouAte);
                      }
                      */
                     moved = true;
@@ -632,47 +632,47 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
                     legalMovesForPiece(board, newY, newX, player, isKing, true, newVector, newWhatYouAte);
                 }
             }
-            }
-            //If you are a king then you HAVE TO CHECK THE OTHER DIRECTION
+        }
+        //If you are a king then you HAVE TO CHECK THE OTHER DIRECTION
         
-            //if this is first move and your position has a king
-            //you made a jump already and your position is a blank
-            //if (board[y][x]==ownKing || (isKing && jumpedOnceAlready && board[y][x]==neither)){
-            if (isKing){
-                if (y-2*dir >= 0 && y-2*dir < 8){
-                    //if opponent is to the left
-
-                    if ((board[y-dir][x] == opp1 || board[y-dir][x] == opp2) && x != 0 && !isPosInVector(y-dir, x, whatYouAte)){
-                        //check for blank space or if original place of king
-                        if (board[y-2*dir][x-1]==neither || (jumpedOnceAlready&& y-2*dir == captureVector[0].y && x-1 == captureVector[0].x)){
-                            ateOpponent = true;
-                            moved = true;
-                            newY = y-2*dir;
-                            newX = x-1;
-                            newWhatYouAte = addToWhatYouAte(y-dir, x, whatYouAte);
-                            newVector = addToCaptureVector(currentPos, newY, newX, oldVector);
-                            legalMovesForPiece(board, newY, newX, player, isKing, true, newVector, newWhatYouAte);
-                        }
+        //if this is first move and your position has a king
+        //you made a jump already and your position is a blank
+        //if (board[y][x]==ownKing || (isKing && jumpedOnceAlready && board[y][x]==neither)){
+        if (isKing){
+            if (y-2*dir >= 0 && y-2*dir < 8){
+                //if opponent is to the left
+                
+                if ((board[y-dir][x] == opp1 || board[y-dir][x] == opp2) && x != 0 && !isPosInVector(y-dir, x, whatYouAte)){
+                    //check for blank space or if original place of king
+                    if (board[y-2*dir][x-1]==neither || (jumpedOnceAlready&& y-2*dir == captureVector[0].y && x-1 == captureVector[0].x)){
+                        ateOpponent = true;
+                        moved = true;
+                        newY = y-2*dir;
+                        newX = x-1;
+                        newWhatYouAte = addToWhatYouAte(y-dir, x, whatYouAte);
+                        newVector = addToCaptureVector(currentPos, newY, newX, oldVector);
+                        legalMovesForPiece(board, newY, newX, player, isKing, true, newVector, newWhatYouAte);
                     }
-                    //if opponent to right
-                    if ((board[y-dir][x+1]== opp1 || board[y-dir][x+1] == opp2)&& x != 3 && !isPosInVector(y-dir, x+1, whatYouAte)){
-                        //see if blank space or where original king is
-                        if (board[y-2*dir][x+1]==neither || (jumpedOnceAlready&& y-2*dir == captureVector[0].y && x+1 == captureVector[0].x)){
-                            ateOpponent = true;
-                            moved = true;
-                            newY = y-2*dir;
-                            newX = x+1;
-                            newWhatYouAte = addToWhatYouAte(y-dir, x+1, whatYouAte);
-                            newVector = addToCaptureVector(currentPos, newY, newX, oldVector);
-                            legalMovesForPiece(board, newY, newX, player, isKing, true, newVector, newWhatYouAte);
-                        }
+                }
+                //if opponent to right
+                if ((board[y-dir][x+1]== opp1 || board[y-dir][x+1] == opp2)&& x != 3 && !isPosInVector(y-dir, x+1, whatYouAte)){
+                    //see if blank space or where original king is
+                    if (board[y-2*dir][x+1]==neither || (jumpedOnceAlready&& y-2*dir == captureVector[0].y && x+1 == captureVector[0].x)){
+                        ateOpponent = true;
+                        moved = true;
+                        newY = y-2*dir;
+                        newX = x+1;
+                        newWhatYouAte = addToWhatYouAte(y-dir, x+1, whatYouAte);
+                        newVector = addToCaptureVector(currentPos, newY, newX, oldVector);
+                        legalMovesForPiece(board, newY, newX, player, isKing, true, newVector, newWhatYouAte);
                     }
                 }
             }
         }
-        //On Odd Row
-        else {
-            if (y+2*dir >= 0 && y+2*dir < 8){
+    }
+    //On Odd Row
+    else {
+        if (y+2*dir >= 0 && y+2*dir < 8){
             //are you not on the left border
             //if opponent to left
             //did you eat already
@@ -697,10 +697,10 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
                     newWhatYouAte = addToWhatYouAte(y+dir, x, whatYouAte);
                     newVector = addToCaptureVector(currentPos, newY, newX, oldVector);
                     legalMovesForPiece(board, newY, newX, player, isKing, true, newVector, newWhatYouAte);
-      
+                    
                 }
             }
-            }
+        }
             if (isKing){
                 if (y-2*dir >= 0 && y-2*dir < 8){
                     //if opponent on left
@@ -740,9 +740,10 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
     
     //You cannot eat an opponent but you might be still able to move one space ahead
     if (!jumpedOnceAlready && !ateOpponent){
-        if (y+dir >= 0 && y+dir < 8){
-            //on even row
-            if (y % 2 == 0){
+        
+        //on even row
+        if (y % 2 == 0){
+            if (y+dir >= 0 && y+dir < 8){
                 //if there is a blank space. MAKE SURE DONT GO OUT OF BOUND
                 if (board[y+dir][x]==neither){
                     moved = true;
@@ -756,27 +757,30 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
                     newX = x+1;
                     addToNonCapturingList(currentPos,newY,newX);
                 }
-                //if you are king check the opposite direction
-                if (board[y][x]==ownKing){
-                    if (y-dir >= 0 && y-dir < 8){
-                        if (board[y-dir][x]==neither){
-                            moved = true;
-                            newY = y-dir;
-                            newX = x;
-                            addToNonCapturingList(currentPos,newY,newX);
-                        }
-                        if (x != 3 && board[y-dir][x+1]==neither){
-                            moved = true;
-                            newY = y-dir;
-                            newX = x+1;
-                            addToNonCapturingList(currentPos,newY,newX);
-                        }
+            }
+            //if you are king check the opposite direction
+            if (board[y][x]==ownKing){
+                if (y-dir >= 0 && y-dir < 8){
+                    if (board[y-dir][x]==neither){
+                        moved = true;
+                        newY = y-dir;
+                        newX = x;
+                        addToNonCapturingList(currentPos,newY,newX);
+                    }
+                    if (x != 3 && board[y-dir][x+1]==neither){
+                        moved = true;
+                        newY = y-dir;
+                        newX = x+1;
+                        addToNonCapturingList(currentPos,newY,newX);
                     }
                 }
-
             }
-            //on odd row
-            else {
+        }
+        
+        
+        //on odd row
+        else {
+            if (y+dir >= 0 && y+dir < 8){
                 //if there is a blank space
                 if (x != 0 && board[y+dir][x-1]==neither){
                     moved = true;
@@ -790,26 +794,27 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
                     newX = x;
                     addToNonCapturingList(currentPos,newY,newX);
                 }
-                //if you are king check the opposite direction
-                if (board[y][x]==ownKing){
-                    if (y-dir >= 0 && y-dir < 8){
-                        if (x != 0 && board[y-dir][x-1]==neither){
-                            moved = true;
-                            newY = y-dir;
-                            newX = x-1;
-                            addToNonCapturingList(currentPos,newY,newX);
-                        }
-                        if (board[y-dir][x]==neither){
-                            moved = true;
-                            newY = y-dir;
-                            newX = x;
-                            addToNonCapturingList(currentPos,newY,newX);
-                        }
+            }
+            //if you are king check the opposite direction
+            if (board[y][x]==ownKing){
+                if (y-dir >= 0 && y-dir < 8){
+                    if (x != 0 && board[y-dir][x-1]==neither){
+                        moved = true;
+                        newY = y-dir;
+                        newX = x-1;
+                        addToNonCapturingList(currentPos,newY,newX);
+                    }
+                    if (board[y-dir][x]==neither){
+                        moved = true;
+                        newY = y-dir;
+                        newX = x;
+                        addToNonCapturingList(currentPos,newY,newX);
                     }
                 }
             }
-            
         }
+        
+        
     }
 }
 
