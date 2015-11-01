@@ -41,7 +41,7 @@ string removeSpaces(string input); //didnt use this
 void addToNonCapturingList(pos original, int newY, int newX);
 void printList(vector<vector<pos>> list);
 void clearList(vector<vector<pos>> list);
-void allLegalMoves(int board[][width], char yourTurn);
+void allLegalMoves(int board[][width], int yourTurn);
 
 
 void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector<pos> captureVector, vector<pos> whatYouAte);
@@ -49,15 +49,18 @@ int fToE(int y, int x);
 int eToF(int y, int x);
 
 int main(int argc, const char * argv[]) {
-    
     //Using chars for user input so that only first letter that is entered matters
     cout << "What do you want to experience?\n"
             << "1. Human vs AI\n"
             << "2. AI vs AI\n"
             << "Please choose 1 or 2." << endl;
-    char choice0;
+    //string input;
+    //getline(cin, input);
+    int choice0;
     cin >> choice0;
-    while (choice0 < '1' || choice0 > '2'){
+    while (!(choice0 == 1 || choice0 == 2)){
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cout << "Invalid input. Choose 1 or 2." << endl;
         cin >> choice0;
     }
@@ -84,9 +87,11 @@ int main(int argc, const char * argv[]) {
     //Create Standard Board
     int myBoard[height][width];
     
-    char choice1;
+    int choice1;
     cin >> choice1;
-    while (choice1 < '1' || choice1 > '2'){
+    while (!(choice1 == 1 || choice1 == 2)){
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cout << "Invalid input. Choose 1 or 2." << endl;
         cin >> choice1;
     }
@@ -94,23 +99,29 @@ int main(int argc, const char * argv[]) {
     
     
     //By default you are going first
-    char choice2 = '1';
-    if (choice1 > '0' && choice1 < '3'){
-        if (choice1 == '1'){
+    int whoGoesFirst = 1;
+    if (choice1 > 0 && choice1 < 3){
+        if (choice1 == 1){
+            string choice2;
             cout << "Would you like to go first? (y/n)\n";
             cin >> choice2;
-            while (choice2 != 'y' || choice1 != 'n'){
+            while (choice2.length() != 1 || !(choice2[0] == 'y' || choice2[0] == 'n')){
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid input. Choose y or n." << endl;
                 cin >> choice2;
             }
-            choice2 = (choice2 == 'y') ? '1': '2';
+            cout << "\n";
+            
+            whoGoesFirst = (choice2[0] == 'y') ? '1': '2';
             createStandardBoard(myBoard);
+            
             //should be in another function
             drawBoard(myBoard);
-            allLegalMoves(myBoard, choice2);
+            allLegalMoves(myBoard, whoGoesFirst);
             
         }
-        else if (choice1 == '2'){
+        else if (choice1 == 2){
             //ask to put file
             //read the file
             cout << "Please enter the name of your file.\n";
@@ -123,7 +134,7 @@ int main(int argc, const char * argv[]) {
                 //Put contents of file into array
                 for (int i = 0; i <= height; i++){
                     if (i == height){
-                        myFile >> choice2;
+                        myFile >> whoGoesFirst;
                     }
                     else {
                         for (int j = 0; j < width; j++){
@@ -137,7 +148,7 @@ int main(int argc, const char * argv[]) {
                 //                } else{
                 //                    cout << "You are going second." << '\n';
                 //                }
-                allLegalMoves(myBoard, choice2);
+                allLegalMoves(myBoard, whoGoesFirst);
                 myFile.close();
                 
                 /*
@@ -230,7 +241,7 @@ void play(){
     //check to see whose turn it is
 }
 
-void allLegalMoves(int board[][width], char yourTurn){
+void allLegalMoves(int board[][width], int yourTurn){
     
     //create a list to store moves to open spots
     //create a list to store moves where you eat opponent
@@ -239,7 +250,7 @@ void allLegalMoves(int board[][width], char yourTurn){
         for (int j = 0; j < width; j++){
             int whatsAtPos = board[i][j];
             //if your turn which is 1, look for a 1 or 3 in array
-            if (yourTurn == '1'){
+            if (yourTurn == 1){
                 if (whatsAtPos == p1Man){
                     //the first bool is to tell you if you are a king or not
                     //it is set to false because havent jump at all yet
