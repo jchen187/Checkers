@@ -89,57 +89,58 @@ int main(int argc, const char * argv[]) {
         else if (choice1 == '2'){
             //ask to put file
             //read the file
-//            cout << "Please enter the name of your file.\n";
-//            string fileName;
-//            cin >> fileName;
+            cout << "Please enter the name of your file.\n";
+            string fileName;
+            cin >> fileName;
             
-            
-
-            for (int i = 4; i <= 4; i++){
-                string filename ="sampleCheckers"+to_string(i)+".txt";
-                cout << filename << "\n";
-                
-                ifstream myFile;
-                myFile.open(filename);
-                if (myFile.is_open()){
-                    //Put contents of file into array
-                    for (int i = 0; i <= height; i++){
-                        if (i == height){
-                            myFile >> choice2;
-                        }
-                        else {
-                            for (int j = 0; j < width; j++){
-                                myFile >> myBoard[i][j];
-                            }
+            ifstream myFile;
+            myFile.open(fileName);
+            if (myFile.is_open()){
+                //Put contents of file into array
+                for (int i = 0; i <= height; i++){
+                    if (i == height){
+                        myFile >> choice2;
+                    }
+                    else {
+                        for (int j = 0; j < width; j++){
+                            myFile >> myBoard[i][j];
                         }
                     }
-                    drawBoard(myBoard);
-                    //                if (choice2 == '1'){
-                    //                    cout << "You are going first." << '\n';
-                    //                } else{
-                    //                    cout << "You are going second." << '\n';
-                    //                }
-                    allLegalMoves(myBoard, choice2);
-                    
-                    /*
-                     string line;
-                     for (int i = 0; i < 8; i++){
-                     //read entire line
-                     getline(myFile,line);
-                     string lineNoSpaces = removeSpaces(line);
-                     cout << lineNoSpaces << "\n";
-                     //remove space and update board
-                     }
-                     */
-                    myFile.close();
+                }
+                drawBoard(myBoard);
+                //                if (choice2 == '1'){
+                //                    cout << "You are going first." << '\n';
+                //                } else{
+                //                    cout << "You are going second." << '\n';
+                //                }
+                allLegalMoves(myBoard, choice2);
+                myFile.close();
+                
+                /*
+                 for (int i = 1; i <= 10; i++){
+                 string filename ="sampleCheckers"+to_string(i)+".txt";
+                 cout << filename << "\n";
+                 }
+                 
+                 string line;
+                 for (int i = 0; i < 8; i++){
+                 //read entire line
+                 getline(myFile,line);
+                 string lineNoSpaces = removeSpaces(line);
+                 cout << lineNoSpaces << "\n";
+                 //remove space and update board
+                 }
+                 */
             }
             else
                 cout << "Unable to open file.\n";
             }
         }
+    
+    
         else {
             //ask for inputs
-        }
+        
     }
 
     return 0;
@@ -169,18 +170,27 @@ string removeSpaces(string input){
 
 //draw board
 void drawBoard(int x[][width]){
+    cout << "+---+---+---+---+---+---+---+---+\n";
     for (int i = 0; i < height; i++){
-        if (i % 2 == 0){
-            cout << ".";
-        }
+//        cout << "|";
+//        if (i % 2 == 0){
+//            cout << "|||";
+//        }
         for (int j = 0; j < width; j++){
-            cout << x[i][j];
-            if (j != 3){
-                cout << ".";
-            }
-            if (j == 3 && i % 2 != 0){
-                cout << ".";
-            }
+            cout << "| " << fToE(i, j) << " ";
+//            cout << "|";
+//            if (x[i][j]==0){
+//                cout << "|||";
+//            }
+//            else {
+//                cout << " " << x[i][j] << " ";
+//            }
+//            if (j != 3){
+//                cout << "|";
+//            }
+//            if (j == 3 && i % 2 != 0){
+//                cout << "|";
+//            }
         }
 
 //        if (i % 2 == 0){
@@ -188,6 +198,7 @@ void drawBoard(int x[][width]){
 //            cout << " ";
 //        }
         cout << "\n";
+        cout << "+---+---+---+---+---+---+---+---+\n";
     }
 }
 
