@@ -252,9 +252,20 @@ void readBoardFromFile(string name, ifstream file){
     //go throught first 8 lines of code. remove the spaces and
 }
 
-void play(int whoGoesFirst){
-    cout << numP1Pieces;
-    cout << numP2Pieces;
+int switchPlayer(int oldPlayer){
+    int newPlayer;
+    if (oldPlayer == p1){
+        newPlayer = p2;
+    }
+    else if (oldPlayer == p2){
+        newPlayer = p1;
+    }
+    return newPlayer;
+}
+
+void play(int whoseTurn){
+    //cout << numP1Pieces;
+    //cout << numP2Pieces;
     //check to see whose turn it is
     
     //if you can move
@@ -262,23 +273,28 @@ void play(int whoGoesFirst){
         //show board
         drawBoard(myBoard);
         //show legal moves
-        allLegalMoves(myBoard, whoGoesFirst);
+        allLegalMoves(myBoard, whoseTurn);
         //let you pick a move
         int response;
         cin >> response;
         while (!(response > 0 && response <= displayedMoves->size())){
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid input. Pick another move." << endl;
+            cout << "Invalid input. Try again: ";
             cin >> response;
         }
         cout << "\n";
         
+        //what about removing pieces that are eaten
+        //should i make another vector
+        
+        //need to minus one becuase the index of the last element is the size - 1
+        int last = (*displayedMoves)[response-1].size() - 1;
         //implement move and change board
         int y1 = (*displayedMoves)[response-1][0].y;
         int x1 = (*displayedMoves)[response-1][0].x;
-        int y2 = (*displayedMoves)[response-1][1].y;
-        int x2 = (*displayedMoves)[response-1][1].x;
+        int y2 = (*displayedMoves)[response-1][last].y;
+        int x2 = (*displayedMoves)[response-1][last].x;
         
         int piece = myBoard[y1][x1];
 
@@ -300,6 +316,8 @@ void play(int whoGoesFirst){
 //        clearList(CapturingMoves);
 //        clearList(nonCapturingMoves);
         //swtich turns
+        
+        whoseTurn = switchPlayer(whoseTurn);
     }
     if (numP1Pieces==0){
         //if you are playing then you have lost
