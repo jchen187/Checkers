@@ -49,7 +49,7 @@ void printList(vector<vector<pos>> list);
 void clearList(vector<vector<pos>> list);
 void allLegalMoves(int board[][width], int yourTurn);
 
-void play(int whoGoesFirst);
+void play(int whoGoesFirst, int choice0);
 void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector<pos> captureVector, vector<pos> whatYouAte);
 int fToE(int y, int x);
 int eToF(int y, int x);
@@ -124,7 +124,7 @@ int main(int argc, const char * argv[]) {
 //            whoGoesFirst = 2;
 //        }
         createStandardBoard(myBoard);
-        play(whoGoesFirst);
+        play(whoGoesFirst, choice0);
         
     }
     else if (choice0 == 1 && choice1 == 2){
@@ -263,7 +263,7 @@ int switchPlayer(int oldPlayer){
     return newPlayer;
 }
 
-void play(int whoseTurn){
+void play(int whoseTurn, int choice0){
     //cout << numP1Pieces;
     //cout << numP2Pieces;
     //check to see whose turn it is
@@ -274,17 +274,27 @@ void play(int whoseTurn){
         drawBoard(myBoard);
         //show legal moves
         allLegalMoves(myBoard, whoseTurn);
-        //let you pick a move
-        int response;
-        cin >> response;
-        while (!(response > 0 && response <= displayedMoves->size())){
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid input. Try again: ";
-            cin >> response;
-        }
-        cout << "\n";
         
+        int response;
+        //if you choose human vs ai and it is your turn
+        if (choice0 == 1 && whoseTurn == p1){
+            //let you pick a move
+            cin >> response;
+            while (!(response > 0 && response <= displayedMoves->size())){
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Try again: ";
+                cin >> response;
+            }
+            cout << "\n";
+        }
+        else {
+            //1 <-> size
+            //if it is AI it picks move by itself
+            response = rand() % displayedMoves->size() + 1;
+            cout << "AI" << whoseTurn << " chooses move " << response << ".\n";
+        }
+    
         //what about removing pieces that are eaten
         //should i make another vector
         
@@ -389,7 +399,6 @@ void allLegalMoves(int board[][width], int yourTurn){
     else {
         cout << "You have no moves to make. You lose.\n";
     }
-
 }
 
 
@@ -448,6 +457,7 @@ void printList(vector<vector<pos>> list){
     }
 }
 
+//not working right now
 //after the user picks a move, we have to clear the list that has all the available moves
 void clearList(vector<vector<pos>> *list){
     for (int i = 0;i < displayedMoves->size();i++){
