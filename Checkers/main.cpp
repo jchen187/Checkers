@@ -295,8 +295,10 @@ void play(int whoGoesFirst){
         
         
         //clear list
-        clearList(CapturingMoves);
-        clearList(nonCapturingMoves);
+        CapturingMoves.clear();
+        nonCapturingMoves.clear();
+//        clearList(CapturingMoves);
+//        clearList(nonCapturingMoves);
         //swtich turns
     }
     if (numP1Pieces==0){
@@ -429,9 +431,9 @@ void printList(vector<vector<pos>> list){
 }
 
 //after the user picks a move, we have to clear the list that has all the available moves
-void clearList(vector<vector<pos>> list){
-    for (int i = 0;i < list.size();i++){
-        list.pop_back();
+void clearList(vector<vector<pos>> *list){
+    for (int i = 0;i < displayedMoves->size();i++){
+        //list->pop_back();
     }
 }
 
@@ -499,8 +501,9 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
             //are you not on the left border?
             //did you eat this already?
             if ( (board[y+dir][x]==opp1 || board[y+dir][x]==opp2) && x!=0 && !isPosInVector(y+dir, x, whatYouAte)){
-                //see if blank space or where your king was originally
-                if (board[y+2*dir][x-1]==neither || (y+2*dir==captureVector[0].y && x-1==captureVector[0].x)){
+                //see if blank space or where your king was originally if you already jumped
+                //you check to see where king not on your first jump
+                if (board[y+2*dir][x-1]==neither || (jumpedOnceAlready&& y+2*dir==captureVector[0].y && x-1==captureVector[0].x)){
                     ateOpponent = true;
                     /*
                      if (!isPosInVector(y+dir, x, whatYouAte)){
@@ -522,7 +525,7 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
             //did you eat this already?
             if ((board[y+dir][x+1]==opp1 || board[y+dir][x+1]==opp2)&& x!=3 && !isPosInVector(y+dir, x+1, whatYouAte)){
                 //see if blank space or where king was originally
-                if (board[y+2*dir][x+1]==neither || (y+2*dir == captureVector[0].y && x+1==captureVector[0].x)){
+                if (board[y+2*dir][x+1]==neither || (jumpedOnceAlready&& y+2*dir == captureVector[0].y && x+1==captureVector[0].x)){
                     ateOpponent = true;
                     moved = true;
                     newY = y+2*dir;
@@ -544,7 +547,7 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
 
                     if ((board[y-dir][x] == opp1 || board[y-dir][x] == opp2) && x != 0 && !isPosInVector(y-dir, x, whatYouAte)){
                         //check for blank space or if original place of king
-                        if (board[y-2*dir][x-1]==neither || (y-2*dir == captureVector[0].y && x-1 == captureVector[0].x)){
+                        if (board[y-2*dir][x-1]==neither || (jumpedOnceAlready&& y-2*dir == captureVector[0].y && x-1 == captureVector[0].x)){
                             ateOpponent = true;
                             moved = true;
                             newY = y-2*dir;
@@ -557,7 +560,7 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
                     //if opponent to right
                     if ((board[y-dir][x+1]== opp1 || board[y-dir][x+1] == opp2)&& x != 3 && !isPosInVector(y-dir, x+1, whatYouAte)){
                         //see if blank space or where original king is
-                        if (board[y-2*dir][x+1]==neither || (y-2*dir == captureVector[0].y && x+1 == captureVector[0].x)){
+                        if (board[y-2*dir][x+1]==neither || (jumpedOnceAlready&& y-2*dir == captureVector[0].y && x+1 == captureVector[0].x)){
                             ateOpponent = true;
                             moved = true;
                             newY = y-2*dir;
@@ -577,7 +580,7 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
             //if opponent to left
             //did you eat already
             if (x!=0 && (board[y+dir][x-1]==opp1 || board[y+dir][x-1]==opp2) && !isPosInVector(y+dir, x-1, whatYouAte)){
-                if (board[y+2*dir][x-1]==neither || (y+2*dir==captureVector[0].y && x-1==captureVector[0].x)){
+                if (board[y+2*dir][x-1]==neither || (jumpedOnceAlready&& y+2*dir==captureVector[0].y && x-1==captureVector[0].x)){
                     ateOpponent = true;
                     moved = true;
                     newY = y+2*dir;
@@ -589,7 +592,7 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
             }
             //if opponent to right
             if (x!=3 && (board[y+dir][x]==opp1 || board[y+dir][x]==opp2) && !isPosInVector(y+dir, x, whatYouAte)){
-                if (board[y+2*dir][x+1]==neither || (y+2*dir==captureVector[0].y && x+1 ==captureVector[0].x)){
+                if (board[y+2*dir][x+1]==neither || (jumpedOnceAlready&& y+2*dir==captureVector[0].y && x+1 ==captureVector[0].x)){
                     ateOpponent = true;
                     moved = true;
                     newY = y+2*dir;
@@ -605,7 +608,7 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
                 if (y-2*dir >= 0 && y-2*dir < 8){
                     //if opponent on left
                     if (x!=0 && (board[y-dir][x-1]==opp1 || board[y-dir][x-1]==opp2) && !isPosInVector(y-dir, x-1, whatYouAte)){
-                        if (board[y-2*dir][x-1]==neither || (y-2*dir==captureVector[0].y && x-1==captureVector[0].x)){
+                        if (board[y-2*dir][x-1]==neither || (jumpedOnceAlready&& y-2*dir==captureVector[0].y && x-1==captureVector[0].x)){
                             ateOpponent = true;
                             moved = true;
                             newY = y-2*dir;
@@ -617,7 +620,7 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
                     }
                     //if opponent to right
                     if (x != 3 && (board[y-dir][x]==opp1 || board[y-dir][x]==opp2) && !isPosInVector(y-dir, x, whatYouAte)){
-                        if (board[y-2*dir][x+1]==neither || (y-2*dir==captureVector[0].y && x+1 ==captureVector[0].x)){
+                        if (board[y-2*dir][x+1]==neither || (jumpedOnceAlready&& y-2*dir==captureVector[0].y && x+1 ==captureVector[0].x)){
                             ateOpponent = true;
                             moved = true;
                             newY = y-2*dir;
