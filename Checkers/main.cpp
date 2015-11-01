@@ -22,6 +22,7 @@ const unsigned int p2yDir = 1;
 //number of pieces you start out with
 int numP1Pieces = 0;
 int numP2Pieces = 0;
+bool stuck = false;
 int myBoard[height][width];
 
 /*
@@ -265,18 +266,22 @@ int switchPlayer(int oldPlayer){
 }
 
 void play(int whoseTurn, int choice0){
-    //cout << numP1Pieces;
-    //cout << numP2Pieces;
+
     //check to see whose turn it is
+    
+    drawBoard(myBoard);
+    cout << "P1 has " << numP1Pieces << endl;
+    cout << "P2 has " << numP2Pieces << endl;
     
     srand ((unsigned)time(0));
     //int random = rand();
     //cout << "random number " << random;
     
     //if you can move
-    while (numP1Pieces>0 && numP2Pieces>0){
+    while (numP1Pieces>0 && numP2Pieces>0 && !stuck ){
         //show board
-        drawBoard(myBoard);
+        
+        
         //show legal moves
         allLegalMoves(myBoard, whoseTurn,choice0);
         
@@ -333,6 +338,12 @@ void play(int whoseTurn, int choice0){
                 int xRemove = eToF(yRemove, (fToE(yi, xi)+fToE(yii, xii))/2 );
                 
                 //remove the pieces
+                if (myBoard[yRemove][xRemove] == p1King || myBoard[yRemove][xRemove] == p1Man){
+                    numP1Pieces--;
+                }
+                else {
+                    numP2Pieces--;
+                }
                 myBoard[yRemove][xRemove]=0;
             }
         }
@@ -361,6 +372,9 @@ void play(int whoseTurn, int choice0){
             cout << "P2 now has a king. \n";
         }
         
+        drawBoard(myBoard);
+        cout << "P1 has " << numP1Pieces << endl;
+        cout << "P2 has " << numP2Pieces << endl;
         
         //clear list
         CapturingMoves.clear();
@@ -374,7 +388,7 @@ void play(int whoseTurn, int choice0){
     if (numP1Pieces==0){
         //if you are playing then you have lost
         if (choice0 == 1){
-            cout << "You have lost to AI-2. Would you like to redeem yourself?\n";
+            cout << "You have lost to AI-2.\n";
         }
         else {
             cout << "AI-1 has lost to AI-2\n";
@@ -388,6 +402,9 @@ void play(int whoseTurn, int choice0){
         else {
             cout << "AI-1 has defeated AI-2\n";
         }
+    }
+    if (numP1Pieces > 0 && numP2Pieces > 0 && stuck){
+        //
     }
     
     
@@ -466,7 +483,8 @@ void allLegalMoves(int board[][width], int whoseTurn, int choice0){
     }
     else {
         //stop play function
-        cout << front << " can make no more moves. Game over.\n";
+        stuck = true;
+        cout << front << " can make no more moves.\n";
     }
 }
 
