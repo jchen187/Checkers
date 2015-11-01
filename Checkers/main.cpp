@@ -118,7 +118,13 @@ int main(int argc, const char * argv[]) {
         }
         cout << "\n";
 
-        whoGoesFirst = (choice2[0] == 'y') ? '1': '2';
+        whoGoesFirst = (choice2.at(0) == 'y') ? 1: 2;
+//        if (choice2[0] == 'y'){
+//            whoGoesFirst = 1;
+//        }
+//        else {
+//            whoGoesFirst = 2;
+//        }
         createStandardBoard(myBoard);
         
         //should be in another function
@@ -132,10 +138,26 @@ int main(int argc, const char * argv[]) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Invalid input. Pick another number." << endl;
-            cin >> choice1;
+            cin >> response;
         }
-        //implement move
+        cout << "\n";
         
+        //implement move and change board
+        int y1 = (*displayedMoves)[response-1][0].y;
+        int x1 = (*displayedMoves)[response-1][0].x;
+        int y2 = (*displayedMoves)[response-1][1].y;
+        int x2 = (*displayedMoves)[response-1][1].x;
+        
+
+//        int y1 = nonCapturingMoves[response-1][0].y;
+//        int x1 = nonCapturingMoves[response-1][0].x;
+//        
+//        int y2 = nonCapturingMoves[response-1][1].y;
+//        int x2 = nonCapturingMoves[response-1][1].x;
+        //this should be where you actually become king
+        myBoard[y1][x1]=0;
+        myBoard[y2][x2]=2;
+        drawBoard(myBoard);
     }
     else if (choice0 == 1 && choice1 == 2){
         //ask to put file
@@ -283,7 +305,7 @@ void play(){
     }
 }
 
-//shows all the legal moves that you can make
+//shows all the legal moves that you can make without changing the board
 void allLegalMoves(int board[][width], int yourTurn){
     
     //create a list to store moves to open spots
