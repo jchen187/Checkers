@@ -177,7 +177,13 @@ void drawBoard(int x[][width]){
 //            cout << "|||";
 //        }
         for (int j = 0; j < width; j++){
-            cout << "| " << fToE(i, j) << " ";
+            if (i % 2 == 0){
+                cout << "||||| " << x[i][j] << " ";
+            }
+            else {
+                cout << "| " << x[i][j] << " ||||";
+            }
+//            cout << "| " << fToE(i, j) << " ";
 //            cout << "|";
 //            if (x[i][j]==0){
 //                cout << "|||";
@@ -197,7 +203,7 @@ void drawBoard(int x[][width]){
 //            cout << '\b ';  //Cursor moves 1 position backwards
 //            cout << " ";
 //        }
-        cout << "\n";
+        cout << "|\n";
         cout << "+---+---+---+---+---+---+---+---+\n";
     }
 }
