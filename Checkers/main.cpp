@@ -305,7 +305,7 @@ void play(int whoseTurn, int choice0){
         //should i make another vector
         
         //need to minus one becuase the index of the last element is the size - 1
-        int last = (*displayedMoves)[response-1].size() - 1;
+        int last = (int)(*displayedMoves)[response-1].size() - 1;
         //implement move and change board
         int y1 = (*displayedMoves)[response-1][0].y;
         int x1 = (*displayedMoves)[response-1][0].x;
@@ -314,6 +314,31 @@ void play(int whoseTurn, int choice0){
         
         int piece = myBoard[y1][x1];
 
+        
+        //remove opponents if ate opponents
+        if (displayedMoves == &CapturingMoves){
+            
+            for (int i = 0; i < (int)(*displayedMoves)[response-1].size() - 1; i++){
+                //the opponent will between the initial and next move
+                //before jump
+                int yi =(*displayedMoves)[response-1][i].y;
+                int xi =(*displayedMoves)[response-1][i].x;
+                //after jump
+                int yii = (*displayedMoves)[response-1][i+1].y;
+                int xii = (*displayedMoves)[response-1][i+1].x;
+                
+                //y will be halfway between yi and yii
+                int yRemove = (yi+yii)/2;
+                //convert xi and xii to 8*8, take avg and convert back to 4*4
+                int xRemove = eToF(yRemove, (fToE(yi, xi)+fToE(yii, xii))/2 );
+                
+                //remove the pieces
+                myBoard[yRemove][xRemove]=0;
+            }
+        }
+        
+        //if a man and reach end it becomes king
+        
         //        int y1 = nonCapturingMoves[response-1][0].y;
         //        int x1 = nonCapturingMoves[response-1][0].x;
         //
