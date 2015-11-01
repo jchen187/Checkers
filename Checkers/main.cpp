@@ -270,8 +270,8 @@ void play(int whoseTurn, int choice0){
     //check to see whose turn it is
     
     srand ((unsigned)time(0));
-    int random = rand();
-    cout << "random number " << random;
+    //int random = rand();
+    //cout << "random number " << random;
     
     //if you can move
     while (numP1Pieces>0 && numP2Pieces>0){
@@ -345,10 +345,21 @@ void play(int whoseTurn, int choice0){
         //        int y2 = nonCapturingMoves[response-1][1].y;
         //        int x2 = nonCapturingMoves[response-1][1].x;
         //this should be where you actually become king
+        
+        //update board
         myBoard[y1][x1]=0;
         myBoard[y2][x2]=piece;
 
-        //board changes
+        //Become a king
+        if (myBoard[y2][x2]==p1Man && y2==0){
+            myBoard[y2][x2]=p1King;
+            cout << "P1 now has a king. \n";
+        }
+        
+        if (myBoard[y2][x2]==p2Man && y2==7){
+            myBoard[y2][x2]=p2King;
+            cout << "P2 now has a king. \n";
+        }
         
         
         //clear list
@@ -356,8 +367,8 @@ void play(int whoseTurn, int choice0){
         nonCapturingMoves.clear();
 //        clearList(CapturingMoves);
 //        clearList(nonCapturingMoves);
-        //swtich turns
         
+        //swtich turns
         whoseTurn = switchPlayer(whoseTurn);
     }
     if (numP1Pieces==0){
@@ -799,18 +810,6 @@ void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKin
             }
             
         }
-    }
-    
-    //Become a king
-    if (board[newY][newX]==p1Man && newY==0 && moved == true){
-        cout << "P1 now has a king. \n";
-        //You now have a king
-        //board[y][x]=0;
-        //board[newY][newX] = (player = p1) ? p1King: p2King;
-    }
-    
-    if (board[newY][newX]==p2Man && newY==7 && moved == true){
-        cout << "P2 now has a king. \n";
     }
 }
 
