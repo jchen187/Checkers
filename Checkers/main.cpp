@@ -49,13 +49,21 @@ int fToE(int y, int x);
 int eToF(int y, int x);
 
 int main(int argc, const char * argv[]) {
+    
+    //Using chars for user input so that only first letter that is entered matters
+    cout << "What do you want to experience?\n"
+            << "1. Human vs AI\n"
+            << "2. AI vs AI\n"
+            << "Please choose 1 or 2." << endl;
+    char choice0;
+    cin >> choice0;
+    while (choice0 < '1' || choice0 > '2'){
+        cout << "Invalid input. Choose 1 or 2." << endl;
+        cin >> choice0;
+    }
+    cout << "\n";
 
-    //Ask if want to start from regular, some file or input own coordinates
-    cout << "How would you like to start?\n"
-                << "1. Start with the original board.\n"
-                << "2. Input your own file.\n"
-                << "3. Input your own coordinates.\n"
-                << "Please choose a number from 1 - 3." << endl;
+    
     /*
         .2.2.2.2    2222        +===+   +---+---+
         2.2.2.2.    2222        | @ |   | C |||||
@@ -67,22 +75,38 @@ int main(int argc, const char * argv[]) {
         1.1.1.1.    1111
      */
     
+    //Ask if want to start from regular board or own file
+    cout << "How would you like to start?\n"
+    << "1. Start with the original board.\n"
+    << "2. Input your own file.\n"
+    << "Please choose 1 or 2." << endl;
+    
     //Create Standard Board
     int myBoard[height][width];
     
-    //Get the user input. Using char so that only the first letter matters
     char choice1;
     cin >> choice1;
+    while (choice1 < '1' || choice1 > '2'){
+        cout << "Invalid input. Choose 1 or 2." << endl;
+        cin >> choice1;
+    }
+    cout << "\n";
+    
+    
     //By default you are going first
     char choice2 = '1';
-    if (choice1 > '0' && choice1 < '4'){
+    if (choice1 > '0' && choice1 < '3'){
         if (choice1 == '1'){
-            //show them the real board
-            createStandardBoard(myBoard);
-            drawBoard(myBoard);
             cout << "Would you like to go first? (y/n)\n";
             cin >> choice2;
+            while (choice2 != 'y' || choice1 != 'n'){
+                cout << "Invalid input. Choose y or n." << endl;
+                cin >> choice2;
+            }
             choice2 = (choice2 == 'y') ? '1': '2';
+            createStandardBoard(myBoard);
+            //should be in another function
+            drawBoard(myBoard);
             allLegalMoves(myBoard, choice2);
             
         }
@@ -136,12 +160,6 @@ int main(int argc, const char * argv[]) {
                 cout << "Unable to open file.\n";
             }
         }
-    
-    
-        else {
-            //ask for inputs
-        
-    }
 
     return 0;
 }
