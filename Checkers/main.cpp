@@ -61,7 +61,7 @@ void addToCapturingList(vector<pos> v);
 
 void printList(vector<vector<pos>> list);
 void clearList(vector<vector<pos>> list);
-void allLegalMoves(int board[][width], int whoseTurn);
+vector<vector<pos>> allLegalMoves(int board[][width], int whoseTurn);
 
 void play();
 void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector<pos> captureVector, vector<pos> whatYouAte);
@@ -325,17 +325,33 @@ void play(){
     cout << "P2 has " << numP2Pieces << endl;
     
     srand ((unsigned)time(0));
-    //int random = rand();
-    //cout << "random number " << random;
     
     //if you can move
     while (numP1Pieces>0 && numP2Pieces>0 && !stuck ){
-        //show board
         
         //show legal moves
-        allLegalMoves(myBoard, whoseTurn);
+        vector<vector<pos>> display = allLegalMoves(myBoard, whoseTurn);
+        
         if (stuck){
             break;
+        }
+        
+        string front;
+        string back;
+        //you vs ai
+        if (choice0 == 1){
+            front = (whoseTurn == p1) ? "You" : "AI-2";
+            back = (whoseTurn == p1) ? "your opponent AI-2":"you";
+        }
+        //ai vs ai
+        else {
+            front = (whoseTurn == p1) ? "AI-1" : "AI-2";
+            back = (whoseTurn == p1) ? "opponent AI-2":"opponent AI-1";
+        }
+        cout << front << " can eat "<< back << ".\n";
+        printList(display);
+        if (choice0 == 1 && whoseTurn==p1){
+            cout << "Choose one of the above moves: ";
         }
         
         int response;
@@ -343,7 +359,7 @@ void play(){
         if (choice0 == 1 && whoseTurn == p1){
             //let you pick a move
             cin >> response;
-            while (!(response > 0 && response <= displayedMoves->size())){
+            while (!(response > 0 && response <= display.size())){
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid input. Try again: ";
@@ -363,28 +379,26 @@ void play(){
         //should i make another vector
         
         //need to minus one becuase the index of the last element is the size - 1
-        int last = (int)(*displayedMoves)[response-1].size() - 1;
+        int last = (int)(display)[response-1].size() - 1;
         //implement move and change board
-        int y1 = (*displayedMoves)[response-1][0].y;
-        int x1 = (*displayedMoves)[response-1][0].x;
-        int y2 = (*displayedMoves)[response-1][last].y;
-        int x2 = (*displayedMoves)[response-1][last].x;
+        int y1 = (display)[response-1][0].y;
+        int x1 = (display)[response-1][0].x;
+        int y2 = (display)[response-1][last].y;
+        int x2 = (display)[response-1][last].x;
         
         int piece = myBoard[y1][x1];
 
-        
-        //remove opponents if ate opponents
-        if (displayedMoves == &CapturingMoves){
+
+        for (int i = 0; i < (*displayedMoves)[response-1].size() - 1; i++){
+            //the opponent will between the initial and next move
+            //before jump
+            int yi =(display)[response-1][i].y;
+            int xi =(display)[response-1][i].x;
+            //after jump
+            int yii = (display)[response-1][i+1].y;
+            int xii = (display)[response-1][i+1].x;
             
-            for (int i = 0; i < (int)(*displayedMoves)[response-1].size() - 1; i++){
-                //the opponent will between the initial and next move
-                //before jump
-                int yi =(*displayedMoves)[response-1][i].y;
-                int xi =(*displayedMoves)[response-1][i].x;
-                //after jump
-                int yii = (*displayedMoves)[response-1][i+1].y;
-                int xii = (*displayedMoves)[response-1][i+1].x;
-                
+            if (abs(yii-yi)==2){
                 //y will be halfway between yi and yii
                 int yRemove = (yi+yii)/2;
                 //convert xi and xii to 8*8, take avg and convert back to 4*4
@@ -400,12 +414,6 @@ void play(){
                 myBoard[yRemove][xRemove]=0;
             }
         }
-        
-        //        int y1 = nonCapturingMoves[response-1][0].y;
-        //        int x1 = nonCapturingMoves[response-1][0].x;
-        //
-        //        int y2 = nonCapturingMoves[response-1][1].y;
-        //        int x2 = nonCapturingMoves[response-1][1].x;
         
         //update board
         myBoard[y1][x1]=0;
@@ -468,7 +476,9 @@ void play(){
 
 //should return a list of moves that you can make
 //shows all the legal moves that you can make without changing the board
-void allLegalMoves(int board[][width], int whoseTurn){
+vector<vector<pos>> allLegalMoves(int board[][width], int whoseTurn){
+    
+    vector<vector<pos>> movesToDisplay;
     
     //create a list to store moves to open spots
     //create a list to store moves where you eat opponent
@@ -505,43 +515,22 @@ void allLegalMoves(int board[][width], int whoseTurn){
         }
     }
     
-    string front;
-    string back;
-    //you vs ai
-    if (choice0 == 1){
-        front = (whoseTurn == p1) ? "You" : "AI-2";
-        back = (whoseTurn == p1) ? "your opponent AI-2":"you";
-    }
-    //ai vs ai
-    else {
-        front = (whoseTurn == p1) ? "AI-1" : "AI-2";
-        back = (whoseTurn == p1) ? "opponent AI-2":"opponent AI-1";
-    }
+    
     //do this only if you cant make any captures
     if (!CapturingMoves.empty()){
-        cout << front << " can eat "<< back << ".\n";
-        printList(CapturingMoves);
-        //only if you are playing
-        if (choice0 == 1 && whoseTurn==p1){
-            cout << "Choose one of the above moves: ";
-        }
-        //cout <<  CapturingMoves.size() <<"\n";
         displayedMoves = &CapturingMoves;
-        
+        movesToDisplay = CapturingMoves;
     }
     else if (!nonCapturingMoves.empty()){
-        cout << front << " cannot eat " << back << ".\n";
-        printList(nonCapturingMoves);
-        if (choice0 == 1 && whoseTurn==p1){
-            cout << "Choose one of the above moves: ";
-        }
-        //cout << nonCapturingMoves.size() << "\n";
         displayedMoves = &nonCapturingMoves;
+        movesToDisplay = nonCapturingMoves;
     }
     else {
         //stop play function
         stuck = true;
     }
+    
+    return movesToDisplay;
 }
 
 
