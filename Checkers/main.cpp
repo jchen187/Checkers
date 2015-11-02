@@ -61,7 +61,7 @@ void addToCapturingList(vector<pos> v);
 
 void printList(vector<vector<pos>> list);
 void clearList(vector<vector<pos>> list);
-void allLegalMoves(int board[][width], int whoseTurn, int choice0);
+void allLegalMoves(int board[][width], int whoseTurn);
 
 void play();
 void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector<pos> captureVector, vector<pos> whatYouAte);
@@ -192,8 +192,6 @@ int main(int argc, const char * argv[]) {
         else
             cout << "Unable to open file.\n";
     }
-    
-    
     return 0;
 }
 
@@ -335,7 +333,7 @@ void play(){
         //show board
         
         //show legal moves
-        allLegalMoves(myBoard, whoseTurn,choice0);
+        allLegalMoves(myBoard, whoseTurn);
         if (stuck){
             break;
         }
@@ -468,8 +466,9 @@ void play(){
     
 }
 
+//should return a list of moves that you can make
 //shows all the legal moves that you can make without changing the board
-void allLegalMoves(int board[][width], int whoseTurn, int choice0){
+void allLegalMoves(int board[][width], int whoseTurn){
     
     //create a list to store moves to open spots
     //create a list to store moves where you eat opponent
