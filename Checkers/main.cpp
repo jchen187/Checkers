@@ -36,6 +36,13 @@ struct pos{
     int y;
     int x;
 };
+
+int choice0;
+int choice1;
+//by default you are going first
+int whoGoesFirst = 1;
+string choice2;
+
 //when you create a vector, you put number of elements and initial value
 //if all your pieces become kings 9*4 + 3*2 max
 //vector<vector<pos>> nonCapturingMoves(42, vector<pos>(2));
@@ -56,7 +63,7 @@ void printList(vector<vector<pos>> list);
 void clearList(vector<vector<pos>> list);
 void allLegalMoves(int board[][width], int whoseTurn, int choice0);
 
-void play(int whoGoesFirst, int choice0);
+void play();
 void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector<pos> captureVector, vector<pos> whatYouAte);
 int fToE(int y, int x);
 int eToF(int y, int x);
@@ -69,7 +76,6 @@ int main(int argc, const char * argv[]) {
             << "Please choose 1 or 2." << endl;
     //string input;
     //getline(cin, input);
-    int choice0;
     cin >> choice0;
     while (!(choice0 == 1 || choice0 == 2)){
         cin.clear();
@@ -97,7 +103,6 @@ int main(int argc, const char * argv[]) {
     << "2. Input your own file.\n"
     << "Please choose 1 or 2." << endl;
     
-    int choice1;
     cin >> choice1;
     while (!(choice1 == 1 || choice1 == 2)){
         cin.clear();
@@ -107,15 +112,10 @@ int main(int argc, const char * argv[]) {
     }
     cout << "\n";
     
-    
-    //By default you are going first
-    int whoGoesFirst = 1;
-    
     //starting with own board
     if (choice1 == 1){
         //human vs ai
         if (choice0 == 1){
-            string choice2;
             cout << "Would you like to go first? (y/n)\n";
             cin >> choice2;
             while (choice2.length() != 1 || !(choice2[0] == 'y' || choice2[0] == 'n')){
@@ -130,7 +130,7 @@ int main(int argc, const char * argv[]) {
             
         }
         createStandardBoard(myBoard);
-        play(whoGoesFirst, choice0);
+        play();
     }
 
     else if (choice1 == 2){
@@ -170,7 +170,7 @@ int main(int argc, const char * argv[]) {
             }
             cout << endl;
             
-            play(whoGoesFirst, choice0);
+            play();
 
             
             /*
@@ -260,10 +260,48 @@ void readBoardFromFile(string name, ifstream file){
     //go throught first 8 lines of code. remove the spaces and
 }
 
-double scoreFromGameState(int board[][width], int whoseTurn){
+int scoreFromGameState(int board[][width], int whoseTurn){
     //opponent / own pieces
-    double score = (whoseTurn == p1) ? numP2Pieces/numP1Pieces : numP1Pieces/numP2Pieces;
+    int score = (whoseTurn == p1) ? numP1Pieces - numP2Pieces : numP2Pieces - numP1Pieces;
     return score;
+}
+
+int minimax(int board[][width], int depth, bool max){
+    /*
+     Given the current board position, player-to-move, and search depth
+     0.  If the search depth is 0, call an evaluator function to assign a value to given position, expressed as a positive number if the player-to-move has the better position, negative number if the player-to-move has a worse position, or zero if the position is equal, and return the value.
+     1.  Generate a list of all possible legal moves
+     2.  For each move:
+        a.  Make the move
+        b.  Recursively call this function, with the new board position, other player-to-move, and search depth - 1.
+        c.  Store off the negative value of the board position (returned by the recursive call).
+        d.  Unmake the move
+     3.  Return the maximum of all the values you stored, along with the move that was associated with it.
+     4.  Finally, after the initial call returns, make the move returned.
+     */
+    
+    //is game over or did we reach depth
+    if (depth == 0){
+        return scoreFromGameState(board, max);
+    }
+    
+    vector<vector<pos>> possibleMoves;
+//    allLegalMoves(board, <#int whoseTurn#>, <#int choice0#>)
+    
+    int bestValue;
+    //keep track of all possible moves at that stat
+//    allLegalMoves(<#int (*board)[4]#>, <#int whoseTurn#>, <#int choice0#>)
+    
+    if (max){
+//        bestValue =
+        /*
+         For each move in the list
+         */
+    }
+    else{
+        
+    }
+    return bestValue;
 }
 
 
@@ -279,9 +317,10 @@ int switchPlayer(int oldPlayer){
     return newPlayer;
 }
 
-void play(int whoseTurn, int choice0){
+void play(){
 
     //check to see whose turn it is
+    int whoseTurn = whoGoesFirst;
     
     drawBoard(myBoard);
     cout << "P1 has " << numP1Pieces << endl;
