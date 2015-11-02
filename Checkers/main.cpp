@@ -47,7 +47,11 @@ void createStandardBoard(int board[][width]);
 void drawBoard(int x[][4]);
 string removeSpaces(string input); //didnt use this
 
+//adding all the legal moves you can make into a vector
 void addToNonCapturingList(pos original, int newY, int newX);
+vector<pos> addToCaptureVector(pos original, int newY, int newX, vector<pos> v);
+void addToCapturingList(vector<pos> v);
+
 void printList(vector<vector<pos>> list);
 void clearList(vector<vector<pos>> list);
 void allLegalMoves(int board[][width], int whoseTurn, int choice0);
@@ -255,6 +259,14 @@ void drawBoard(int x[][width]){
 void readBoardFromFile(string name, ifstream file){
     //go throught first 8 lines of code. remove the spaces and
 }
+
+double scoreFromGameState(int board[][width], int whoseTurn){
+    //opponent / own pieces
+    double score = (whoseTurn == p1) ? numP2Pieces/numP1Pieces : numP1Pieces/numP2Pieces;
+    return score;
+}
+
+
 
 int switchPlayer(int oldPlayer){
     int newPlayer;
@@ -861,3 +873,5 @@ int eToF(int y, int x) {
     }
     return x;
 }
+
+
