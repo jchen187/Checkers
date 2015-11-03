@@ -275,7 +275,7 @@ int scoreFromGameState(vector<vector<int>> board, int whoseTurn){
     return score;
 }
 
-int minimax(vector<vector<int>> board, int depth, bool max){
+int minimax(vector<vector<int>> board, int depth, int player){
     /*
      Given the current board position, player-to-move, and search depth
      0.  If the search depth is 0, call an evaluator function to assign a value to given position, expressed as a positive number if the player-to-move has the better position, negative number if the player-to-move has a worse position, or zero if the position is equal, and return the value.
@@ -291,25 +291,17 @@ int minimax(vector<vector<int>> board, int depth, bool max){
     
     //is game over or did we reach depth
     if (depth == 0){
-        return scoreFromGameState(board, max);
+        return scoreFromGameState(board, player);
     }
-    
+
+    //keep track of all recursive moves
     vector<vector<pos>> possibleMoves;
-//    allLegalMoves(board, <#int whoseTurn#>, <#int choice0#>)
+    possibleMoves = allLegalMoves(board, player);
     
     int bestValue;
     //keep track of all possible moves at that stat
-//    allLegalMoves(<#int (*board)[4]#>, <#int whoseTurn#>, <#int choice0#>)
+
     
-    if (max){
-//        bestValue =
-        /*
-         For each move in the list
-         */
-    }
-    else{
-        
-    }
     return bestValue;
 }
 
@@ -383,6 +375,13 @@ vector<vector<int>> makeMove(vector<vector<int>> b, vector<vector<pos>> listOfMo
     return b;
 }
 
+void wait ( int seconds )
+{
+    clock_t endwait;
+    endwait = clock () + seconds * CLOCKS_PER_SEC ;
+    while (clock() < endwait) {}
+}
+
 void play(){
 
     //check to see whose turn it is
@@ -398,7 +397,7 @@ void play(){
     while (numP1Pieces>0 && numP2Pieces>0 && !stuck ){
         
         //show legal moves
-        vector<vector<pos>> display = allLegalMoves(myBoard, whoseTurn);
+        vector<vector<pos>> movesToDisplay = allLegalMoves(myBoard, whoseTurn);
         
         if (stuck){
             break;
@@ -417,7 +416,7 @@ void play(){
             back = (whoseTurn == p1) ? "opponent AI-2":"opponent AI-1";
         }
         cout << front << " can eat "<< back << ".\n";
-        printList(display);
+        printList(movesToDisplay);
         if (choice0 == 1 && whoseTurn==p1){
             cout << "Choose one of the above moves: ";
         }
@@ -427,7 +426,7 @@ void play(){
         if (choice0 == 1 && whoseTurn == p1){
             //let you pick a move
             cin >> response;
-            while (!(response > 0 && response <= display.size())){
+            while (!(response > 0 && response <= movesToDisplay.size())){
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid input. Try again: ";
@@ -437,15 +436,20 @@ void play(){
         }
         else {
             //time limit + minimax +alpha beta pruning
+            time_t start, end;
+            double diff;
+            time (&start);
             //1 <-> size
             //if it is AI it picks move by itself
-            response = rand() % display.size() + 1;
+            response = rand() % movesToDisplay.size() + 1;
             //cout << rand() % displayedMoves->size();
             cout << "AI-" << whoseTurn << " chooses move " << response << ".\n" << endl;
+            wait(3);
+            time (&end);
         }
     
         //update board after making a move
-        myBoard = makeMove(myBoard, display, response);
+        myBoard = makeMove(myBoard, movesToDisplay, response);
         
         drawBoard(myBoard);
         cout << "P1 has " << numP1Pieces << endl;
