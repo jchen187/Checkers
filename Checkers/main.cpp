@@ -23,7 +23,9 @@ const unsigned int p2yDir = 1;
 int numP1Pieces = 0;
 int numP2Pieces = 0;
 bool stuck = false;
-int myBoard[height][width];
+vector<vector<int>> myBoard;
+
+//int myBoard[height][width];
 
 /*
  Player 1 = 1, 3
@@ -50,8 +52,12 @@ vector<vector<pos>> nonCapturingMoves;
 vector<vector<pos>> CapturingMoves;
 vector<vector<pos>> *displayedMoves;
 
-void createStandardBoard(int board[][width]);
-void drawBoard(int x[][4]);
+//void createStandardBoard(int board[][width]);
+//void drawBoard(int x[][4]);
+
+void createStandardBoard();
+void drawBoard(vector<vector<int>> x);
+
 string removeSpaces(string input); //didnt use this
 
 //adding all the legal moves you can make into a vector
@@ -61,14 +67,18 @@ void addToCapturingList(vector<pos> v);
 
 void printList(vector<vector<pos>> list);
 void clearList(vector<vector<pos>> list);
-vector<vector<pos>> allLegalMoves(int board[][width], int whoseTurn);
+vector<vector<pos>> allLegalMoves(vector<vector<int>> board, int whoseTurn);
 
 void play();
-void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector<pos> captureVector, vector<pos> whatYouAte);
+void legalMovesForPiece(vector<vector<int>> board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector<pos> captureVector, vector<pos> whatYouAte);
 int fToE(int y, int x);
 int eToF(int y, int x);
 
 int main(int argc, const char * argv[]) {
+    myBoard.resize(height);
+    for (int i = 0; i < height; ++i)
+        myBoard[i].resize(width);
+    
     //Using chars for user input so that only first letter that is entered matters
     cout << "What do you want to experience?\n"
             << "1. Human vs AI\n"
@@ -117,6 +127,7 @@ int main(int argc, const char * argv[]) {
         //human vs ai
         if (choice0 == 1){
             cout << "Would you like to go first? (y/n)\n";
+            
             cin >> choice2;
             while (choice2.length() != 1 || !(choice2[0] == 'y' || choice2[0] == 'n')){
                 cin.clear();
@@ -129,7 +140,7 @@ int main(int argc, const char * argv[]) {
             whoGoesFirst = (choice2.at(0) == 'y') ? 1: 2;
             
         }
-        createStandardBoard(myBoard);
+        createStandardBoard();
         play();
     }
 
@@ -195,16 +206,16 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 
-void createStandardBoard(int board[][width]){
+void createStandardBoard(){
     for (int i = 0; i < height; i++){
         for (int j = 0; j < width; j++){
             if (i < 3){
-                board[i][j] = p2Man;
+                myBoard[i][j] = p2Man;
             }
             else if (i < 5)
-                board[i][j] = 0;
+                myBoard[i][j] = 0;
             else {
-                board[i][j] = p1Man;
+                myBoard[i][j] = p1Man;
             }
         }
     }
@@ -220,7 +231,7 @@ string removeSpaces(string input){
 }
 
 //draw board
-void drawBoard(int x[][width]){
+void drawBoard(vector<vector<int>> x){
     cout << "   +---+---+---+---+---+---+---+---+\n";
     for (int i = 0; i < height; i++){
         cout << 8 - i << "  ";
@@ -315,6 +326,48 @@ int switchPlayer(int oldPlayer){
     return newPlayer;
 }
 
+
+int makeMove(int b[][width], vector<vector<pos>> listOfMoves, int response){
+    
+    
+    //need to minus one becuase the index of the last element is the size - 1
+    int last =(int)(listOfMoves)[response-1].size() -1;
+    //implement move and change board
+    int y1 = (listOfMoves)[response-1][0].y;
+    int x1 = (listOfMoves)[response-1][0].x;
+    int y2 = (listOfMoves)[response-1][last].y;
+    int x2 = (listOfMoves)[response-1][last].x;
+    
+    for (int i = 0; i < last; i++){
+        //the opponent will between the initial and next move
+        //before jump
+        int yi =(listOfMoves)[response-1][i].y;
+        int xi =(listOfMoves)[response-1][i].x;
+        //after jump
+        int yii = (listOfMoves)[response-1][i+1].y;
+        int xii = (listOfMoves)[response-1][i+1].x;
+        
+        if (abs(yii-yi)==2){
+            //y will be halfway between yi and yii
+            int yRemove = (yi+yii)/2;
+            //convert xi and xii to 8*8, take avg and convert back to 4*4
+            int xRemove = eToF(yRemove, (fToE(yi, xi)+fToE(yii, xii))/2 );
+            
+            //remove the pieces
+            if (b[yRemove][xRemove] == p1King || myBoard[yRemove][xRemove] == p1Man){
+                numP1Pieces--;
+            }
+            else {
+                numP2Pieces--;
+            }
+            myBoard[yRemove][xRemove]=0;
+        }
+    }
+
+    
+    return 1;
+}
+
 void play(){
 
     //check to see whose turn it is
@@ -368,9 +421,10 @@ void play(){
             cout << "\n";
         }
         else {
+            //time limit + minimax +alpha beta pruning
             //1 <-> size
             //if it is AI it picks move by itself
-            response = rand() % displayedMoves->size() + 1;
+            response = rand() % display.size() + 1;
             //cout << rand() % displayedMoves->size();
             cout << "AI-" << whoseTurn << " chooses move " << response << ".\n" << endl;
         }
@@ -389,7 +443,7 @@ void play(){
         int piece = myBoard[y1][x1];
 
 
-        for (int i = 0; i < (*displayedMoves)[response-1].size() - 1; i++){
+        for (int i = 0; i < last; i++){
             //the opponent will between the initial and next move
             //before jump
             int yi =(display)[response-1][i].y;
@@ -434,15 +488,11 @@ void play(){
         cout << "P1 has " << numP1Pieces << endl;
         cout << "P2 has " << numP2Pieces << endl;
         
-        //clear list
-        CapturingMoves.clear();
-        nonCapturingMoves.clear();
-//        clearList(CapturingMoves);
-//        clearList(nonCapturingMoves);
-        
         //swtich turns
         whoseTurn = switchPlayer(whoseTurn);
     }
+    
+    //END GAME CONDITIONS
     if (numP1Pieces==0){
         //if you are playing then you have lost
         if (choice0 == 1){
@@ -476,7 +526,7 @@ void play(){
 
 //should return a list of moves that you can make
 //shows all the legal moves that you can make without changing the board
-vector<vector<pos>> allLegalMoves(int board[][width], int whoseTurn){
+vector<vector<pos>> allLegalMoves(vector<vector<int>> board, int whoseTurn){
     
     vector<vector<pos>> movesToDisplay;
     
@@ -529,6 +579,12 @@ vector<vector<pos>> allLegalMoves(int board[][width], int whoseTurn){
         //stop play function
         stuck = true;
     }
+    
+    //clear list
+    CapturingMoves.clear();
+    nonCapturingMoves.clear();
+    //        clearList(CapturingMoves);
+    //        clearList(nonCapturingMoves);
     
     return movesToDisplay;
 }
@@ -620,7 +676,7 @@ bool isPosInVector(int y, int x, vector<pos> v){
 //player tells you whose turn it is
 //the first time you call this function, jumpedOnceAlready should be false. need this because after you jump once, it's either you jump again. you cannot move just one square
 //we have a capturevector to keep track of all the positions that we have been on.
-void legalMovesForPiece(int board[][width], int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector<pos> captureVector, vector<pos> whatYouAte){
+void legalMovesForPiece(vector<vector<int>> board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector<pos> captureVector, vector<pos> whatYouAte){
     
     pos currentPos;
     currentPos.y = y;
