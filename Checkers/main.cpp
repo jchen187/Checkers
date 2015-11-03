@@ -269,13 +269,13 @@ void readBoardFromFile(string name, ifstream file){
     //go throught first 8 lines of code. remove the spaces and
 }
 
-int scoreFromGameState(int board[][width], int whoseTurn){
+int scoreFromGameState(vector<vector<int>> board, int whoseTurn){
     //opponent / own pieces
     int score = (whoseTurn == p1) ? numP1Pieces - numP2Pieces : numP2Pieces - numP1Pieces;
     return score;
 }
 
-int minimax(int board[][width], int depth, bool max){
+int minimax(vector<vector<int>> board, int depth, bool max){
     /*
      Given the current board position, player-to-move, and search depth
      0.  If the search depth is 0, call an evaluator function to assign a value to given position, expressed as a positive number if the player-to-move has the better position, negative number if the player-to-move has a worse position, or zero if the position is equal, and return the value.
@@ -326,8 +326,8 @@ int switchPlayer(int oldPlayer){
     return newPlayer;
 }
 
-
-int makeMove(int b[][width], vector<vector<pos>> listOfMoves, int response){
+//give a board after the move
+vector<vector<int>> makeMove(vector<vector<int>> b, vector<vector<pos>> listOfMoves, int response){
     
     
     //need to minus one becuase the index of the last element is the size - 1
@@ -354,18 +354,33 @@ int makeMove(int b[][width], vector<vector<pos>> listOfMoves, int response){
             int xRemove = eToF(yRemove, (fToE(yi, xi)+fToE(yii, xii))/2 );
             
             //remove the pieces
-            if (b[yRemove][xRemove] == p1King || myBoard[yRemove][xRemove] == p1Man){
+            if (b[yRemove][xRemove] == p1King || b[yRemove][xRemove] == p1Man){
                 numP1Pieces--;
             }
             else {
                 numP2Pieces--;
             }
-            myBoard[yRemove][xRemove]=0;
+            b[yRemove][xRemove]=0;
         }
     }
-
+    int piece = b[y1][x1];
     
-    return 1;
+    //update board
+    b[y1][x1]=0;
+    b[y2][x2]=piece;
+    
+    //If a man reaches an end it becomes a king
+    if (b[y2][x2]==p1Man && y2==0){
+        b[y2][x2]=p1King;
+        cout << "P1 now has a king. \n";
+    }
+    
+    if (b[y2][x2]==p2Man && y2==7){
+        b[y2][x2]=p2King;
+        cout << "P2 now has a king. \n";
+    }
+    
+    return b;
 }
 
 void play(){
@@ -429,60 +444,8 @@ void play(){
             cout << "AI-" << whoseTurn << " chooses move " << response << ".\n" << endl;
         }
     
-        //what about removing pieces that are eaten
-        //should i make another vector
-        
-        //need to minus one becuase the index of the last element is the size - 1
-        int last = (int)(display)[response-1].size() - 1;
-        //implement move and change board
-        int y1 = (display)[response-1][0].y;
-        int x1 = (display)[response-1][0].x;
-        int y2 = (display)[response-1][last].y;
-        int x2 = (display)[response-1][last].x;
-        
-        int piece = myBoard[y1][x1];
-
-
-        for (int i = 0; i < last; i++){
-            //the opponent will between the initial and next move
-            //before jump
-            int yi =(display)[response-1][i].y;
-            int xi =(display)[response-1][i].x;
-            //after jump
-            int yii = (display)[response-1][i+1].y;
-            int xii = (display)[response-1][i+1].x;
-            
-            if (abs(yii-yi)==2){
-                //y will be halfway between yi and yii
-                int yRemove = (yi+yii)/2;
-                //convert xi and xii to 8*8, take avg and convert back to 4*4
-                int xRemove = eToF(yRemove, (fToE(yi, xi)+fToE(yii, xii))/2 );
-                
-                //remove the pieces
-                if (myBoard[yRemove][xRemove] == p1King || myBoard[yRemove][xRemove] == p1Man){
-                    numP1Pieces--;
-                }
-                else {
-                    numP2Pieces--;
-                }
-                myBoard[yRemove][xRemove]=0;
-            }
-        }
-        
-        //update board
-        myBoard[y1][x1]=0;
-        myBoard[y2][x2]=piece;
-
-        //If a man reaches an end it becomes a king
-        if (myBoard[y2][x2]==p1Man && y2==0){
-            myBoard[y2][x2]=p1King;
-            cout << "P1 now has a king. \n";
-        }
-        
-        if (myBoard[y2][x2]==p2Man && y2==7){
-            myBoard[y2][x2]=p2King;
-            cout << "P2 now has a king. \n";
-        }
+        //update board after making a move
+        myBoard = makeMove(myBoard, display, response);
         
         drawBoard(myBoard);
         cout << "P1 has " << numP1Pieces << endl;
