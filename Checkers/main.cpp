@@ -307,6 +307,45 @@ int scoreFromGameState(vector<vector<int>> board, int whoseTurn){
     return score;
 }
 
+int minimaxAB(vector<vector<int>> board, int depth, int player, int alpha, int beta){
+    //is game over or did we reach depth
+    if (depth == 0){
+        cout << "you reached the end\n";
+        drawBoard(board);
+        return scoreFromGameState(board, player);
+    }
+    
+    int bestMove = -1000;
+    //int bestScore = INT_MIN;
+    //vector<int> scoreList;
+    
+    cout << "Depth" << depth << endl;
+    vector<vector<pos>> possibleMoves = allLegalMoves(board, player);
+    //go throught the possible moves and makemove for each, which returns a board
+    
+    for (int i=1; i <= possibleMoves.size();i++){
+        vector<vector<int>> newBoard;
+        newBoard = makeMove(board, possibleMoves, i);
+        drawBoard(newBoard);
+        int score = -1 * minimaxAB(newBoard, depth-1, switchPlayer(player), -beta, - alpha);
+        if (score > alpha){
+            alpha = score;
+            bestMove = i; //multiple moves can have that score tho
+        }
+        if (alpha >= beta){
+            break; //prune branch
+        }
+    }
+    
+    //    cout << depth << bestScore << endl;
+    if (depth == goodDepth){
+        return bestMove;
+    }
+    else {
+        return alpha;
+    }
+}
+
 int minimax(vector<vector<int>> board, int depth, int player){
     /*
      Given the current board position, player-to-move, and search depth
@@ -493,9 +532,10 @@ void play(){
         }
         else {
             //time limit + minimax +alpha beta pruning
-            time_t start, end;
-            double diff;
-            time (&start);
+
+            clock_t start = clock();
+            // Execuatable code
+            
             //1 <-> size
             //if it is AI it picks move by itself
             //response = rand() % movesToDisplay.size() + 1;
@@ -503,15 +543,21 @@ void play(){
                 response = 1;
             }
             else {
-                int best = minimax(myBoard, goodDepth, whoseTurn);
-                response = best;
+                //int best = minimax(myBoard, goodDepth, whoseTurn);
+                int alpha = INT_MIN;
+                int beta = INT_MAX;
+                int best2 = minimaxAB(myBoard, goodDepth, whoGoesFirst, alpha, beta);
+                response = best2;
             }
+            clock_t stop = clock();
+            //double elapsed = (double)(stop - start) * 1000.0 / CLOCKS_PER_SEC;
+            double elapsed = (double)(stop - start) / CLOCKS_PER_SEC;
+            cout << "Time elapsed in sec: " << elapsed << endl;
+//            printf("Time elapsed in sec: %f\n", elapsed);
             
             
             //cout << rand() % displayedMoves->size();
             cout << "AI-" << whoseTurn << " chooses move " << response << ".\n" << endl;
-            //wait(3);
-            time (&end);
         }
     
         //update board after making a move
