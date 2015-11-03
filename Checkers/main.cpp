@@ -24,6 +24,7 @@ int numP1Pieces = 0;
 int numP2Pieces = 0;
 bool stuck = false;
 vector<vector<int>> myBoard;
+int goodDepth = 1;
 
 //int myBoard[height][width];
 
@@ -68,6 +69,9 @@ void addToCapturingList(vector<pos> v);
 void printList(vector<vector<pos>> list);
 void clearList(vector<vector<pos>> list);
 vector<vector<pos>> allLegalMoves(vector<vector<int>> board, int whoseTurn);
+
+vector<vector<int>> makeMove(vector<vector<int>> b, vector<vector<pos>> listOfMoves, int response);
+int switchPlayer(int oldPlayer);
 
 void play();
 void legalMovesForPiece(vector<vector<int>> board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector<pos> captureVector, vector<pos> whatYouAte);
@@ -270,8 +274,36 @@ void readBoardFromFile(string name, ifstream file){
 }
 
 int scoreFromGameState(vector<vector<int>> board, int whoseTurn){
+    //go through board and see how many pieces of each there are
+    int numP1King = 0;
+    int numP1Man = 0;
+    int numP2King = 0;
+    int numP2Man = 0;
+    
+    for (int i = 0; i < height; i++){
+        for (int j = 0; j < width; j++){
+            if (board[i][j] == p1King){
+                numP1King++;
+            }
+            if (board[i][j] == p1Man){
+                numP1Man++;
+            }
+            if (board[i][j] == p2King){
+                numP2King++;
+            }
+            if (board[i][j] == p2Man){
+                numP2Man++;
+            }
+        }
+    }
+    
+    int numP1Pieces2 = numP1King + numP1Man;
+    int numP2Pieces2 = numP2King + numP2Man;
+    
     //opponent / own pieces
-    int score = (whoseTurn == p1) ? numP1Pieces - numP2Pieces : numP2Pieces - numP1Pieces;
+//    int score = (whoseTurn == p1) ? numP1Pieces - numP2Pieces : numP2Pieces - numP1Pieces;
+    int score = (whoseTurn == p1) ? numP1Pieces2 : numP2Pieces2;
+    cout << "player"<< whoseTurn <<"-" <<score <<endl;
     return score;
 }
 
@@ -294,15 +326,34 @@ int minimax(vector<vector<int>> board, int depth, int player){
         return scoreFromGameState(board, player);
     }
 
-    //keep track of all recursive moves
-    vector<vector<pos>> possibleMoves;
-    possibleMoves = allLegalMoves(board, player);
+    int bestMove = -1000;
+    int bestScore = INT_MIN;
+    //vector<int> scoreList;
     
-    int bestValue;
-    //keep track of all possible moves at that stat
+    vector<vector<pos>> possibleMoves = allLegalMoves(board, player);
+    //go throught the possible moves and makemove for each, which returns a board
 
+    for (int i=1; i <= possibleMoves.size();i++){
+        vector<vector<int>> newBoard;
+        newBoard = makeMove(myBoard, possibleMoves, i);
+        
+        int score = -1 * minimax(newBoard, depth-1, switchPlayer(player));
+//        scoreList.push_back(score);
+//        bestScore = *max_element(scoreList.begin(), scoreList.end());
+
+        if (score > bestScore){
+            bestScore = score;
+            bestMove = i;
+        }
+    }
     
-    return bestValue;
+    cout << depth << bestScore << endl;
+    if (depth == goodDepth){
+        return bestMove;
+    }
+    else {
+        return bestScore;
+    }
 }
 
 
@@ -344,7 +395,7 @@ vector<vector<int>> makeMove(vector<vector<int>> b, vector<vector<pos>> listOfMo
             int yRemove = (yi+yii)/2;
             //convert xi and xii to 8*8, take avg and convert back to 4*4
             int xRemove = eToF(yRemove, (fToE(yi, xi)+fToE(yii, xii))/2 );
-            
+            /*
             //remove the pieces
             if (b[yRemove][xRemove] == p1King || b[yRemove][xRemove] == p1Man){
                 numP1Pieces--;
@@ -352,6 +403,7 @@ vector<vector<int>> makeMove(vector<vector<int>> b, vector<vector<pos>> listOfMo
             else {
                 numP2Pieces--;
             }
+             */
             b[yRemove][xRemove]=0;
         }
     }
@@ -415,7 +467,12 @@ void play(){
             front = (whoseTurn == p1) ? "AI-1" : "AI-2";
             back = (whoseTurn == p1) ? "opponent AI-2":"opponent AI-1";
         }
-        cout << front << " can eat "<< back << ".\n";
+        if (abs(movesToDisplay[0][0].y - movesToDisplay[0][1].y) == 2){
+            cout << front << " can eat "<< back << ".\n";
+        }
+        else{
+            cout << front << " cannot eat "<< back << ".\n";
+        }
         printList(movesToDisplay);
         if (choice0 == 1 && whoseTurn==p1){
             cout << "Choose one of the above moves: ";
@@ -441,10 +498,19 @@ void play(){
             time (&start);
             //1 <-> size
             //if it is AI it picks move by itself
-            response = rand() % movesToDisplay.size() + 1;
+            //response = rand() % movesToDisplay.size() + 1;
+            if (movesToDisplay.size() == 1){
+                response = 1;
+            }
+            else {
+                int best = minimax(myBoard, goodDepth, whoseTurn);
+                response = best;
+            }
+            
+            
             //cout << rand() % displayedMoves->size();
             cout << "AI-" << whoseTurn << " chooses move " << response << ".\n" << endl;
-            wait(3);
+            //wait(3);
             time (&end);
         }
     
