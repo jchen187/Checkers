@@ -24,7 +24,7 @@ int numP1Pieces = 0;
 int numP2Pieces = 0;
 bool stuck = false;
 vector<vector<int>> myBoard;
-int goodDepth = 1;
+int goodDepth = 3;
 
 //int myBoard[height][width];
 
@@ -323,6 +323,8 @@ int minimax(vector<vector<int>> board, int depth, int player){
     
     //is game over or did we reach depth
     if (depth == 0){
+        cout << "you reached the end\n";
+        drawBoard(board);
         return scoreFromGameState(board, player);
     }
 
@@ -330,24 +332,22 @@ int minimax(vector<vector<int>> board, int depth, int player){
     int bestScore = INT_MIN;
     //vector<int> scoreList;
     
+    cout << "Depth" << depth << endl;
     vector<vector<pos>> possibleMoves = allLegalMoves(board, player);
     //go throught the possible moves and makemove for each, which returns a board
 
     for (int i=1; i <= possibleMoves.size();i++){
         vector<vector<int>> newBoard;
-        newBoard = makeMove(myBoard, possibleMoves, i);
-        
+        newBoard = makeMove(board, possibleMoves, i);
+        drawBoard(newBoard);
         int score = -1 * minimax(newBoard, depth-1, switchPlayer(player));
-//        scoreList.push_back(score);
-//        bestScore = *max_element(scoreList.begin(), scoreList.end());
-
         if (score > bestScore){
             bestScore = score;
             bestMove = i;
         }
     }
     
-    cout << depth << bestScore << endl;
+//    cout << depth << bestScore << endl;
     if (depth == goodDepth){
         return bestMove;
     }

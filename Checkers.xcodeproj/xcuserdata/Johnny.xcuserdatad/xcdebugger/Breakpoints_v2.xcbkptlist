@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "568"
-            endingLineNumber = "568"
+            startingLineNumber = "569"
+            endingLineNumber = "569"
             landmarkName = "allLegalMoves(vector&lt;vector&lt;int&gt;&gt; board, int whoseTurn)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "579"
-            endingLineNumber = "579"
+            startingLineNumber = "580"
+            endingLineNumber = "580"
             landmarkName = "allLegalMoves(vector&lt;vector&lt;int&gt;&gt; board, int whoseTurn)"
             landmarkType = "7">
          </BreakpointContent>
@@ -72,11 +72,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "598"
-            endingLineNumber = "598"
+            startingLineNumber = "599"
+            endingLineNumber = "599"
             landmarkName = "allLegalMoves(vector&lt;vector&lt;int&gt;&gt; board, int whoseTurn)"
             landmarkType = "7">
          </BreakpointContent>
@@ -88,11 +88,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "652"
-            endingLineNumber = "652"
+            startingLineNumber = "653"
+            endingLineNumber = "653"
             landmarkName = "addToCapturingList(vector&lt;pos&gt; v)"
             landmarkType = "7">
          </BreakpointContent>
@@ -104,11 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "884"
-            endingLineNumber = "884"
+            startingLineNumber = "885"
+            endingLineNumber = "885"
             landmarkName = "legalMovesForPiece(vector&lt;vector&lt;int&gt;&gt; board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector, vector&lt;pos&gt; whatYouAte)"
             landmarkType = "7">
          </BreakpointContent>
@@ -120,11 +120,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "888"
-            endingLineNumber = "888"
+            startingLineNumber = "889"
+            endingLineNumber = "889"
             landmarkName = "legalMovesForPiece(vector&lt;vector&lt;int&gt;&gt; board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector, vector&lt;pos&gt; whatYouAte)"
             landmarkType = "7">
          </BreakpointContent>
@@ -136,11 +136,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "818"
-            endingLineNumber = "818"
+            startingLineNumber = "819"
+            endingLineNumber = "819"
             landmarkName = "legalMovesForPiece(vector&lt;vector&lt;int&gt;&gt; board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector, vector&lt;pos&gt; whatYouAte)"
             landmarkType = "7">
          </BreakpointContent>
@@ -152,11 +152,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "713"
-            endingLineNumber = "713"
+            startingLineNumber = "714"
+            endingLineNumber = "714"
             landmarkName = "legalMovesForPiece(vector&lt;vector&lt;int&gt;&gt; board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector, vector&lt;pos&gt; whatYouAte)"
             landmarkType = "7">
          </BreakpointContent>
@@ -168,11 +168,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "809"
-            endingLineNumber = "809"
+            startingLineNumber = "810"
+            endingLineNumber = "810"
             landmarkName = "legalMovesForPiece(vector&lt;vector&lt;int&gt;&gt; board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector, vector&lt;pos&gt; whatYouAte)"
             landmarkType = "7">
          </BreakpointContent>
@@ -184,7 +184,23 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "817"
+            endingLineNumber = "817"
+            landmarkName = "legalMovesForPiece(vector&lt;vector&lt;int&gt;&gt; board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector, vector&lt;pos&gt; whatYouAte)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Checkers/main.cpp"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "816"
@@ -200,39 +216,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "815"
-            endingLineNumber = "815"
-            landmarkName = "legalMovesForPiece(vector&lt;vector&lt;int&gt;&gt; board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector, vector&lt;pos&gt; whatYouAte)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "697"
-            endingLineNumber = "697"
-            landmarkName = "isPosInVector(int y, int x, vector&lt;pos&gt; v)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "698"
@@ -248,11 +232,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "802"
-            endingLineNumber = "802"
+            startingLineNumber = "699"
+            endingLineNumber = "699"
+            landmarkName = "isPosInVector(int y, int x, vector&lt;pos&gt; v)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Checkers/main.cpp"
+            timestampString = "468272728.107333"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "803"
+            endingLineNumber = "803"
             landmarkName = "legalMovesForPiece(vector&lt;vector&lt;int&gt;&gt; board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector, vector&lt;pos&gt; whatYouAte)"
             landmarkType = "7">
          </BreakpointContent>
@@ -264,7 +264,23 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "857"
+            endingLineNumber = "857"
+            landmarkName = "legalMovesForPiece(vector&lt;vector&lt;int&gt;&gt; board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector, vector&lt;pos&gt; whatYouAte)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Checkers/main.cpp"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "856"
@@ -280,11 +296,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "855"
-            endingLineNumber = "855"
+            startingLineNumber = "828"
+            endingLineNumber = "828"
             landmarkName = "legalMovesForPiece(vector&lt;vector&lt;int&gt;&gt; board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector, vector&lt;pos&gt; whatYouAte)"
             landmarkType = "7">
          </BreakpointContent>
@@ -296,11 +312,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "827"
-            endingLineNumber = "827"
+            startingLineNumber = "745"
+            endingLineNumber = "745"
             landmarkName = "legalMovesForPiece(vector&lt;vector&lt;int&gt;&gt; board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector, vector&lt;pos&gt; whatYouAte)"
             landmarkType = "7">
          </BreakpointContent>
@@ -312,11 +328,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "744"
-            endingLineNumber = "744"
+            startingLineNumber = "831"
+            endingLineNumber = "831"
             landmarkName = "legalMovesForPiece(vector&lt;vector&lt;int&gt;&gt; board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector, vector&lt;pos&gt; whatYouAte)"
             landmarkType = "7">
          </BreakpointContent>
@@ -328,27 +344,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "830"
-            endingLineNumber = "830"
-            landmarkName = "legalMovesForPiece(vector&lt;vector&lt;int&gt;&gt; board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector&lt;pos&gt; captureVector, vector&lt;pos&gt; whatYouAte)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "661"
-            endingLineNumber = "661"
+            startingLineNumber = "662"
+            endingLineNumber = "662"
             landmarkName = "printList(vector&lt;vector&lt;pos&gt;&gt; list)"
             landmarkType = "7">
          </BreakpointContent>
@@ -440,11 +440,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "561"
-            endingLineNumber = "561"
+            startingLineNumber = "562"
+            endingLineNumber = "562"
             landmarkName = "allLegalMoves(vector&lt;vector&lt;int&gt;&gt; board, int whoseTurn)"
             landmarkType = "7">
          </BreakpointContent>
@@ -456,11 +456,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "682"
-            endingLineNumber = "682"
+            startingLineNumber = "683"
+            endingLineNumber = "683"
             landmarkName = "clearList(vector&lt;vector&lt;pos&gt;&gt; *list)"
             landmarkType = "7">
          </BreakpointContent>
@@ -472,11 +472,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "563"
-            endingLineNumber = "563"
+            startingLineNumber = "564"
+            endingLineNumber = "564"
             landmarkName = "allLegalMoves(vector&lt;vector&lt;int&gt;&gt; board, int whoseTurn)"
             landmarkType = "7">
          </BreakpointContent>
@@ -488,11 +488,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "523"
-            endingLineNumber = "523"
+            startingLineNumber = "524"
+            endingLineNumber = "524"
             landmarkName = "play()"
             landmarkType = "7">
          </BreakpointContent>
@@ -504,11 +504,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "599"
-            endingLineNumber = "599"
+            startingLineNumber = "600"
+            endingLineNumber = "600"
             landmarkName = "allLegalMoves(vector&lt;vector&lt;int&gt;&gt; board, int whoseTurn)"
             landmarkType = "7">
          </BreakpointContent>
@@ -520,7 +520,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "446"
@@ -552,11 +552,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Checkers/main.cpp"
-            timestampString = "468257507.439346"
+            timestampString = "468272728.107333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "329"
-            endingLineNumber = "329"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
             landmarkName = "minimax(vector&lt;vector&lt;int&gt;&gt; board, int depth, int player)"
             landmarkType = "7">
          </BreakpointContent>
@@ -573,6 +573,86 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "299"
             endingLineNumber = "299"
+            landmarkName = "scoreFromGameState(vector&lt;vector&lt;int&gt;&gt; board, int whoseTurn)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Checkers/main.cpp"
+            timestampString = "468272728.107333"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "341"
+            endingLineNumber = "341"
+            landmarkName = "minimax(vector&lt;vector&lt;int&gt;&gt; board, int depth, int player)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Checkers/main.cpp"
+            timestampString = "468272728.107333"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "342"
+            endingLineNumber = "342"
+            landmarkName = "minimax(vector&lt;vector&lt;int&gt;&gt; board, int depth, int player)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Checkers/main.cpp"
+            timestampString = "468272721.951464"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "326"
+            endingLineNumber = "326"
+            landmarkName = "minimax(vector&lt;vector&lt;int&gt;&gt; board, int depth, int player)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Checkers/main.cpp"
+            timestampString = "468273417.20229"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "305"
+            endingLineNumber = "305"
+            landmarkName = "scoreFromGameState(vector&lt;vector&lt;int&gt;&gt; board, int whoseTurn)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Checkers/main.cpp"
+            timestampString = "468273575.539795"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "306"
+            endingLineNumber = "306"
             landmarkName = "scoreFromGameState(vector&lt;vector&lt;int&gt;&gt; board, int whoseTurn)"
             landmarkType = "7">
          </BreakpointContent>
