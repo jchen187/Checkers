@@ -305,7 +305,6 @@ int scoreFromGameState(vector<vector<int>> board, int whoseTurn){
             }
         }
     }
-    
     int numP1Pieces2 = numP1King + numP1Man;
     int numP2Pieces2 = numP2King + numP2Man;
     
@@ -319,14 +318,10 @@ int scoreFromGameState(vector<vector<int>> board, int whoseTurn){
 int minimaxAB(vector<vector<int>> board, int depth, int player, int alpha, int beta){
     //is game over or did we reach depth
     if (depth == 0){
-        cout << "you reached the end\n";
-        drawBoard(board);
         return scoreFromGameState(board, player);
     }
     
     int bestMove = -1000;
-    //int bestScore = INT_MIN;
-    //vector<int> scoreList;
     
     cout << "Depth" << depth << endl;
     vector<vector<pos>> possibleMoves = allLegalMoves(board, player);
@@ -338,18 +333,19 @@ int minimaxAB(vector<vector<int>> board, int depth, int player, int alpha, int b
         int score = -1 * minimaxAB(newBoard, depth-1, switchPlayer(player), -beta, - alpha);
         if (score > alpha){
             alpha = score;
-            bestMove = i; 
+            bestMove = i;
         }
         //multiple moves can have that score
-        if (score == alpha){
-            int randNum = rand() % 10 + 1;
-            if (randNum > 5){
-                alpha = score;
-                bestMove = i;
-            }
-        }
+//        if (score == alpha){
+//            int randNum = rand() % 10 + 1;
+//            if (randNum > 5){
+//                alpha = score;
+//                bestMove = i;
+//            }
+//        }
+        //prune branch
         if (alpha >= beta){
-            break; //prune branch
+            break;
         }
     }
     
@@ -489,6 +485,22 @@ void wait ( int seconds )
     while (clock() < endwait) {}
 }
 
+//this is for the actual board when you are actually shown the board
+void updateNumberOfPieces(vector<vector<int>> board){
+    numP1Pieces = 0;
+    numP2Pieces = 0;
+    for (int i = 0; i < height; i++){
+        for (int j = 0; j < width; j++){
+            if (board[i][j] == p1King || board[i][j] == p1Man){
+                numP1Pieces++;
+            }
+            if (board[i][j] == p2King || board[i][j] == p2Man){
+                numP2Pieces++;
+            }
+        }
+    }
+}
+
 void play(){
 
     //check to see whose turn it is
@@ -562,7 +574,7 @@ void play(){
             else {
                 //int best = minimax(myBoard, goodDepth, whoseTurn);
                 //iterative deepening
-                for (int d = 0; d < 20; d++){
+                for (int d = 0; d < 4; d++){
                     goodDepth = d;
                     int alpha = INT_MIN;
                     int beta = INT_MAX;
@@ -591,6 +603,7 @@ void play(){
         myBoard = makeMove(myBoard, movesToDisplay, response);
         
         drawBoard(myBoard);
+        updateNumberOfPieces(myBoard);
         cout << "P1 has " << numP1Pieces << endl;
         cout << "P2 has " << numP2Pieces << endl;
         
