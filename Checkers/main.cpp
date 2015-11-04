@@ -73,6 +73,7 @@ vector<vector<pos>> allLegalMoves(vector<vector<int>> board, int whoseTurn);
 
 vector<vector<int>> makeMove(vector<vector<int>> b, vector<vector<pos>> listOfMoves, int response);
 int switchPlayer(int oldPlayer);
+bool isGameOver();
 
 void play();
 void legalMovesForPiece(vector<vector<int>> board, int y, int x, int player, bool isKing, bool jumpedOnceAlready, vector<pos> captureVector, vector<pos> whatYouAte);
@@ -317,14 +318,18 @@ int scoreFromGameState(vector<vector<int>> board, int whoseTurn){
 
 int minimaxAB(vector<vector<int>> board, int depth, int player, int alpha, int beta){
     //is game over or did we reach depth
-    if (depth == 0){
-        return scoreFromGameState(board, player);
-    }
+//    if (depth == 0 || isGameOver()){
+//        return scoreFromGameState(board, player);
+//    }
     
     int bestMove = -1000;
     
     cout << "Depth" << depth << endl;
     vector<vector<pos>> possibleMoves = allLegalMoves(board, player);
+    //if allLegalMoves return nothin then you are stuck in that position or it
+    if (depth == 0 ||possibleMoves.size() == 0){
+        return scoreFromGameState(board, player);
+    }
     
     //go through the possible moves and makemove for each, which returns a board
     for (int i=1; i <= possibleMoves.size();i++){
@@ -336,13 +341,13 @@ int minimaxAB(vector<vector<int>> board, int depth, int player, int alpha, int b
             bestMove = i;
         }
         //multiple moves can have that score
-//        if (score == alpha){
-//            int randNum = rand() % 10 + 1;
-//            if (randNum > 5){
-//                alpha = score;
-//                bestMove = i;
-//            }
-//        }
+        if (score == alpha){
+            int randNum = rand() % 10 + 1;
+            if (randNum > 5){
+                alpha = score;
+                bestMove = i;
+            }
+        }
         //prune branch
         if (alpha >= beta){
             break;
@@ -501,6 +506,14 @@ void updateNumberOfPieces(vector<vector<int>> board){
     }
 }
 
+bool isGameOver(){
+    bool isOver = false;
+    if (numP1Pieces<=0 || numP2Pieces<=0 || stuck){
+        isOver = true;
+    }
+    return isOver;
+}
+
 void play(){
 
     //check to see whose turn it is
@@ -513,10 +526,15 @@ void play(){
     srand ((unsigned)time(0));
     
     //if you can move
-    while (numP1Pieces>0 && numP2Pieces>0 && !stuck ){
+//    while (numP1Pieces>0 && numP2Pieces>0 && !stuck ) {
+    
+    while (!isGameOver()){
         
         //show legal moves
         vector<vector<pos>> movesToDisplay = allLegalMoves(myBoard, whoseTurn);
+        if (movesToDisplay.size()==0){
+            stuck = true;
+        }
         
         if (stuck){
             break;
@@ -561,7 +579,7 @@ void play(){
         else {
             //time limit + minimax +alpha beta pruning
 
-            clock_t start = clock();
+            clock_t start;
             clock_t stop;
             double elapsed;
             
@@ -573,13 +591,14 @@ void play(){
             }
             else {
                 //int best = minimax(myBoard, goodDepth, whoseTurn);
+                start = clock();
                 //iterative deepening
                 for (int d = 0; d < 4; d++){
                     goodDepth = d;
                     int alpha = INT_MIN;
                     int beta = INT_MAX;
                     //minimaxab will return the best move
-                    int best2 = minimaxAB(myBoard, goodDepth, whoGoesFirst, alpha, beta);
+                    int best2 = minimaxAB(myBoard, goodDepth, whoseTurn, alpha, beta);
                     response = best2;
                     
                     stop = clock();
@@ -695,8 +714,12 @@ vector<vector<pos>> allLegalMoves(vector<vector<int>> board, int whoseTurn){
         movesToDisplay = nonCapturingMoves;
     }
     else {
+        //you have no moves. problem is when you are at a lower level and get stuck and ends game
+        
         //stop play function
-        stuck = true;
+//        if (myBoard == board){
+//            stuck = true;
+//        }
     }
     
     //clear list
