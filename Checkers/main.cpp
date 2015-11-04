@@ -101,15 +101,6 @@ int main(int argc, const char * argv[]) {
     }
     cout << "\n";
 
-    cout << "How much time should the AI get?\n";
-    cin >> choiceTime;
-    while (!(choiceTime > 0 && choiceTime <= 20)){
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Pick a valid number from 1 to 20." << endl;
-    }
-    cout << "\n";
-
     
     /*
         .2.2.2.2    2222        +===+   +---+---+
@@ -137,7 +128,7 @@ int main(int argc, const char * argv[]) {
     }
     cout << "\n";
     
-    //starting with own board
+    //starting with standard board
     if (choice1 == 1){
         //human vs ai
         if (choice0 == 1){
@@ -153,12 +144,22 @@ int main(int argc, const char * argv[]) {
             cout << "\n";
             
             whoGoesFirst = (choice2.at(0) == 'y') ? 1: 2;
-            
         }
+        
+        cout << "How many seconds should the AI get per turn?\n";
+        cin >> choiceTime;
+        while (!(choiceTime > 0 && choiceTime <= 20)){
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Pick a valid number from 1 to 20." << endl;
+        }
+        cout << "\n";
+        
+        
         createStandardBoard();
         play();
     }
-
+    //start with own board
     else if (choice1 == 2){
         //ask to put file
         //read the file
@@ -170,9 +171,12 @@ int main(int argc, const char * argv[]) {
         myFile.open(fileName);
         if (myFile.is_open()){
             //Put contents of file into array
-            for (int i = 0; i <= height; i++){
+            for (int i = 0; i <= height+1; i++){
                 if (i == height){
                     myFile >> whoGoesFirst;
+                }
+                else if (i == height+1){
+                    myFile >> choiceTime;
                 }
                 else {
                     for (int j = 0; j < width; j++){
@@ -609,7 +613,7 @@ void play(){
             //double elapsed = (double)(stop - start) * 1000.0 / CLOCKS_PER_SEC;
             
             cout << "Time elapsed in sec: " << elapsed << endl;
-//            printf("Time elapsed in sec: %f\n", elapsed);
+
             //just to silence warning and in case not set
             if (response==0){
                 response = rand() % movesToDisplay.size() + 1;
