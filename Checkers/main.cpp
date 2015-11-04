@@ -331,9 +331,9 @@ int minimaxAB(vector<vector<int>> board, int depth, int player, int alpha, int b
 //    }
     stop = clock();
     elapsed = (double)(stop - start) / CLOCKS_PER_SEC;
-    if (timeLimit - elapsed < 0.01){
-        return scoreFromGameState(board, player);
-    }
+//    if (timeLimit - elapsed < 0.01){
+//        return scoreFromGameState(board, player);
+//    }
     
     int bestMove = -1000;
     
@@ -541,6 +541,30 @@ void play(){
     //if you can move
 //    while (numP1Pieces>0 && numP2Pieces>0 && !stuck ) {
     
+    static const int arr[] = {3,6,2,4,5,1,7};
+    vector<int> a (arr, arr + sizeof(arr) / sizeof(arr[0]) );
+    static const int arr2[] = {6,5,4,7,2,1,5};
+    vector<int> b (arr2, arr2 + sizeof(arr2) / sizeof(arr2[0]) );
+    vector<vector<int>> goodResponseToMove;
+    
+    if (whoseTurn == p1){
+        goodResponseToMove.push_back(a);
+        goodResponseToMove.push_back(b);
+    }
+    else {
+        for(vector<int>::iterator it = a.begin(); it != a.end(); it++){
+            *it = 8 - *it;
+        }
+        for(vector<int>::iterator it = b.begin(); it != b.end(); it++){
+            *it = 8 - *it;
+        }
+        goodResponseToMove.push_back(b);
+        goodResponseToMove.push_back(a);
+    }
+    
+    int numMovesSinceStart = 0;
+    int firstMove = 0;
+    
     while (!isGameOver()){
         
         //show legal moves
@@ -586,7 +610,18 @@ void play(){
             }
             cout << "\n";
         }
-        else {
+        //starting with original board
+        else if (choice1 == 1 && numMovesSinceStart == 1){
+            for(int i = 0; i != goodResponseToMove[0].size(); i++){
+
+                if (goodResponseToMove[0][i] == firstMove){
+                    response = goodResponseToMove[1][i];
+                }
+                
+            }
+            
+        }
+        else{
             //time limit + minimax +alpha beta pruning
 
             //1 <-> size
@@ -602,9 +637,6 @@ void play(){
                 //iterative deepening
                 for (int d = 0; d < 20; d++){
                     stop = clock();
-                    
-                    
-                    
                     
                     goodDepth = d;
                     int alpha = INT_MIN;
@@ -636,6 +668,8 @@ void play(){
     
         //update board after making a move
         myBoard = makeMove(myBoard, movesToDisplay, response);
+        if (numMovesSinceStart == 0)
+            firstMove = response;
         
         drawBoard(myBoard);
         updateNumberOfPieces(myBoard);
@@ -644,6 +678,8 @@ void play(){
         
         //swtich turns
         whoseTurn = switchPlayer(whoseTurn);
+        
+        numMovesSinceStart++;
     }
     
     //END GAME CONDITIONS
