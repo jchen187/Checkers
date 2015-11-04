@@ -100,15 +100,16 @@ int main(int argc, const char * argv[]) {
         cin >> choice0;
     }
     cout << "\n";
-/*
+
     cout << "How much time should the AI get?\n";
     cin >> choiceTime;
-    while (!(cin >> choiceTime)){
+    while (!(choiceTime > 0 && choiceTime <= 20)){
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Invalid input. Please try again." << endl;
+        cout << "Pick a valid number from 1 to 20." << endl;
     }
-  */
+    cout << "\n";
+
     
     /*
         .2.2.2.2    2222        +===+   +---+---+
@@ -534,9 +535,6 @@ void play(){
         vector<vector<pos>> movesToDisplay = allLegalMoves(myBoard, whoseTurn);
         if (movesToDisplay.size()==0){
             stuck = true;
-        }
-        
-        if (stuck){
             break;
         }
         
@@ -563,7 +561,7 @@ void play(){
             cout << "Choose one of the above moves: ";
         }
         
-        int response;
+        int response = 0;
         //if you choose human vs ai and it is your turn
         if (choice0 == 1 && whoseTurn == p1){
             //let you pick a move
@@ -612,7 +610,10 @@ void play(){
             
             cout << "Time elapsed in sec: " << elapsed << endl;
 //            printf("Time elapsed in sec: %f\n", elapsed);
-            
+            //just to silence warning and in case not set
+            if (response==0){
+                response = rand() % movesToDisplay.size() + 1;
+            }
             
             //cout << rand() % displayedMoves->size();
             cout << "AI-" << whoseTurn << " chooses move " << response << ".\n" << endl;
