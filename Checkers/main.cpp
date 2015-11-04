@@ -45,7 +45,10 @@ int choice1;
 //by default you are going first
 int whoGoesFirst = 1;
 string choice2;
-int choiceTime = 5; //
+clock_t start;
+clock_t stop;
+double elapsed;
+int timeLimit = 5; //
 
 //when you create a vector, you put number of elements and initial value
 //if all your pieces become kings 9*4 + 3*2 max
@@ -147,8 +150,8 @@ int main(int argc, const char * argv[]) {
         }
         
         cout << "How many seconds should the AI get per turn?\n";
-        cin >> choiceTime;
-        while (!(choiceTime > 0 && choiceTime <= 20)){
+        cin >> timeLimit;
+        while (!(timeLimit > 0 && timeLimit <= 20)){
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Pick a valid number from 1 to 20." << endl;
@@ -176,7 +179,7 @@ int main(int argc, const char * argv[]) {
                     myFile >> whoGoesFirst;
                 }
                 else if (i == height+1){
-                    myFile >> choiceTime;
+                    myFile >> timeLimit;
                 }
                 else {
                     for (int j = 0; j < width; j++){
@@ -311,13 +314,13 @@ int scoreFromGameState(vector<vector<int>> board, int whoseTurn){
             }
         }
     }
-    int numP1Pieces2 = numP1King + numP1Man;
-    int numP2Pieces2 = numP2King + numP2Man;
+    int numP1Pieces2 = 5*numP1King + 2*numP1Man;
+    int numP2Pieces2 = 5*numP2King + 2*numP2Man;
     
     //opponent / own pieces
-//    int score = (whoseTurn == p1) ? numP1Pieces - numP2Pieces : numP2Pieces - numP1Pieces;
-    int score = (whoseTurn == p1) ? numP1Pieces2 : numP2Pieces2;
-    cout << "player"<< whoseTurn <<"-" <<score <<endl;
+    int score = (whoseTurn == p1) ? numP1Pieces2 - numP2Pieces2 : numP2Pieces2 - numP1Pieces2;
+//    int score = (whoseTurn == p1) ? numP1Pieces2 : numP2Pieces2;
+//    cout << "player"<< whoseTurn <<"-" <<score <<endl;
     return score;
 }
 
@@ -326,10 +329,15 @@ int minimaxAB(vector<vector<int>> board, int depth, int player, int alpha, int b
 //    if (depth == 0 || isGameOver()){
 //        return scoreFromGameState(board, player);
 //    }
+    stop = clock();
+    elapsed = (double)(stop - start) / CLOCKS_PER_SEC;
+    if (timeLimit - elapsed < 0.01){
+        return scoreFromGameState(board, player);
+    }
     
     int bestMove = -1000;
     
-    cout << "Depth" << depth << endl;
+//    cout << "Depth" << depth << endl;
     vector<vector<pos>> possibleMoves = allLegalMoves(board, player);
     //if allLegalMoves return nothin then you are stuck in that position or it
     if (depth == 0 ||possibleMoves.size() == 0){
@@ -477,12 +485,12 @@ vector<vector<int>> makeMove(vector<vector<int>> b, vector<vector<pos>> listOfMo
     //If a man reaches an end it becomes a king
     if (b[y2][x2]==p1Man && y2==0){
         b[y2][x2]=p1King;
-        cout << "P1 now has a king. \n";
+//        cout << "P1 now has a king. \n";
     }
     
     if (b[y2][x2]==p2Man && y2==7){
         b[y2][x2]=p2King;
-        cout << "P2 now has a king. \n";
+//        cout << "P2 now has a king. \n";
     }
     
     return b;
@@ -581,10 +589,6 @@ void play(){
         else {
             //time limit + minimax +alpha beta pruning
 
-            clock_t start;
-            clock_t stop;
-            double elapsed;
-            
             //1 <-> size
             //if it is AI it picks move by itself
             //response = rand() % movesToDisplay.size() + 1;
@@ -593,9 +597,15 @@ void play(){
             }
             else {
                 //int best = minimax(myBoard, goodDepth, whoseTurn);
+                
                 start = clock();
                 //iterative deepening
-                for (int d = 0; d < 4; d++){
+                for (int d = 0; d < 20; d++){
+                    stop = clock();
+                    
+                    
+                    
+                    
                     goodDepth = d;
                     int alpha = INT_MIN;
                     int beta = INT_MAX;
@@ -603,8 +613,9 @@ void play(){
                     int best2 = minimaxAB(myBoard, goodDepth, whoseTurn, alpha, beta);
                     response = best2;
                     
-                    stop = clock();
-                    elapsed = (double)(stop - start) / CLOCKS_PER_SEC;
+                    if (timeLimit - elapsed < 0.01){
+                        break;
+                    }
                     
                     //check to see if you have enough time
                 }
@@ -613,7 +624,7 @@ void play(){
             //double elapsed = (double)(stop - start) * 1000.0 / CLOCKS_PER_SEC;
             
             cout << "Time elapsed in sec: " << elapsed << endl;
-
+            cout << "Depth reached: " << goodDepth << endl;
             //just to silence warning and in case not set
             if (response==0){
                 response = rand() % movesToDisplay.size() + 1;
