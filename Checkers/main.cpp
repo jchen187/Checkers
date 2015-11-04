@@ -45,6 +45,7 @@ int choice1;
 //by default you are going first
 int whoGoesFirst = 1;
 string choice2;
+int choiceTime = 5; //
 
 //when you create a vector, you put number of elements and initial value
 //if all your pieces become kings 9*4 + 3*2 max
@@ -98,7 +99,15 @@ int main(int argc, const char * argv[]) {
         cin >> choice0;
     }
     cout << "\n";
-
+/*
+    cout << "How much time should the AI get?\n";
+    cin >> choiceTime;
+    while (!(cin >> choiceTime)){
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Please try again." << endl;
+    }
+  */
     
     /*
         .2.2.2.2    2222        +===+   +---+---+
@@ -321,16 +330,23 @@ int minimaxAB(vector<vector<int>> board, int depth, int player, int alpha, int b
     
     cout << "Depth" << depth << endl;
     vector<vector<pos>> possibleMoves = allLegalMoves(board, player);
-    //go throught the possible moves and makemove for each, which returns a board
     
+    //go through the possible moves and makemove for each, which returns a board
     for (int i=1; i <= possibleMoves.size();i++){
         vector<vector<int>> newBoard;
         newBoard = makeMove(board, possibleMoves, i);
-        drawBoard(newBoard);
         int score = -1 * minimaxAB(newBoard, depth-1, switchPlayer(player), -beta, - alpha);
         if (score > alpha){
             alpha = score;
-            bestMove = i; //multiple moves can have that score tho
+            bestMove = i; 
+        }
+        //multiple moves can have that score
+        if (score == alpha){
+            int randNum = rand() % 10 + 1;
+            if (randNum > 5){
+                alpha = score;
+                bestMove = i;
+            }
         }
         if (alpha >= beta){
             break; //prune branch
@@ -534,7 +550,8 @@ void play(){
             //time limit + minimax +alpha beta pruning
 
             clock_t start = clock();
-            // Execuatable code
+            clock_t stop;
+            double elapsed;
             
             //1 <-> size
             //if it is AI it picks move by itself
@@ -544,14 +561,24 @@ void play(){
             }
             else {
                 //int best = minimax(myBoard, goodDepth, whoseTurn);
-                int alpha = INT_MIN;
-                int beta = INT_MAX;
-                int best2 = minimaxAB(myBoard, goodDepth, whoGoesFirst, alpha, beta);
-                response = best2;
+                //iterative deepening
+                for (int d = 0; d < 20; d++){
+                    goodDepth = d;
+                    int alpha = INT_MIN;
+                    int beta = INT_MAX;
+                    //minimaxab will return the best move
+                    int best2 = minimaxAB(myBoard, goodDepth, whoGoesFirst, alpha, beta);
+                    response = best2;
+                    
+                    stop = clock();
+                    elapsed = (double)(stop - start) / CLOCKS_PER_SEC;
+                    
+                    //check to see if you have enough time
+                }
             }
-            clock_t stop = clock();
+            //clock_t stop = clock();
             //double elapsed = (double)(stop - start) * 1000.0 / CLOCKS_PER_SEC;
-            double elapsed = (double)(stop - start) / CLOCKS_PER_SEC;
+            
             cout << "Time elapsed in sec: " << elapsed << endl;
 //            printf("Time elapsed in sec: %f\n", elapsed);
             
