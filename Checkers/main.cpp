@@ -664,6 +664,10 @@ void play(){
         
     }
     
+    //print score
+    cout << "P1 Score = " << scoreFromGameState(myBoard, p1) << "\n";
+    cout << "P2 Score = " << scoreFromGameState(myBoard, p2) << "\n";
+    
     
 }
 
