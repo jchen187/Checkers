@@ -331,9 +331,10 @@ int minimaxAB(vector<vector<int>> board, int depth, int player, int alpha, int b
 //    }
     stop = clock();
     elapsed = (double)(stop - start) / CLOCKS_PER_SEC;
-//    if (timeLimit - elapsed < 0.01){
-//        return scoreFromGameState(board, player);
-//    }
+    if (timeLimit - elapsed < 0.01){
+        //return scoreFromGameState(board, player);
+        return -1000;
+    }
     
     int bestMove = -1000;
     
@@ -647,20 +648,25 @@ void play(){
                     int beta = INT_MAX;
                     //minimaxab will return the best move
                     int best2 = minimaxAB(myBoard, goodDepth, whoseTurn, alpha, beta);
-                    response = best2;
+                    //i have it such that if running out of time return -1000, so if you have this that means that you should take result from previous depth
+                    if (best2 != -1000){
+                        response = best2;
+                    }
                     
+                    //dont go deeper if time is up
                     if (timeLimit - elapsed < 0.01){
                         break;
                     }
                     
                     //check to see if you have enough time
                 }
+                
+                cout << "Time elapsed in sec: " << elapsed << endl;
+                cout << "Depth reached: " << goodDepth << endl;
             }
             //clock_t stop = clock();
             //double elapsed = (double)(stop - start) * 1000.0 / CLOCKS_PER_SEC;
-            
-            cout << "Time elapsed in sec: " << elapsed << endl;
-            cout << "Depth reached: " << goodDepth << endl;
+        
             //just to silence warning and in case not set
             if (response==0){
                 response = rand() % movesToDisplay.size() + 1;
