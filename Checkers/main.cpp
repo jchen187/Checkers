@@ -558,8 +558,8 @@ void play(){
         for(vector<int>::iterator it = b.begin(); it != b.end(); it++){
             *it = 8 - *it;
         }
-        goodResponseToMove.push_back(b);
         goodResponseToMove.push_back(a);
+        goodResponseToMove.push_back(b);
     }
     
     int numMovesSinceStart = 0;
@@ -610,16 +610,20 @@ void play(){
             }
             cout << "\n";
         }
-        //starting with original board
+        //if ai is starting first
+        else if ((choice0 == 2 && numMovesSinceStart == 0)||(choice0==1 && numMovesSinceStart == 0 && choice2.at(0) == 'n')){
+            int num = rand() % 3;
+            response = goodResponseToMove[0][num];
+            cout << "Picking move from a list of good opening moves." << endl;
+        }
+        //starting with original board, know how to respond to first move
         else if (choice1 == 1 && numMovesSinceStart == 1){
             for(int i = 0; i != goodResponseToMove[0].size(); i++){
-
                 if (goodResponseToMove[0][i] == firstMove){
                     response = goodResponseToMove[1][i];
                 }
-                
             }
-            
+            cout << "Retrieving response from database." << endl;
         }
         else{
             //time limit + minimax +alpha beta pruning
